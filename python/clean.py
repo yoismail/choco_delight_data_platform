@@ -160,12 +160,65 @@ def clean_sales(df: pd.DataFrame) -> pd.DataFrame:
 def clean_stores(df: pd.DataFrame) -> pd.DataFrame:
     validate_schema(df, ["store_id", "store_name",
                     "country", "city", "store_type"], "stores")
+
     df = normalize_columns(df)
     df = df.drop_duplicates()
+
     df["country"] = df["country"].str.title().fillna("Unknown")
     df["city"] = df["city"].str.title().fillna("Unknown")
     df["store_type"] = df["store_type"].str.title().fillna("Unknown")
+
+    # ============================
+    # Region Mapping
+    # ============================
+    REGION_MAP = {
+        # Europe
+        "United Kingdom": "Europe",
+        "Uk": "Europe",
+        "France": "Europe",
+        "Germany": "Europe",
+        "Spain": "Europe",
+        "Italy": "Europe",
+        "Netherlands": "Europe",
+        "Belgium": "Europe",
+        "Sweden": "Europe",
+        "Norway": "Europe",
+        "Denmark": "Europe",
+
+        # North America
+        "United States": "North America",
+        "Usa": "North America",
+        "Canada": "North America",
+        "Mexico": "North America",
+
+        # South America
+        "Brazil": "South America",
+        "Argentina": "South America",
+        "Chile": "South America",
+        "Colombia": "South America",
+
+        # Asia
+        "Japan": "Asia",
+        "China": "Asia",
+        "India": "Asia",
+        "Singapore": "Asia",
+        "South Korea": "Asia",
+
+        # Africa
+        "Nigeria": "Africa",
+        "South Africa": "Africa",
+        "Egypt": "Africa",
+        "Kenya": "Africa",
+
+        # Oceania
+        "Australia": "Oceania",
+        "New Zealand": "Oceania"
+    }
+
+    df["region"] = df["country"].map(REGION_MAP).fillna("Unknown")
+
     return df
+
 
 # ======================================
 # Opens the Zip file, finds all the .csv files inside, reads each one into a pandas DataFrame, and returns a dictionary of DataFrames keyed by filename.
