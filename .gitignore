@@ -3,3 +3,4 @@ venv/
 data/raw/
 *.zip
 *.csv
+__pycache__/
