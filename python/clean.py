@@ -37,6 +37,34 @@ def log_df_sanity(df: pd.DataFrame, name: str):
     logging.info(f"[{name}] dtypes:\n{df.dtypes}\n")
     logging.info(f"[{name}] sample data:\n{df.head(3)}\n")
 
+
+# ======================================
+# Column normalization
+# ======================================
+def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
+    # Normalize column names
+    df.columns = (
+        df.columns
+        .str.strip()
+        .str.lower()
+        .str.replace(" ", "_")
+        .str.replace("-", "_")
+    )
+
+    # Normalize ID columns consistently
+    for col in ["product_id", "customer_id", "store_id"]:
+        if col in df.columns:
+            df[col] = (
+                df[col]
+                .astype(str)
+                .str.strip()
+                .str.upper()
+                .str.replace(" ", "")
+                .str.replace("-", "")
+            )
+
+    return df
+
 # ======================================
 # Schema validation
 # ======================================
@@ -55,19 +83,32 @@ def validate_schema(df: pd.DataFrame, required_cols: list, name: str):
 
 
 def clean_calendar(df: pd.DataFrame) -> pd.DataFrame:
+
     validate_schema(df, ["date", "year", "month", "week",
-                    "day_of_week", "day"], "calendar")
+                         "day_of_week", "day"], "calendar")
+
+    df = normalize_columns(df)
     df = df.drop_duplicates()
-    df["date"] = pd.to_datetime(df["date"], errors="coerce")
-    df["day_of_week"] = df["day_of_week"].astype(int).fillna("Unknown")
-    df["month"] = df["month"].astype(int).fillna("Unknown")
-    df["year"] = df["year"].astype(int).fillna("Unknown")
-    df["week"] = df["week"].astype(int).fillna("Unknown")
+    df = df.rename(columns={"date": "calendar_date"})
+
+    # Convert date
+    df["calendar_date"] = pd.to_datetime(df["calendar_date"], errors="coerce")
+
+    # Numeric coercion for all integer-like fields
+    numeric_cols = ["year", "month", "week", "day_of_week", "day"]
+    for col in numeric_cols:
+        df[col] = pd.to_numeric(df[col], errors="coerce")
+
+    # Fill missing numeric values with -1 and convert to int
+    df[numeric_cols] = df[numeric_cols].fillna(-1).astype(int)
+
     return df
 
 
 def clean_customers(df: pd.DataFrame) -> pd.DataFrame:
     validate_schema(df, ["customer_id", "gender", "join_date"], "customers")
+
+    df = normalize_columns(df)
     df = df.drop_duplicates()
     df["gender"] = df["gender"].str.title().fillna("Unknown")
     df["join_date"] = pd.to_datetime(df["join_date"], errors="coerce")
@@ -77,16 +118,34 @@ def clean_customers(df: pd.DataFrame) -> pd.DataFrame:
 def clean_products(df: pd.DataFrame) -> pd.DataFrame:
     validate_schema(df, ["product_id", "product_name",
                     "brand", "category"], "products")
+
+    df = normalize_columns(df)
     df = df.drop_duplicates()
     df["brand"] = df["brand"].str.title().fillna("Unknown")
     df["product_name"] = df["product_name"].str.title().fillna("Unknown")
     df["category"] = df.get("category", "Unknown").fillna("Unknown")
+
+    # Add missing product IDs found during debugging
+    missing_ids = ["P0000", "P0201"]
+
+    new_products = pd.DataFrame({
+        "product_id": missing_ids,
+        "product_name": ["Unknown Product 0000", "Unknown Product 0201"],
+        "brand": ["Unknown", "Unknown"],
+        "category": ["Unknown", "Unknown"]
+    })
+
+    # FIX: concat with df, not 'products'
+    df = pd.concat([df, new_products], ignore_index=True)
+
     return df
 
 
 def clean_sales(df: pd.DataFrame) -> pd.DataFrame:
     validate_schema(df, ["order_id", "store_id", "customer_id", "product_id",
                     "quantity", "revenue", "cost", "profit", "order_date", "unit_price"], "sales")
+
+    df = normalize_columns(df)
     df = df.drop_duplicates()
     df["quantity"] = pd.to_numeric(df["quantity"], errors="coerce")
     df["revenue"] = pd.to_numeric(df["revenue"], errors="coerce")
@@ -101,6 +160,7 @@ def clean_sales(df: pd.DataFrame) -> pd.DataFrame:
 def clean_stores(df: pd.DataFrame) -> pd.DataFrame:
     validate_schema(df, ["store_id", "store_name",
                     "country", "city", "store_type"], "stores")
+    df = normalize_columns(df)
     df = df.drop_duplicates()
     df["country"] = df["country"].str.title().fillna("Unknown")
     df["city"] = df["city"].str.title().fillna("Unknown")
@@ -108,7 +168,7 @@ def clean_stores(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 # ======================================
-# Load each CSV inside ZIP
+# Opens the Zip file, finds all the .csv files inside, reads each one into a pandas DataFrame, and returns a dictionary of DataFrames keyed by filename.
 # ======================================
 
 
@@ -129,7 +189,7 @@ def load_csvs(zip_path: Path) -> dict:
         return {name: pd.read_csv(zf.open(name)) for name in csv_files}
 
 # ======================================
-# Clean each CSV
+# Clean dataset orchestration
 # ======================================
 
 
