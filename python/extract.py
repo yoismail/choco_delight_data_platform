@@ -84,22 +84,36 @@ def explore_data():
         logging.info(f"\nCustomers shape: {customers.shape}")
         logging.info(f"Customers head:\n{customers.head()}\n")
         logging.info(f"Customers datatypes:\n{customers.dtypes}\n")
+        logging.info(
+            f"Missing values in customers:\n{customers.isnull().sum()}\n")
+        logging.info(
+            f"duplicate customer IDs: {customers['customer_id'].duplicated().sum()}\n")
 
         logging.info(f"Products shape: {products.shape}")
         logging.info(f"Products head:\n{products.head()}\n")
         logging.info(f"Products datatypes:\n{products.dtypes}\n")
+        logging.info(
+            f"Missing values in products:\n{products.isnull().sum()}\n")
+        logging.info(
+            f"duplicate product IDs: {products['product_id'].duplicated().sum()}\n")
 
         logging.info(f"Sales shape: {sales.shape}")
         logging.info(f"Sales head:\n{sales.head()}\n")
         logging.info(f"Sales datatypes:\n{sales.dtypes}\n")
+        logging.info(f"Missing values in sales:\n{sales.isnull().sum()}\n")
 
         logging.info(f"Stores shape: {stores.shape}")
         logging.info(f"Stores head:\n{stores.head()}\n")
         logging.info(f"Stores datatypes:\n{stores.dtypes}\n")
+        logging.info(f"Missing values in stores:\n{stores.isnull().sum()}\n")
+        logging.info(
+            f"duplicate store IDs: {stores['store_id'].duplicated().sum()}\n")
 
         logging.info(f"Calendar shape: {calendar.shape}")
         logging.info(f"Calendar head:\n{calendar.head()}\n")
         logging.info(f"Calendar datatypes:\n{calendar.dtypes}\n")
+        logging.info(
+            f"Missing values in calendar:\n{calendar.isnull().sum()}\n")
 
     except FileNotFoundError as e:
         logging.error(f"Missing file: {e}")
@@ -126,7 +140,7 @@ def run_pipeline():
 
 
 # ==============================
-# Entry Point
+# Main execution
 # ==============================
 if __name__ == "__main__":
     run_pipeline()
