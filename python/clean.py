@@ -102,9 +102,35 @@ def clean_calendar(df: pd.DataFrame) -> pd.DataFrame:
     # Fill missing numeric values with -1 and convert to int
     df[numeric_cols] = df[numeric_cols].fillna(-1).astype(int)
 
+    # # Create Surrogate key
+
     df["calender_key"] = range(1, len(df) + 1)
+
+    # Reorder columns
     df = df[["calender_key", "calendar_date"] +
             [c for c in df.columns if c not in ["calender_key", "calendar_date"]]]
+
+    # --- Feature Engineering: Calendar ---
+
+    # Quarter (string)
+    df["quarter"] = df["month"].apply(lambda m: f"Q{((m-1)//3)+1}")
+
+    # Season (string)
+    SEASON_MAP = {
+        12: "Winter", 1: "Winter", 2: "Winter",
+        3: "Spring", 4: "Spring", 5: "Spring",
+        6: "Summer", 7: "Summer", 8: "Summer",
+        9: "Autumn", 10: "Autumn", 11: "Autumn"
+    }
+    df["season"] = df["month"].map(SEASON_MAP)
+
+    # Weekend flag (string)
+    df["day_type"] = df["day_of_week"].apply(
+        lambda d: "Weekend" if d in [6, 7] else "Weekday"
+    )
+
+    # Readable date (e.g., "14 Mar 2024")
+    df["calendar_date_formatted"] = df["calendar_date"].dt.strftime("%d %b %Y")
 
     return df
 
@@ -115,11 +141,36 @@ def clean_customers(df: pd.DataFrame) -> pd.DataFrame:
     df = normalize_columns(df)
     df = df.drop_duplicates()
     df["gender"] = df["gender"].str.title().fillna("Unknown")
-    df["join_date"] = pd.to_datetime(df["join_date"], errors="coerce")
+    df["join_date"] = pd.to_datetime(
+        df["join_date"].astype(str).str.strip(), errors="coerce")
+    df["join_date_formatted"] = df["join_date"].dt.strftime("%d %b %Y")
 
+    # # Create Surrogate key
     df["customer_key"] = range(1, len(df) + 1)
+
+    # Reorder columns
     df = df[["customer_key", "customer_id"] +
             [c for c in df.columns if c not in ["customer_key", "customer_id"]]]
+
+    # --- Feature Engineering: Customers ---
+
+    # Tenure in days
+    df["tenure_days"] = (pd.Timestamp.today() - df["join_date"]).dt.days
+
+    # Tenure in months
+    tenure_months = (df["tenure_days"] / 30).round().astype(int)
+    df["tenure_months"] = tenure_months.astype(str) + " months"
+
+    # Tenure in years
+    tenure_years = (df["tenure_days"] / 365).round(1)
+    df["tenure_years"] = tenure_years.astype(str) + " years"
+
+    # Customer segment (based on months)
+    df["customer_segment"] = pd.cut(
+        tenure_months,
+        bins=[-1, 6, 12, 24, float("inf")],
+        labels=["New", "Active", "Loyal", "VIP"]
+    )
 
     return df
 
@@ -147,9 +198,20 @@ def clean_products(df: pd.DataFrame) -> pd.DataFrame:
     # FIX: concat with df, not 'products'
     df = pd.concat([df, new_products], ignore_index=True)
 
+    # Create Surrogate key
     df["product_key"] = range(1, len(df) + 1)
+
+    # Reorder columns
     df = df[["product_key", "product_id"] +
             [c for c in df.columns if c not in ["product_key", "product_id"]]]
+
+    # --- Feature Engineering: Products ---
+
+    # Brand tier
+    PREMIUM_BRANDS = ["Lindt", "Godiva", "Green & Black"]
+    df["brand_tier"] = df["brand"].apply(
+        lambda b: "Premium Brand" if b in PREMIUM_BRANDS else "Standard Brand"
+    )
 
     return df
 
@@ -164,6 +226,7 @@ def clean_stores(df: pd.DataFrame) -> pd.DataFrame:
     df["country"] = df["country"].str.title().fillna("Unknown")
     df["city"] = df["city"].str.title().fillna("Unknown")
     df["store_type"] = df["store_type"].str.title().fillna("Unknown")
+    df["store_name"] = df["store_name"].str.title()
 
     # ============================
     # Region Mapping
@@ -214,9 +277,25 @@ def clean_stores(df: pd.DataFrame) -> pd.DataFrame:
 
     df["region"] = df["country"].map(REGION_MAP).fillna("Unknown")
 
+    # Create Surrogate key
     df["store_key"] = range(1, len(df) + 1)
+
+    # Reorder columns
     df = df[["store_key", "store_id"] +
             [c for c in df.columns if c not in ["store_key", "store_id"]]]
+
+    # --- Feature Engineering: Stores ---
+
+    # Region tier (string)
+    df["region_tier"] = df["region"].map({
+        "Europe": "High-Value Region",
+        "North America": "High-Value Region",
+        "Asia": "Medium-Value Region",
+        "South America": "Medium-Value Region",
+        "Oceania": "Medium-Value Region",
+        "Africa": "Low-Value Region",
+        "Unknown": "Low-Value Region"
+    })
 
     return df
 
@@ -231,11 +310,78 @@ def clean_sales(df: pd.DataFrame) -> pd.DataFrame:
     df["revenue"] = pd.to_numeric(df["revenue"], errors="coerce")
     df["cost"] = pd.to_numeric(df["cost"], errors="coerce")
     df["profit"] = pd.to_numeric(df["profit"], errors="coerce")
-    df["order_date"] = df["order_date"].str.strip()
-    df["order_date"] = pd.to_datetime(df["order_date"], errors="coerce")
+    df["order_date"] = pd.to_datetime(
+        df["order_date"].str.strip(), errors="coerce")
+    df["order_date_formatted"] = df["order_date"].dt.strftime("%d %b %Y")
+
     df["unit_price"] = pd.to_numeric(df["unit_price"], errors="coerce")
 
+    # --- Feature Engineering: Sales ---
+
+    # Revenue bucket (string)
+    df["revenue_bucket"] = pd.cut(
+        df["revenue"],
+        bins=[0, 10, 50, 200, float("inf")],
+        labels=["Low Revenue", "Medium Revenue", "High Revenue", "VIP Revenue"]
+    )
+
+    # Profit margin
+    df["profit_margin"] = df["profit"] / df["revenue"].replace(0, pd.NA)
+
+    # Profit margin bucket
+    df["margin_bucket"] = pd.cut(
+        df["profit_margin"],
+        bins=[-1, 0.1, 0.3, 0.6, float("inf")],
+        labels=["Low Margin", "Medium Margin",
+                "High Margin", "Very High Margin"]
+    )
+
+    # Outlier flag
+    threshold = df["revenue"].quantile(0.99)
+    df["outlier_flag"] = df["revenue"].apply(
+        lambda r: "Outlier (Top 1%)" if r > threshold else "Normal"
+    )
+
+    # Time of day
+    df["time_of_day"] = df["order_date"].dt.hour.map(
+        lambda h: "Morning" if 5 <= h < 12 else
+        "Afternoon" if 12 <= h < 17 else
+        "Evening" if 17 <= h < 22 else
+        "Night"
+    )
+
     return df
+
+
+def clean_regions(stores_df: pd.DataFrame) -> pd.DataFrame:
+
+    # Extract unique regions
+    regions = stores_df[["country", "region"]].drop_duplicates().copy()
+
+    # --- Feature Engineering: Regions ---
+
+    # Region tier (same logic as stores)
+    regions["region_tier"] = regions["region"].map({
+        "Europe": "High-Value Region",
+        "North America": "High-Value Region",
+        "Asia": "Medium-Value Region",
+        "South America": "Medium-Value Region",
+        "Oceania": "Medium-Value Region",
+        "Africa": "Low-Value Region",
+        "Unknown": "Low-Value Region"
+    })
+
+    # Readable region name
+    regions["region_readable"] = regions["region"].str.title()
+
+    # Create Surrogate key
+    regions["region_key"] = range(1, len(regions) + 1)
+
+    # Reorder columns
+    regions = regions[["region_key", "region",
+                       "region_readable", "region_tier", "country"]]
+
+    return regions
 
 
 # ======================================
