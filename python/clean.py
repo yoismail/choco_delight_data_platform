@@ -102,6 +102,10 @@ def clean_calendar(df: pd.DataFrame) -> pd.DataFrame:
     # Fill missing numeric values with -1 and convert to int
     df[numeric_cols] = df[numeric_cols].fillna(-1).astype(int)
 
+    df["calender_key"] = range(1, len(df) + 1)
+    df = df[["calender_key", "calendar_date"] +
+            [c for c in df.columns if c not in ["calender_key", "calendar_date"]]]
+
     return df
 
 
@@ -112,6 +116,11 @@ def clean_customers(df: pd.DataFrame) -> pd.DataFrame:
     df = df.drop_duplicates()
     df["gender"] = df["gender"].str.title().fillna("Unknown")
     df["join_date"] = pd.to_datetime(df["join_date"], errors="coerce")
+
+    df["customer_key"] = range(1, len(df) + 1)
+    df = df[["customer_key", "customer_id"] +
+            [c for c in df.columns if c not in ["customer_key", "customer_id"]]]
+
     return df
 
 
@@ -138,22 +147,10 @@ def clean_products(df: pd.DataFrame) -> pd.DataFrame:
     # FIX: concat with df, not 'products'
     df = pd.concat([df, new_products], ignore_index=True)
 
-    return df
+    df["product_key"] = range(1, len(df) + 1)
+    df = df[["product_key", "product_id"] +
+            [c for c in df.columns if c not in ["product_key", "product_id"]]]
 
-
-def clean_sales(df: pd.DataFrame) -> pd.DataFrame:
-    validate_schema(df, ["order_id", "store_id", "customer_id", "product_id",
-                    "quantity", "revenue", "cost", "profit", "order_date", "unit_price"], "sales")
-
-    df = normalize_columns(df)
-    df = df.drop_duplicates()
-    df["quantity"] = pd.to_numeric(df["quantity"], errors="coerce")
-    df["revenue"] = pd.to_numeric(df["revenue"], errors="coerce")
-    df["cost"] = pd.to_numeric(df["cost"], errors="coerce")
-    df["profit"] = pd.to_numeric(df["profit"], errors="coerce")
-    df["order_date"] = df["order_date"].str.strip()
-    df["order_date"] = pd.to_datetime(df["order_date"], errors="coerce")
-    df["unit_price"] = pd.to_numeric(df["unit_price"], errors="coerce")
     return df
 
 
@@ -216,6 +213,27 @@ def clean_stores(df: pd.DataFrame) -> pd.DataFrame:
     }
 
     df["region"] = df["country"].map(REGION_MAP).fillna("Unknown")
+
+    df["store_key"] = range(1, len(df) + 1)
+    df = df[["store_key", "store_id"] +
+            [c for c in df.columns if c not in ["store_key", "store_id"]]]
+
+    return df
+
+
+def clean_sales(df: pd.DataFrame) -> pd.DataFrame:
+    validate_schema(df, ["order_id", "store_id", "customer_id", "product_id",
+                    "quantity", "revenue", "cost", "profit", "order_date", "unit_price"], "sales")
+
+    df = normalize_columns(df)
+    df = df.drop_duplicates()
+    df["quantity"] = pd.to_numeric(df["quantity"], errors="coerce")
+    df["revenue"] = pd.to_numeric(df["revenue"], errors="coerce")
+    df["cost"] = pd.to_numeric(df["cost"], errors="coerce")
+    df["profit"] = pd.to_numeric(df["profit"], errors="coerce")
+    df["order_date"] = df["order_date"].str.strip()
+    df["order_date"] = pd.to_datetime(df["order_date"], errors="coerce")
+    df["unit_price"] = pd.to_numeric(df["unit_price"], errors="coerce")
 
     return df
 
