@@ -65,9 +65,8 @@ def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 
-# ======================================
 # Schema validation
-# ======================================
+# --------------------------------------
 
 
 def validate_schema(df: pd.DataFrame, required_cols: list, name: str):
@@ -77,9 +76,8 @@ def validate_schema(df: pd.DataFrame, required_cols: list, name: str):
         sys.exit(1)
     logging.info(f"{name}: Schema validation passed.")
 
-# ======================================
 # Cleaning functions for each CSV
-# ======================================
+# --------------------------------------
 
 
 def clean_calendar(df: pd.DataFrame) -> pd.DataFrame:
@@ -104,11 +102,11 @@ def clean_calendar(df: pd.DataFrame) -> pd.DataFrame:
 
     # # Create Surrogate key
 
-    df["calender_key"] = range(1, len(df) + 1)
+    df["calendar_key"] = range(1, len(df) + 1)
 
     # Reorder columns
-    df = df[["calender_key", "calendar_date"] +
-            [c for c in df.columns if c not in ["calender_key", "calendar_date"]]]
+    df = df[["calendar_key", "calendar_date"] +
+            [c for c in df.columns if c not in ["calendar_key", "calendar_date"]]]
 
     # --- Feature Engineering: Calendar ---
 
@@ -228,9 +226,8 @@ def clean_stores(df: pd.DataFrame) -> pd.DataFrame:
     df["store_type"] = df["store_type"].str.title().fillna("Unknown")
     df["store_name"] = df["store_name"].str.title()
 
-    # ============================
     # Region Mapping
-    # ============================
+    # ---------------------------
     REGION_MAP = {
         # Europe
         "United Kingdom": "Europe",
@@ -312,9 +309,8 @@ def clean_sales(df: pd.DataFrame) -> pd.DataFrame:
     df["profit"] = pd.to_numeric(df["profit"], errors="coerce")
     df["order_date"] = pd.to_datetime(
         df["order_date"].str.strip(), errors="coerce")
-    df["order_date_formatted"] = df["order_date"].dt.strftime("%d %b %Y")
-
     df["unit_price"] = pd.to_numeric(df["unit_price"], errors="coerce")
+    # df["order_date_formatted"] = df["order_date"].dt.strftime("%d %b %Y")
 
     # --- Feature Engineering: Sales ---
 
@@ -384,9 +380,8 @@ def clean_regions(stores_df: pd.DataFrame) -> pd.DataFrame:
     return regions
 
 
-# ======================================
 # Opens the Zip file, finds all the .csv files inside, reads each one into a pandas DataFrame, and returns a dictionary of DataFrames keyed by filename.
-# ======================================
+# --------------------------------------
 
 
 def load_csvs(zip_path: Path) -> dict:
@@ -405,9 +400,8 @@ def load_csvs(zip_path: Path) -> dict:
 
         return {name: pd.read_csv(zf.open(name)) for name in csv_files}
 
-# ======================================
 # Clean dataset orchestration
-# ======================================
+# --------------------------------------
 
 
 def clean_dataset():
@@ -446,10 +440,14 @@ def clean_dataset():
         logging.info(f"Saved cleaned file: {output_path}")
 
 
-# ======================================
-# Main
-# ======================================
-if __name__ == "__main__":
+def run_pipeline():
     create_clean_data_dir()
     clean_dataset()
+    logging.info("Cleaning process completed successfully.")
+
+
+# Main
+# --------------------------------------
+if __name__ == "__main__":
+    run_pipeline()
     logging.info("Cleaning process completed successfully.")
