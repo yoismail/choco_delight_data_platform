@@ -1,5 +1,12 @@
 CREATE SCHEMA IF NOT EXISTS raw_data;
 
+-- Drop existing tables
+DROP TABLE IF EXISTS raw_data.sales;
+DROP TABLE IF EXISTS raw_data.calendar;
+DROP TABLE IF EXISTS raw_data.customers;
+DROP TABLE IF EXISTS raw_data.products;
+DROP TABLE IF EXISTS raw_data.stores;   
+
 
 CREATE TABLE IF NOT EXISTS raw_data.sales (
     order_id VARCHAR(50),

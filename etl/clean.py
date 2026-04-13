@@ -141,7 +141,7 @@ def clean_customers(df: pd.DataFrame) -> pd.DataFrame:
     df["gender"] = df["gender"].str.title().fillna("Unknown")
     df["join_date"] = pd.to_datetime(
         df["join_date"].astype(str).str.strip(), errors="coerce")
-    df["join_date_formatted"] = df["join_date"].dt.strftime("%d %b %Y")
+    # df["join_date_formatted"] = df["join_date"].dt.strftime("%d %b %Y")
 
     # # Create Surrogate key
     df["customer_key"] = range(1, len(df) + 1)

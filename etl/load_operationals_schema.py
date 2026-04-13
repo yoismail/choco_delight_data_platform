@@ -9,7 +9,7 @@ from sqlalchemy import create_engine
 import traceback
 
 # Directories
-RAW_DATA_DIR = Path("data/raw")
+CLEAN_DATA_DIR = Path("data/clean")
 
 # Set up logging
 setup_logging()
@@ -33,11 +33,11 @@ def get_db_url():
 
 def load_to_postgres(df, table_name, engine):
 
-    df.to_sql(table_name, engine, schema="raw_data",
+    df.to_sql(table_name, engine, schema="operationals",
               if_exists="replace", index=False)
 
     logging.info(
-        f"Loaded {table_name} into PostgreSQL -- raw rows: {df.shape[0]}, columns: {df.shape[1]}\n")
+        f"Loaded {table_name} into PostgreSQL -- cleaned rows: {df.shape[0]}, columns: {df.shape[1]}\n")
 
 
 def run_etl():
@@ -49,19 +49,19 @@ def run_etl():
         db_url = get_db_url()
         engine = create_engine(db_url)
 
-        # load extracted data
-        calendar = pd.read_csv(RAW_DATA_DIR / "calendar.csv")
-        customers = pd.read_csv(RAW_DATA_DIR / "customers.csv")
-        products = pd.read_csv(RAW_DATA_DIR / "products.csv")
-        sales = pd.read_csv(RAW_DATA_DIR / "sales.csv")
-        stores = pd.read_csv(RAW_DATA_DIR / "stores.csv")
+        # load cleaned data
+        calendar = pd.read_csv(CLEAN_DATA_DIR / "cleaned_calendar.csv")
+        customers = pd.read_csv(CLEAN_DATA_DIR / "cleaned_customers.csv")
+        products = pd.read_csv(CLEAN_DATA_DIR / "cleaned_products.csv")
+        sales = pd.read_csv(CLEAN_DATA_DIR / "cleaned_sales.csv")
+        stores = pd.read_csv(CLEAN_DATA_DIR / "cleaned_stores.csv")
 
         # Load into PostgreSQL
-        load_to_postgres(calendar, "calendar", engine)
-        load_to_postgres(customers, "customers", engine)
-        load_to_postgres(products, "products", engine)
-        load_to_postgres(sales, "sales", engine)
-        load_to_postgres(stores, "stores", engine)
+        load_to_postgres(calendar, "cleaned_calendar", engine)
+        load_to_postgres(customers, "cleaned_customers", engine)
+        load_to_postgres(products, "cleaned_products", engine)
+        load_to_postgres(sales, "cleaned_sales", engine)
+        load_to_postgres(stores, "cleaned_stores", engine)
 
         logging.info("ETL pipeline completed successfully!")
 
