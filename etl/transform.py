@@ -84,7 +84,7 @@ def transform_dataset():
     try:
         logging.info("Preparing dimension tables...")
         DIM_COLUMNS = {
-            "customers": ["customer_id", "customer_key", "age", "gender", "join_date_formatted", "tenure_days", "tenure_months", "tenure_years", "customer_segment"],
+            "customers": ["customer_id", "customer_key", "age", "gender", "join_date", "tenure_days", "tenure_months", "tenure_years", "customer_segment"],
             "products": ["product_id", "product_key", "product_name", "brand", "category", "brand_tier"],
             "stores": ["store_id", "store_key", "store_name", "country", "city", "store_type", "region", "region_tier"],
             "calendar": ["calendar_key", "calendar_date", "quarter", "season", "day_type"]
