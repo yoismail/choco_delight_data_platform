@@ -30,7 +30,6 @@ def get_db_url():
 
 # Load to PostgreSQL
 
-
 def load_to_postgres(df, table_name, engine):
 
     df.to_sql(table_name, engine, schema="operationals",
@@ -40,6 +39,7 @@ def load_to_postgres(df, table_name, engine):
         f"Loaded {table_name} into PostgreSQL -- cleaned rows: {df.shape[0]}, columns: {df.shape[1]}\n")
 
 
+# Main ETL function
 def run_etl():
 
     try:

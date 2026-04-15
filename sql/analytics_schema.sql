@@ -59,6 +59,8 @@ CREATE TABLE IF NOT EXISTS analytics.fact_sales (
     store_key BIGINT NOT NULL,
     customer_key BIGINT NOT NULL,
 
+    order_date DATE NOT NULL CHECK (order_date <= CURRENT_DATE),
+
     quantity INT NOT NULL CHECK (quantity >= 0),
     unit_price FLOAT NOT NULL CHECK (unit_price >= 0),
     discount FLOAT CHECK (discount >= 0),

@@ -51,19 +51,9 @@ def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
         .str.replace("-", "_")
     )
 
-    # Normalize ID columns consistently
-    for col in ["product_id", "customer_id", "store_id"]:
-        if col in df.columns:
-            df[col] = (
-                df[col]
-                .astype(str)
-                .str.strip()
-                .str.upper()
-                .str.replace(" ", "")
-                .str.replace("-", "")
-            )
-
     return df
+
+
 
 # Schema validation
 # --------------------------------------
@@ -101,8 +91,8 @@ def clean_calendar(df: pd.DataFrame) -> pd.DataFrame:
     df[numeric_cols] = df[numeric_cols].fillna(-1).astype(int)
 
     # # Create Surrogate key
-
-    df["calendar_key"] = range(1, len(df) + 1)
+    df = df.sort_values("calendar_date").reset_index(drop=True)
+    df["calendar_key"] = df.index + 1
 
     # Reorder columns
     df = df[["calendar_key", "calendar_date"] +
@@ -144,7 +134,8 @@ def clean_customers(df: pd.DataFrame) -> pd.DataFrame:
     # df["join_date_formatted"] = df["join_date"].dt.strftime("%d %b %Y")
 
     # # Create Surrogate key
-    df["customer_key"] = range(1, len(df) + 1)
+    df = df.sort_values("customer_id").reset_index(drop=True)
+    df["customer_key"] = df.index + 1
 
     # Reorder columns
     df = df[["customer_key", "customer_id"] +
@@ -197,7 +188,8 @@ def clean_products(df: pd.DataFrame) -> pd.DataFrame:
     df = pd.concat([df, new_products], ignore_index=True)
 
     # Create Surrogate key
-    df["product_key"] = range(1, len(df) + 1)
+    df = df.sort_values("product_id").reset_index(drop=True)
+    df["product_key"] = df.index + 1
 
     # Reorder columns
     df = df[["product_key", "product_id"] +
@@ -275,6 +267,7 @@ def clean_stores(df: pd.DataFrame) -> pd.DataFrame:
     df["region"] = df["country"].map(REGION_MAP).fillna("Unknown")
 
     # Create Surrogate key
+    df = df.sort_values("store_id").reset_index(drop=True)
     df["store_key"] = range(1, len(df) + 1)
 
     # Reorder columns

@@ -18,8 +18,21 @@ TRANSFORM_DIR.mkdir(parents=True, exist_ok=True)
 def load_cleaned(name):
     return pd.read_csv(CLEAN_DIR / f"cleaned_{name}.csv")
 
+# Helper to clean and convert date columns safely
+
+
+def clean_date(col):
+    return (
+        col.astype(str)
+        .str.replace(r"[^\d\-: ]", "", regex=True)  # remove hidden chars
+        .str.strip()
+        .pipe(pd.to_datetime, errors="coerce")
+        .dt.date
+    )
 
 # Function to validate foreign key relationships
+
+
 def validate_foreign_keys(df_fact, df_dim, fact_key, dim_key, name):
     missing = df_fact[~df_fact[fact_key].isin(df_dim[dim_key])]
     if not missing.empty:
@@ -46,6 +59,10 @@ def transform_dataset():
         logging.error(f"Error occurred while loading cleaned data: {e}")
         sys.exit(1)
 
+    # Convert date columns using robust cleaner
+    calendar["calendar_date"] = clean_date(calendar["calendar_date"])
+    sales["order_date"] = clean_date(sales["order_date"])
+
     # Merge surrogate keys into sales fact table
     try:
         logging.info("Merging surrogate keys into sales fact table...")
@@ -63,8 +80,7 @@ def transform_dataset():
         logging.error(f"Error merging surrogate keys: {e}")
         sys.exit(1)
 
-    # Validate foreign key relationships (after merge)
-    # ---------------------------------------------------------
+    # Validate foreign key relationships
     try:
         logging.info("Validating foreign key relationships...")
         validate_foreign_keys(sales, customers, "customer_key",
@@ -80,7 +96,6 @@ def transform_dataset():
         sys.exit(1)
 
     # Prepare dimension tables
-    # ---------------------------------------------------------
     try:
         logging.info("Preparing dimension tables...")
         DIM_COLUMNS = {
@@ -100,9 +115,7 @@ def transform_dataset():
         sys.exit(1)
 
     # Build fact table
-    # ---------------------------------------------------------
     try:
-        # Drop original ID columns and keep surrogate keys + measures
         logging.info("Building fact_sales table...")
         fact_sales = sales.drop(
             columns=["customer_id", "product_id", "store_id", "calendar_date"])
@@ -115,53 +128,16 @@ def transform_dataset():
 
         fact_sales.to_csv(TRANSFORM_DIR / "fact_sales.csv", index=False)
         logging.info("Saved fact_sales.csv")
-        logging.info(f"head of fact_sales:\n{fact_sales.head()}\n")
-        logging.info(f"shape of fact_sales: {fact_sales.shape}")
-        logging.info(f"datatype of fact_sales:\n{fact_sales.dtypes}")
-        logging.info(
-            f"missing values in fact_sales:\n{fact_sales.isnull().sum()}\n")
     except Exception as e:
         logging.error(f"Error during fact table creation: {e}")
         sys.exit(1)
 
     # Save dimension tables
-    # ---------------------------------------------------------
     try:
-        logging.info("Saving dimension tables...")
         customers.to_csv(TRANSFORM_DIR / "dim_customers.csv", index=False)
-        logging.info("Saved dim_customers.csv")
-        logging.info(f"head of customers dimension:\n{customers.head()}\n")
-        logging.info(f"shape of customers dimension:\n{customers.shape}\n")
-        logging.info(f"datatype of customers dimension:\n{customers.dtypes}\n")
-        logging.info(
-            f"missing values in customers dimension:\n{customers.isnull().sum()}\n")
-
         products.to_csv(TRANSFORM_DIR / "dim_products.csv", index=False)
-        logging.info("Saved dim_products.csv")
-        logging.info(f"head of products dimension:\n{products.head()}\n")
-        logging.info(f"shape of products dimension:\n{products.shape}\n")
-        logging.info(
-            f"datatype of products dimension: {products.dtypes}")
-        logging.info(
-            f"missing values in products dimension:\n{products.isnull().sum()}\n")
-
         stores.to_csv(TRANSFORM_DIR / "dim_stores.csv", index=False)
-        logging.info("Saved dim_stores.csv")
-        logging.info(f"head of stores dimension:\n{stores.head()}\n")
-        logging.info(f"shape of stores dimension:\n{stores.shape}\n")
-        logging.info(f"datatype of stores dimension: {stores.dtypes}")
-        logging.info(
-            f"missing values in stores dimension:\n{stores.isnull().sum()}\n")
-
         calendar.to_csv(TRANSFORM_DIR / "dim_calendar.csv", index=False)
-        logging.info("Saved dim_calendar.csv")
-        logging.info(f"head of calendar dimension:\n{calendar.head()}\n")
-        logging.info(f"shape of calendar dimension:\n{calendar.shape}\n")
-        logging.info(
-            f"datatype of calendar dimension: {calendar.dtypes}")
-        logging.info(
-            f"missing values in calendar dimension:\n{calendar.isnull().sum()}\n")
-
     except Exception as e:
         logging.error(f"Error during dimension table saving: {e}")
         sys.exit(1)
@@ -173,7 +149,5 @@ def run_pipeline():
     logging.info("Transformation stage completed.")
 
 
-# Main
-# --------------------------------------
 if __name__ == "__main__":
     run_pipeline()
