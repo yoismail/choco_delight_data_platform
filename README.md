@@ -1,6 +1,6 @@
 ---
 
-## 📦 **ChocoDelight Data Platform** 
+## 📦 ChocoDelight Data Platform
 An end-to-end data engineering project that transforms a flat chocolate sales dataset into a structured, analytics-ready PostgreSQL data platform.
 
 This project demonstrates how to design a modular ETL pipeline that:
