@@ -1,12 +1,4 @@
-I studied the ETL package, schema files, requirements, and the repo’s current root structure. The pipeline downloads the Kaggle chocolate sales dataset into `data/raw`, cleans five source files into `data/clean`, transforms them into four dimensions plus one fact table in `data/transform`, and loads them into three PostgreSQL schemas: `raw_data`, `operationals`, and `analytics`. The orchestrator runs those steps in sequence through `etl/run_all.py`. ([GitHub][1])
-
-A couple of implementation details matter for an accurate README: the extract step uses the Kaggle CLI for dataset download; `wipe_all.py` resets folders and recreates the three schemas; `load_raw_schema.py` and `load_operationals_schema.py` load CSVs into existing schemas with `to_sql`; `load_analytics_schema.py` explicitly recreates the analytics schema from `sql/analytics_schema.sql` before loading dimensions and the fact table. ([GitHub][2])
-
-Here is a polished `README.md` you can copy and paste:
-
-````md
-# ChocoDelight Data Platform
-
+📦 **ChocoDelight Data Platform** 
 An end-to-end data engineering project that transforms a flat chocolate sales dataset into a structured, analytics-ready PostgreSQL data platform.
 
 This project demonstrates how to design a modular ETL pipeline that:
@@ -19,7 +11,7 @@ This project demonstrates how to design a modular ETL pipeline that:
 
 ---
 
-## Project Overview
+## 🚀 Project Overview
 
 The ChocoDelight Data Platform is built around a layered data engineering workflow:
 
@@ -101,7 +93,7 @@ PostgreSQL
 
 ## Repository Structure
 
-```text
+```bash
 choco_delight_data_platform/
 │
 ├── etl/
