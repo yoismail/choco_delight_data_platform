@@ -1,108 +1,679 @@
-# 🍫 About the ChocoDelight Data Platform
+I studied the ETL package, schema files, requirements, and the repo’s current root structure. The pipeline downloads the Kaggle chocolate sales dataset into `data/raw`, cleans five source files into `data/clean`, transforms them into four dimensions plus one fact table in `data/transform`, and loads them into three PostgreSQL schemas: `raw_data`, `operationals`, and `analytics`. The orchestrator runs those steps in sequence through `etl/run_all.py`. ([GitHub][1])
 
-The ChocoDelight Data Platform is an end‑to‑end data engineering project designed to transform a flat, messy chocolate‑sales dataset into a **high‑performance, analytics‑ready data system**. This project demonstrates my ability to architect scalable pipelines, enforce data integrity, and deliver business‑focused insights through SQL and Python‑based engineering.
+A couple of implementation details matter for an accurate README: the extract step uses the Kaggle CLI for dataset download; `wipe_all.py` resets folders and recreates the three schemas; `load_raw_schema.py` and `load_operationals_schema.py` load CSVs into existing schemas with `to_sql`; `load_analytics_schema.py` explicitly recreates the analytics schema from `sql/analytics_schema.sql` before loading dimensions and the fact table. ([GitHub][2])
 
----
+Here is a polished `README.md` you can copy and paste:
 
-## 🎯 Project Purpose
+````md
+# ChocoDelight Data Platform
 
-ChocoDelight International is a fast‑growing premium chocolate company operating across multiple regions. While the business captures sales data effectively, the original dataset suffers from:
+An end-to-end data engineering project that transforms a flat chocolate sales dataset into a structured, analytics-ready PostgreSQL data platform.
 
-- Redundancy  
-- Poor query performance  
-- Limited analytical capability  
-- Lack of relational structure  
+This project demonstrates how to design a modular ETL pipeline that:
 
-This platform redesigns the dataset into a **normalized relational model**, builds a **modular ETL pipeline**, and delivers **insight‑driven analytical outputs** for business intelligence.
-
----
-
-## 🧱 What This Project Demonstrates
-
-This project showcases my approach to real‑world data engineering:
-
-### **1. Database Optimization & Relational Modelling**
-- Applied **Second Normal Form (2NF)**  
-- Created **dimension and fact tables** (Customers, Products, Regions, Sales)  
-- Added **PRIMARY KEY**, **FOREIGN KEY**, and **INDEX** constraints  
-- Built a clean, scalable schema (`schema_final.sql`)
-
-### **2. ETL Pipeline Engineering**
-- Designed modular Python scripts for:
-  - Extracting raw CSV data  
-  - Cleaning and validating datasets  
-  - Transforming data into analytical structures  
-  - Loading into PostgreSQL  
-- Implemented structured logging and reproducible workflows  
-- Automated schema creation using `load_raw_schema.py`
-
-### **3. Data Cleaning & Feature Engineering**
-- Standardized formats and handled missing values  
-- Removed duplicates and enforced data quality  
-- Engineered business‑friendly features:
-  - Revenue calculations  
-  - Time‑based attributes (month, quarter, season)  
-  - Customer and sales segmentation  
-
-### **4. Business Analytics & SQL Views**
-Delivered insight‑ready SQL views for:
-
-- Revenue by product  
-- Revenue by region  
-- Monthly sales trends  
-- Customer segmentation buckets  
-
-These views support dashboards, reporting, and strategic decision‑making.
+- downloads raw source files from Kaggle
+- cleans and validates operational data with Python and Pandas
+- engineers business-friendly features
+- transforms records into a dimensional model
+- loads raw, operational, and analytics layers into PostgreSQL
 
 ---
 
-## 🏗️ Data Model Overview
+## Project Overview
 
-The final relational model includes:
+The ChocoDelight Data Platform is built around a layered data engineering workflow:
 
-- **Calendar** (Dimension)  
-- **Customers** (Dimension)  
-- **Products** (Dimension)  
-- **Stores** (Dimension)  
-- **Sales** (Fact Table)  
+- **Raw layer** stores the original extracted source tables
+- **Operational layer** stores cleaned and standardized tables
+- **Analytics layer** stores dimensional tables and a fact table for reporting and analysis
 
-This structure improves performance, reduces redundancy, and enables flexible analytics.
+The pipeline is designed to be reproducible, modular, and easier to maintain than a single notebook or monolithic script.
 
 ---
 
-## 🛠️ Tech Stack
+## What This Project Demonstrates
 
-- **Python** (Pandas, SQLAlchemy)  
-- **PostgreSQL**  
-- **ETL Pipelines**  
-- **SQL Views & Analytics**  
-- **Logging & Modular Architecture**  
+### 1. End-to-End ETL Engineering
+- dataset download using the Kaggle CLI
+- ZIP extraction and source exploration
+- modular cleaning and transformation logic
+- PostgreSQL loading across multiple schemas
+- one-command orchestration with a pipeline runner
+
+### 2. Data Cleaning and Standardization
+- column normalization
+- schema validation
+- duplicate removal
+- missing value handling
+- date parsing and numeric coercion
+
+### 3. Feature Engineering
+- customer tenure metrics
+- customer segmentation
+- calendar quarter / season / day type
+- product brand tier classification
+- store region and region tier
+- sales revenue buckets
+- profit margin buckets
+- outlier detection
+- time-of-day categorization
+
+### 4. Dimensional Modeling
+- dimension tables for calendar, customers, products, and stores
+- fact table for sales
+- surrogate key assignment
+- foreign key validation before fact construction
+- indexes on dimensions and fact keys for analytics performance
 
 ---
 
-## 📌 Why This Project Matters
+## Architecture
 
-This project reflects how I approach data engineering in real environments:
-
-- Build systems that scale  
-- Enforce data integrity  
-- Design for analytics from day one  
-- Keep pipelines modular, readable, and production‑ready  
-- Deliver insights that drive business outcomes  
-
----
-
-## 📈 Current Status
-
-The raw layer, schema loader, and foundational ETL structure are complete.  
-Next phases include advanced transformations, segmentation logic, and final analytics views.
-
----
-
-## 🧠 My Philosophy
-
-> “A data platform is only valuable when it is structured, reliable, and built for insight.”
+```text
+Kaggle Dataset
+    ↓
+data/raw/
+    ↓
+data/clean/
+    ↓
+data/transform/
+    ↓
+PostgreSQL
+├── raw_data
+├── operationals
+└── analytics
+````
 
 ---
 
-If you find this project helpful or want to collaborate on data engineering work, feel free to connect.
+## Tech Stack
+
+* **Python**
+* **Pandas**
+* **PostgreSQL**
+* **SQLAlchemy**
+* **psycopg2-binary**
+* **python-dotenv**
+* **Kaggle API / Kaggle CLI**
+* **Structured logging**
+
+---
+
+## Repository Structure
+
+```text
+choco_delight_data_platform/
+│
+├── etl/
+│   ├── __init__.py
+│   ├── extract.py
+│   ├── clean.py
+│   ├── transform.py
+│   ├── load_raw_schema.py
+│   ├── load_operationals_schema.py
+│   ├── load_analytics_schema.py
+│   ├── wipe_all.py
+│   ├── run_all.py
+│   └── debug_product.py
+│
+├── sql/
+│   ├── raw_schema.sql
+│   ├── operationals_schema.sql
+│   ├── analytics_schema.sql
+│   └── setup_database.sql
+│
+├── utils/
+│   └── logging.py
+│
+├── requirements.txt
+├── README.md
+└── __init__.py
+```
+
+### Generated Data Folders
+
+These folders are created during pipeline execution:
+
+```text
+data/
+├── raw/
+│   ├── chocolate-sales-dataset-2023-2024.zip
+│   ├── calendar.csv
+│   ├── customers.csv
+│   ├── products.csv
+│   ├── sales.csv
+│   └── stores.csv
+│
+├── clean/
+│   ├── cleaned_calendar.csv
+│   ├── cleaned_customers.csv
+│   ├── cleaned_products.csv
+│   ├── cleaned_sales.csv
+│   └── cleaned_stores.csv
+│
+└── transform/
+    ├── dim_calendar.csv
+    ├── dim_customers.csv
+    ├── dim_products.csv
+    ├── dim_stores.csv
+    └── fact_sales.csv
+```
+
+---
+
+## Source Dataset
+
+The pipeline downloads the dataset from Kaggle:
+
+**Dataset:** `ssssws/chocolate-sales-dataset-2023-2024`
+
+Source files handled by the pipeline:
+
+* `calendar.csv`
+* `customers.csv`
+* `products.csv`
+* `sales.csv`
+* `stores.csv`
+
+---
+
+## Data Layers
+
+## 1. Raw Layer (`raw_data` schema)
+
+The raw layer stores the extracted source data with minimal structural changes.
+
+### Tables
+
+* `raw_data.calendar`
+* `raw_data.customers`
+* `raw_data.products`
+* `raw_data.sales`
+* `raw_data.stores`
+
+This layer is useful for:
+
+* preserving source fidelity
+* auditing source data
+* debugging extraction issues
+
+---
+
+## 2. Operational Layer (`operationals` schema)
+
+The operational layer stores cleaned and standardized datasets produced by `clean.py`.
+
+### Tables
+
+* `operationals.cleaned_calendar`
+* `operationals.cleaned_customers`
+* `operationals.cleaned_products`
+* `operationals.cleaned_sales`
+* `operationals.cleaned_stores`
+
+### Cleaning Highlights
+
+#### Calendar
+
+* renames `date` to `calendar_date`
+* parses dates properly
+* creates:
+
+  * `calendar_key`
+  * `quarter`
+  * `season`
+  * `day_type`
+  * `calendar_date_formatted`
+
+#### Customers
+
+* standardizes gender values
+* parses `join_date`
+* creates:
+
+  * `customer_key`
+  * `tenure_days`
+  * `tenure_months`
+  * `tenure_years`
+  * `customer_segment`
+
+#### Products
+
+* standardizes text fields
+* adds missing debug products:
+
+  * `P0000`
+  * `P0201`
+* creates:
+
+  * `product_key`
+  * `brand_tier`
+
+#### Stores
+
+* standardizes location fields
+* maps countries to regions
+* creates:
+
+  * `store_key`
+  * `region`
+  * `region_tier`
+
+#### Sales
+
+* coerces numeric metrics
+* parses `order_date`
+* creates:
+
+  * `revenue_bucket`
+  * `profit_margin`
+  * `margin_bucket`
+  * `outlier_flag`
+  * `time_of_day`
+
+---
+
+## 3. Analytics Layer (`analytics` schema)
+
+The analytics layer contains transformed dimension tables and the central fact table.
+
+### Dimension Tables
+
+* `analytics.dim_calendar`
+* `analytics.dim_customers`
+* `analytics.dim_products`
+* `analytics.dim_stores`
+
+### Fact Table
+
+* `analytics.fact_sales`
+
+### Dimensional Model
+
+```text
+dim_calendar   ─┐
+dim_customers  ─┼──> fact_sales
+dim_products   ─┤
+dim_stores     ─┘
+```
+
+### Analytics Design Features
+
+* surrogate keys for dimensions
+* natural key uniqueness
+* foreign key constraints
+* fact table validation against dimensions
+* indexes for joins and analytical filters
+
+---
+
+## ETL Pipeline Modules
+
+## `etl/extract.py`
+
+Responsible for:
+
+* creating `data/raw`
+* downloading the Kaggle dataset ZIP
+* extracting raw CSV files
+* performing initial exploration and logging
+
+## `etl/clean.py`
+
+Responsible for:
+
+* validating source schemas
+* normalizing columns
+* cleaning each source table
+* applying feature engineering
+* writing cleaned CSVs to `data/clean`
+
+## `etl/transform.py`
+
+Responsible for:
+
+* loading cleaned CSVs
+* cleaning date columns again for safe merging
+* merging surrogate keys into sales
+* validating foreign keys
+* creating dimension and fact CSVs in `data/transform`
+
+## `etl/load_raw_schema.py`
+
+Responsible for:
+
+* loading extracted CSVs into the `raw_data` schema
+
+## `etl/load_operationals_schema.py`
+
+Responsible for:
+
+* loading cleaned CSVs into the `operationals` schema
+
+## `etl/load_analytics_schema.py`
+
+Responsible for:
+
+* recreating the analytics schema from SQL
+* loading dimension tables first
+* loading `fact_sales` last
+
+## `etl/wipe_all.py`
+
+Responsible for:
+
+* deleting pipeline output folders
+* resetting PostgreSQL schemas:
+
+  * `raw_data`
+  * `operationals`
+  * `analytics`
+
+## `etl/run_all.py`
+
+Pipeline orchestrator that runs:
+
+1. wipe
+2. extract
+3. clean
+4. transform
+5. raw schema load
+6. operationals schema load
+7. analytics schema load
+
+---
+
+## SQL Schema Files
+
+### `sql/raw_schema.sql`
+
+Creates raw ingestion tables:
+
+* `sales`
+* `calendar`
+* `customers`
+* `products`
+* `stores`
+
+### `sql/operationals_schema.sql`
+
+Creates cleaned operational tables:
+
+* `cleaned_calendar`
+* `cleaned_customers`
+* `cleaned_products`
+* `cleaned_sales`
+* `cleaned_stores`
+
+### `sql/analytics_schema.sql`
+
+Creates:
+
+* `dim_calendar`
+* `dim_customers`
+* `dim_products`
+* `dim_stores`
+* `fact_sales`
+
+Also adds indexes for:
+
+* dimension natural keys
+* fact foreign keys
+* analytical filter columns such as:
+
+  * `revenue_bucket`
+  * `margin_bucket`
+  * `time_of_day`
+
+### `sql/setup_database.sql`
+
+Provides initial database setup commands for:
+
+* creating the database
+* connecting to it
+* creating the required schemas
+
+---
+
+## Requirements
+
+Install dependencies from `requirements.txt`:
+
+```bash
+pip install -r requirements.txt
+```
+
+Current requirements include:
+
+* `pandas`
+* `numpy`
+* `SQLAlchemy`
+* `psycopg2-binary`
+* `python-dotenv`
+* `greenlet`
+* `python-dateutil`
+* `typing_extensions`
+* `tzdata`
+* `six`
+
+---
+
+## Environment Setup
+
+Create a `.env` file in the project root:
+
+```env
+DB_URL=postgresql://username:password@localhost:5432/choco_delight_db
+```
+
+Make sure `.env` is included in `.gitignore`.
+
+---
+
+## PostgreSQL Setup
+
+You can initialize the database using the SQL scripts in the `sql/` folder.
+
+Example:
+
+```sql
+CREATE DATABASE choco_delight_db;
+```
+
+Then create the schemas:
+
+```sql
+CREATE SCHEMA raw_data;
+CREATE SCHEMA operationals;
+CREATE SCHEMA analytics;
+```
+
+You can also use the provided setup script:
+
+```bash
+psql -U postgres -d postgres -f sql/setup_database.sql
+```
+
+---
+
+## Kaggle Setup
+
+Because `extract.py` uses the Kaggle CLI, you need Kaggle configured locally.
+
+### Install Kaggle
+
+```bash
+pip install kaggle
+```
+
+### Configure Kaggle API
+
+Place your `kaggle.json` in the correct directory:
+
+* **Windows:** `C:\Users\<your_username>\.kaggle\kaggle.json`
+* **Linux / macOS:** `~/.kaggle/kaggle.json`
+
+Then make sure the Kaggle CLI works:
+
+```bash
+kaggle datasets list
+```
+
+---
+
+## How to Run the Pipeline
+
+## Option 1: Run the Full Pipeline
+
+From the project root:
+
+```bash
+python -m etl.run_all
+```
+
+This runs the complete workflow from wipe to final analytics load.
+
+---
+
+## Option 2: Run Individual Steps
+
+### Wipe folders and schemas
+
+```bash
+python -m etl.wipe_all all
+```
+
+You can also wipe individual targets:
+
+```bash
+python -m etl.wipe_all raw
+python -m etl.wipe_all clean
+python -m etl.wipe_all transform
+python -m etl.wipe_all operationals
+python -m etl.wipe_all analytics
+```
+
+### Extract
+
+```bash
+python -m etl.extract
+```
+
+### Clean
+
+```bash
+python -m etl.clean
+```
+
+### Transform
+
+```bash
+python -m etl.transform
+```
+
+### Load raw schema
+
+```bash
+python -m etl.load_raw_schema
+```
+
+### Load operational schema
+
+```bash
+python -m etl.load_operationals_schema
+```
+
+### Load analytics schema
+
+```bash
+python -m etl.load_analytics_schema
+```
+
+---
+
+## Final Output
+
+After a successful full run, you will have:
+
+### Files
+
+* extracted raw CSVs in `data/raw`
+* cleaned CSVs in `data/clean`
+* transformed dimension/fact CSVs in `data/transform`
+
+### Database Schemas
+
+* `raw_data`
+* `operationals`
+* `analytics`
+
+### Analytics Tables
+
+* `analytics.dim_calendar`
+* `analytics.dim_customers`
+* `analytics.dim_products`
+* `analytics.dim_stores`
+* `analytics.fact_sales`
+
+---
+
+## Example Analytical Use Cases
+
+This model supports analysis such as:
+
+* revenue by product
+* revenue by store or country
+* customer segmentation by tenure
+* sales distribution by time of day
+* seasonality and quarter-based performance
+* margin analysis by product or category
+* outlier detection for unusually large transactions
+
+---
+
+## Logging
+
+The project uses a custom colorized logging utility in `utils/logging.py` to make pipeline execution easier to follow in the terminal.
+
+This improves:
+
+* debugging
+* visibility into each ETL stage
+* error tracing during failures
+
+---
+
+## Debugging Utility
+
+`etl/debug_product.py` helps investigate mismatched `product_id` values between:
+
+* `cleaned_sales.csv`
+* `cleaned_products.csv`
+
+It normalizes product IDs for comparison and is useful when diagnosing foreign key issues during transformation.
+
+---
+
+## Why This Project Matters
+
+This project reflects strong data engineering fundamentals:
+
+* layered data architecture
+* reproducible ETL design
+* schema-aware cleaning and validation
+* dimensional modeling for analytics
+* PostgreSQL integration
+* maintainable modular code organization
+
+It is designed as both a portfolio project and a practical demonstration of how to move from raw files to a scalable analytics foundation.
+
+---
+
+## Author
+
+**Yomi Ismail**
+Data Engineer & Product Operations Specialist
+
+---
+
+```
