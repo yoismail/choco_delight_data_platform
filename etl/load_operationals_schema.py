@@ -30,6 +30,7 @@ def get_db_url():
 
 # Load to PostgreSQL
 
+
 def load_to_postgres(df, table_name, engine):
 
     df.to_sql(table_name, engine, schema="operationals",
@@ -40,7 +41,7 @@ def load_to_postgres(df, table_name, engine):
 
 
 # Main ETL function
-def run_etl():
+def run_pipeline():
 
     try:
         logging.info("Starting ETL pipeline...")
@@ -70,8 +71,6 @@ def run_etl():
         logging.error(traceback.format_exc())
 
 
-# ----------------------------
 # Entry Point
-# ----------------------------
 if __name__ == "__main__":
-    run_etl()
+    run_pipeline()

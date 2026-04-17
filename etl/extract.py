@@ -5,23 +5,18 @@ import pandas as pd
 import logging
 import sys
 
-# ======================================
 # Configure logging
-# ======================================
 from utils.logging import setup_logging
 setup_logging()
 
-# ======================================
 # Define the URL of the dataset and the local path to save it
-# ======================================
 
 ZIP_FILE_URL = "https://www.kaggle.com/api/v1/datasets/download/ssssws/chocolate-sales-dataset-2023-2024"
 RAW_DATA_DIR = Path("data/raw")
 ZIP_FILE_PATH = RAW_DATA_DIR / "chocolate-sales-dataset-2023-2024.zip"
 
-# ======================================
+
 # Create the raw data directory if it doesn't exist
-# ======================================
 
 
 def create_data_dir():
@@ -32,9 +27,7 @@ def create_data_dir():
         logging.info("Data directory already exists.")
 
 
-# ======================================
 # Download the dataset using Kaggle API
-# ======================================
 def download_dataset():
     logging.info("Starting dataset download...")
 
@@ -124,9 +117,7 @@ def explore_data():
         sys.exit(1)
 
 
-# ======================================
 # Running Pipeline
-# ======================================
 def run_pipeline():
     logging.info("Running Pipeline: Download, Extract, and Explore Dataset")
 
@@ -139,8 +130,6 @@ def run_pipeline():
         "Download, Extraction, and Exploration Completed Successfully")
 
 
-# ==============================
 # Main execution
-# ==============================
 if __name__ == "__main__":
     run_pipeline()

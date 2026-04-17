@@ -4,31 +4,23 @@ import sys
 from pathlib import Path
 import zipfile
 
-# ======================================
 # Logging
-# ======================================
 from utils.logging import setup_logging
 setup_logging()
 
-# ======================================
 # Paths
-# ======================================
 RAW_DATA_DIR = Path("data/raw")
 CLEAN_DATA_DIR = Path("data/clean")
 ZIP_NAME = "chocolate-sales-dataset-2023-2024.zip"
 
-# ======================================
 # Ensure clean directory exists
-# ======================================
 
 
 def create_clean_data_dir():
     CLEAN_DATA_DIR.mkdir(parents=True, exist_ok=True)
     logging.info("Clean data directory ready.")
 
-# ======================================
 # Sanity check logging
-# ======================================
 
 
 def log_df_sanity(df: pd.DataFrame, name: str):
@@ -38,9 +30,7 @@ def log_df_sanity(df: pd.DataFrame, name: str):
     logging.info(f"[{name}] sample data:\n{df.head(3)}\n")
 
 
-# ======================================
 # Column normalization
-# ======================================
 def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
     # Normalize column names
     df.columns = (
@@ -54,9 +44,7 @@ def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-
 # Schema validation
-# --------------------------------------
 
 
 def validate_schema(df: pd.DataFrame, required_cols: list, name: str):
@@ -67,7 +55,6 @@ def validate_schema(df: pd.DataFrame, required_cols: list, name: str):
     logging.info(f"{name}: Schema validation passed.")
 
 # Cleaning functions for each CSV
-# --------------------------------------
 
 
 def clean_calendar(df: pd.DataFrame) -> pd.DataFrame:
@@ -374,7 +361,6 @@ def clean_regions(stores_df: pd.DataFrame) -> pd.DataFrame:
 
 
 # Opens the Zip file, finds all the .csv files inside, reads each one into a pandas DataFrame, and returns a dictionary of DataFrames keyed by filename.
-# --------------------------------------
 
 
 def load_csvs(zip_path: Path) -> dict:
@@ -394,7 +380,6 @@ def load_csvs(zip_path: Path) -> dict:
         return {name: pd.read_csv(zf.open(name)) for name in csv_files}
 
 # Clean dataset orchestration
-# --------------------------------------
 
 
 def clean_dataset():

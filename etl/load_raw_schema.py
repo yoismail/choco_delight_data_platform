@@ -38,10 +38,9 @@ def load_to_postgres(df, table_name, engine):
 
     logging.info(
         f"Loaded {table_name} into PostgreSQL -- raw rows: {df.shape[0]}, columns: {df.shape[1]}\n")
-    
 
 
-def run_etl():
+def run_pipeline():
 
     try:
         logging.info("Starting ETL pipeline...")
@@ -75,4 +74,4 @@ def run_etl():
 # Entry Point
 # ----------------------------
 if __name__ == "__main__":
-    run_etl()
+    run_pipeline()

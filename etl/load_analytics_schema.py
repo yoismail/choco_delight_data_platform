@@ -46,7 +46,7 @@ def load_to_postgres(df, table_name, engine):
 # Main ETL function
 
 
-def run_etl():
+def run_pipeline():
     try:
         logging.info("Starting ETL pipeline...")
 
@@ -91,4 +91,4 @@ def run_etl():
 
 
 if __name__ == "__main__":
-    run_etl()
+    run_pipeline()
