@@ -127,7 +127,7 @@ choco_delight_data_platform/
 
 These folders are created during pipeline execution:
 
-```text
+```bash
 data/
 ├── raw/
 │   ├── chocolate-sales-dataset-2023-2024.zip
