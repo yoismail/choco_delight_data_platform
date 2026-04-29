@@ -9,6 +9,7 @@ import sys
 from utils.logging import setup_logging
 setup_logging()
 
+
 # Define the URL of the dataset and the local path to save it
 
 ZIP_FILE_URL = "https://www.kaggle.com/api/v1/datasets/download/ssssws/chocolate-sales-dataset-2023-2024"
@@ -67,58 +68,46 @@ def extract_dataset():
 def explore_data():
     logging.info("Exploring extracted files...")
 
+    # Define the files to explore
+    files_to_explore = {
+        "customers": "customers.csv",
+        "products": "products.csv",
+        "sales": "sales.csv",
+        "stores": "stores.csv",
+        "calendar": "calendar.csv"
+    }
+
     try:
-        customers = pd.read_csv(RAW_DATA_DIR / "customers.csv")
-        products = pd.read_csv(RAW_DATA_DIR / "products.csv")
-        sales = pd.read_csv(RAW_DATA_DIR / "sales.csv")
-        stores = pd.read_csv(RAW_DATA_DIR / "stores.csv")
-        calendar = pd.read_csv(RAW_DATA_DIR / "calendar.csv")
+        # Load all dataframes first
+        dataframes = {}
+        for name, filename in files_to_explore.items():
+            file_path = RAW_DATA_DIR / filename
+            if not file_path.exists():
+                logging.error(f"Missing file: {file_path}")
+                sys.exit(1)
+            dataframes[name] = pd.read_csv(file_path)
+            logging.info(f"Loaded {filename}")
 
-        logging.info(f"\nCustomers shape: {customers.shape}")
-        logging.info(f"Customers head:\n{customers.head()}\n")
-        logging.info(f"Customers datatypes:\n{customers.dtypes}\n")
-        logging.info(
-            f"Missing values in customers:\n{customers.isnull().sum()}\n")
-        logging.info(
-            f"duplicate customer IDs: {customers['customer_id'].duplicated().sum()}\n")
-
-        logging.info(f"Products shape: {products.shape}")
-        logging.info(f"Products head:\n{products.head()}\n")
-        logging.info(f"Products datatypes:\n{products.dtypes}\n")
-        logging.info(
-            f"Missing values in products:\n{products.isnull().sum()}\n")
-        logging.info(
-            f"duplicate product IDs: {products['product_id'].duplicated().sum()}\n")
-
-        logging.info(f"Sales shape: {sales.shape}")
-        logging.info(f"Sales head:\n{sales.head()}\n")
-        logging.info(f"Sales datatypes:\n{sales.dtypes}\n")
-        logging.info(f"Missing values in sales:\n{sales.isnull().sum()}\n")
-
-        logging.info(f"Stores shape: {stores.shape}")
-        logging.info(f"Stores head:\n{stores.head()}\n")
-        logging.info(f"Stores datatypes:\n{stores.dtypes}\n")
-        logging.info(f"Missing values in stores:\n{stores.isnull().sum()}\n")
-        logging.info(
-            f"duplicate store IDs: {stores['store_id'].duplicated().sum()}\n")
-
-        logging.info(f"Calendar shape: {calendar.shape}")
-        logging.info(f"Calendar head:\n{calendar.head()}\n")
-        logging.info(f"Calendar datatypes:\n{calendar.dtypes}\n")
-        logging.info(
-            f"Missing values in calendar:\n{calendar.isnull().sum()}\n")
+        # Now explore each dataframe
+        for name, df in dataframes.items():
+            logging.info(f"\n--- Exploring {name.capitalize()} ---")
+            logging.info(f"{name.capitalize()} shape: {df.shape}")
+            logging.info(f"{name.capitalize()} head:\n{df.head()}\n")
+            logging.info(f"{name.capitalize()} datatypes:\n{df.dtypes}\n")
+            logging.info(f"Missing values in {name}:\n{df.isnull().sum()}\n")
 
     except FileNotFoundError as e:
-        logging.error(f"Missing file: {e}")
-        sys.exit(1)
 
+        logging.error(f"A file was not found during exploration: {e}")
+        sys.exit(1)
     except Exception as e:
-        logging.error(f"Unexpected error: {e}")
+        logging.error(f"Unexpected error during data exploration: {e}")
         sys.exit(1)
 
+# Running main function to execute the pipeline
 
-# Running Pipeline
-def run_pipeline():
+
+def main():
     logging.info("Running Pipeline: Download, Extract, and Explore Dataset")
 
     create_data_dir()
@@ -132,4 +121,4 @@ def run_pipeline():
 
 # Main execution
 if __name__ == "__main__":
-    run_pipeline()
+    main()
