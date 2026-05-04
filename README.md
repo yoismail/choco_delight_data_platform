@@ -126,7 +126,7 @@ data/ (generated)
 
 ---
 
-# 🔄 Pipeline Flow (Simplified)
+# 🔄 Pipeline Flow 
 
 ### 1️⃣ Extract  
 I download the Kaggle dataset, extract the CSVs, and log metadata.
