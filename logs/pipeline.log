@@ -1,0 +1,1208 @@
+2026-05-04 11:07:46,435 - INFO - 
+🚀 Starting Full Pipeline Run
+
+2026-05-04 11:07:46,436 - INFO - 
+======================================================================
+2026-05-04 11:07:46,436 - INFO - 🔷 WIPING DATA
+2026-05-04 11:07:46,437 - INFO - ======================================================================
+
+2026-05-04 11:07:52,024 - INFO - 🗑️ Deleted folder: C:\Users\dell\Desktop\choco_delight_data_platform\data\clean
+2026-05-04 11:07:52,097 - INFO - 🗑️ Deleted folder: C:\Users\dell\Desktop\choco_delight_data_platform\data\raw
+2026-05-04 11:07:52,144 - INFO - 🗑️ Deleted folder: C:\Users\dell\Desktop\choco_delight_data_platform\data\transform
+2026-05-04 11:07:55,062 - INFO - Dropping raw data schema...
+2026-05-04 11:07:58,175 - INFO - 🧹 Raw data schema reset successfully.
+2026-05-04 11:07:58,178 - INFO - Dropping operationals schema...
+2026-05-04 11:07:58,463 - INFO - 🧹 Operationals schema reset successfully.
+2026-05-04 11:07:58,465 - INFO - Dropping analytics schema...
+2026-05-04 11:07:58,758 - INFO - 🧹 Analytics schema reset successfully.
+2026-05-04 11:07:58,758 - INFO - ✨ Wipe completed for mode: all
+2026-05-04 11:07:59,215 - INFO - ✔️  WIPING DATA completed successfully
+
+2026-05-04 11:07:59,216 - INFO - 
+======================================================================
+2026-05-04 11:07:59,217 - INFO - 🔷 LOADING RAW DATA
+2026-05-04 11:07:59,219 - INFO - ======================================================================
+
+2026-05-04 11:08:30,845 - INFO - Running Pipeline: Download, Extract, and Explore Dataset
+2026-05-04 11:08:30,847 - INFO - Data directory created.
+2026-05-04 11:08:30,848 - INFO - Starting dataset download...
+2026-05-04 11:08:52,686 - INFO - Downloaded to: data\raw
+2026-05-04 11:08:52,687 - INFO - Extracting dataset...
+2026-05-04 11:08:53,279 - INFO - Extraction completed.
+2026-05-04 11:08:53,279 - INFO - Exploring extracted files...
+2026-05-04 11:08:53,545 - INFO - Loaded customers.csv
+2026-05-04 11:08:53,552 - INFO - Loaded products.csv
+2026-05-04 11:08:57,256 - INFO - Loaded sales.csv
+2026-05-04 11:08:57,260 - INFO - Loaded stores.csv
+2026-05-04 11:08:57,267 - INFO - Loaded calendar.csv
+2026-05-04 11:08:57,268 - INFO - 
+--- Exploring Customers ---
+2026-05-04 11:08:57,268 - INFO - Customers shape: (50000, 5)
+2026-05-04 11:08:57,399 - INFO - Customers head:
+  customer_id  age  gender  loyalty_member   join_date
+0     C000001   40    Male               1  2025-05-21
+1     C000002   47    Male               0  2021-12-26
+2     C000003   58  Female               1  2022-09-13
+3     C000004   25  Female               0  2025-02-27
+4     C000005   43    Male               0  2023-08-31
+
+2026-05-04 11:08:57,402 - INFO - Customers datatypes:
+customer_id         str
+age               int64
+gender              str
+loyalty_member    int64
+join_date           str
+dtype: object
+
+2026-05-04 11:08:57,421 - INFO - Missing values in customers:
+customer_id       0
+age               0
+gender            0
+loyalty_member    0
+join_date         0
+dtype: int64
+
+2026-05-04 11:08:57,422 - INFO - 
+--- Exploring Products ---
+2026-05-04 11:08:57,422 - INFO - Products shape: (200, 6)
+2026-05-04 11:08:57,454 - INFO - Products head:
+  product_id           product_name    brand category  cocoa_percent  weight_g
+0      P0001    White Chocolate 80%     Mars  Truffle             80       120
+1      P0002     Dark Chocolate 70%  Cadbury  Praline             70       100
+2      P0003  Truffle Chocolate 70%  Hershey  Praline             70       120
+3      P0004     Milk Chocolate 50%     Mars  Praline             50        80
+4      P0005    White Chocolate 70%  Ferrero    White             70        50
+
+2026-05-04 11:08:57,459 - INFO - Products datatypes:
+product_id         str
+product_name       str
+brand              str
+category           str
+cocoa_percent    int64
+weight_g         int64
+dtype: object
+
+2026-05-04 11:08:57,462 - INFO - Missing values in products:
+product_id       0
+product_name     0
+brand            0
+category         0
+cocoa_percent    0
+weight_g         0
+dtype: int64
+
+2026-05-04 11:08:57,463 - INFO - 
+--- Exploring Sales ---
+2026-05-04 11:08:57,464 - INFO - Sales shape: (1000000, 11)
+2026-05-04 11:08:57,499 - INFO - Sales head:
+      order_id  order_date product_id store_id customer_id  quantity  unit_price  discount  revenue   cost  profit
+0  0RD00000001  2023-01-07      P0080     S093     C040749         5       14.43      0.15    61.33  42.77   18.56
+1  0RD00000002  2023-10-22      P0173     S065     C020161         3       12.01      0.00    36.03  19.06   16.97
+2  0RD00000003  2023-05-07      P0115     S078     C048069         2       10.02      0.00    20.04  10.29    9.75
+3  0RD00000004  2024-06-23      P0186     S088     C047901         2       14.66      0.10    26.39  16.35   10.04
+4  0RD00000005  2024-09-24      P0197     S054     C033950         1       12.34      0.00    12.34   7.94    4.40
+
+2026-05-04 11:08:57,502 - INFO - Sales datatypes:
+order_id           str
+order_date         str
+product_id         str
+store_id           str
+customer_id        str
+quantity         int64
+unit_price     float64
+discount       float64
+revenue        float64
+cost           float64
+profit         float64
+dtype: object
+
+2026-05-04 11:08:58,101 - INFO - Missing values in sales:
+order_id       0
+order_date     0
+product_id     0
+store_id       0
+customer_id    0
+quantity       0
+unit_price     0
+discount       0
+revenue        0
+cost           0
+profit         0
+dtype: int64
+
+2026-05-04 11:08:58,108 - INFO - 
+--- Exploring Stores ---
+2026-05-04 11:08:58,109 - INFO - Stores shape: (100, 5)
+2026-05-04 11:08:58,129 - INFO - Stores head:
+  store_id         store_name       city country store_type
+0     S001  Chocolate Store 1   New York  Canada     Retail
+1     S002  Chocolate Store 2  Melbourne  Canada       Mall
+2     S003  Chocolate Store 3     Berlin  France       Mall
+3     S004  Chocolate Store 4      Paris      UK    Airport
+4     S005  Chocolate Store 5     Sydney     USA     Online
+
+2026-05-04 11:08:58,131 - INFO - Stores datatypes:
+store_id      str
+store_name    str
+city          str
+country       str
+store_type    str
+dtype: object
+
+2026-05-04 11:08:58,133 - INFO - Missing values in stores:
+store_id      0
+store_name    0
+city          0
+country       0
+store_type    0
+dtype: int64
+
+2026-05-04 11:08:58,134 - INFO - 
+--- Exploring Calendar ---
+2026-05-04 11:08:58,134 - INFO - Calendar shape: (731, 6)
+2026-05-04 11:08:58,149 - INFO - Calendar head:
+         date  year  month  day  week  day_of_week
+0  2023-01-01  2023      1    1    52            6
+1  2023-01-02  2023      1    2     1            0
+2  2023-01-03  2023      1    3     1            1
+3  2023-01-04  2023      1    4     1            2
+4  2023-01-05  2023      1    5     1            3
+
+2026-05-04 11:08:58,152 - INFO - Calendar datatypes:
+date             str
+year           int64
+month          int64
+day            int64
+week           int64
+day_of_week    int64
+dtype: object
+
+2026-05-04 11:08:58,155 - INFO - Missing values in calendar:
+date           0
+year           0
+month          0
+day            0
+week           0
+day_of_week    0
+dtype: int64
+
+2026-05-04 11:08:58,281 - INFO - Download, Extraction, and Exploration Completed Successfully
+2026-05-04 11:08:58,581 - INFO - ✔️  LOADING RAW DATA completed successfully
+
+2026-05-04 11:08:58,582 - INFO - 
+======================================================================
+2026-05-04 11:08:58,583 - INFO - 🔷 RUNNING CLEAN PIPELINE
+2026-05-04 11:08:58,584 - INFO - ======================================================================
+
+2026-05-04 11:09:01,360 - INFO - Clean data directory ready.
+2026-05-04 11:09:01,361 - INFO - Starting cleaning process...
+2026-05-04 11:09:01,362 - INFO - CSV files found: ['calendar.csv', 'customers.csv', 'products.csv', 'sales.csv', 'stores.csv']
+2026-05-04 11:09:05,374 - INFO - Processing: calendar.csv
+2026-05-04 11:09:05,374 - INFO - [calendar.csv] shape: (731, 6)
+2026-05-04 11:09:05,378 - INFO - [calendar.csv] missing values:
+date           0
+year           0
+month          0
+day            0
+week           0
+day_of_week    0
+dtype: int64
+
+2026-05-04 11:09:05,381 - INFO - [calendar.csv] dtypes:
+date             str
+year           int64
+month          int64
+day            int64
+week           int64
+day_of_week    int64
+dtype: object
+
+2026-05-04 11:09:05,399 - INFO - [calendar.csv] sample data:
+         date  year  month  day  week  day_of_week
+0  2023-01-01  2023      1    1    52            6
+1  2023-01-02  2023      1    2     1            0
+2  2023-01-03  2023      1    3     1            1
+
+2026-05-04 11:09:05,400 - INFO - calendar: Schema validation passed.
+2026-05-04 11:09:05,485 - INFO - [cleaned_calendar.csv] shape: (731, 11)
+2026-05-04 11:09:05,490 - INFO - [cleaned_calendar.csv] missing values:
+calendar_key               0
+calendar_date              0
+year                       0
+month                      0
+day                        0
+week                       0
+day_of_week                0
+quarter                    0
+season                     0
+day_type                   0
+calendar_date_formatted    0
+dtype: int64
+
+2026-05-04 11:09:05,493 - INFO - [cleaned_calendar.csv] dtypes:
+calendar_key                        int64
+calendar_date              datetime64[us]
+year                                int64
+month                               int64
+day                                 int64
+week                                int64
+day_of_week                         int64
+quarter                               str
+season                                str
+day_type                              str
+calendar_date_formatted               str
+dtype: object
+
+2026-05-04 11:09:05,521 - INFO - [cleaned_calendar.csv] sample data:
+   calendar_key calendar_date  year  month  day  week  day_of_week quarter  season day_type calendar_date_formatted
+0             1    2023-01-01  2023      1    1    52            6      Q1  Winter  Weekend             01 Jan 2023
+1             2    2023-01-02  2023      1    2     1            0      Q1  Winter  Weekday             02 Jan 2023
+2             3    2023-01-03  2023      1    3     1            1      Q1  Winter  Weekday             03 Jan 2023
+
+2026-05-04 11:09:05,553 - INFO - Saved cleaned file: data\clean\cleaned_calendar.csv
+2026-05-04 11:09:05,553 - INFO - Processing: customers.csv
+2026-05-04 11:09:05,554 - INFO - [customers.csv] shape: (50000, 5)
+2026-05-04 11:09:05,567 - INFO - [customers.csv] missing values:
+customer_id       0
+age               0
+gender            0
+loyalty_member    0
+join_date         0
+dtype: int64
+
+2026-05-04 11:09:05,569 - INFO - [customers.csv] dtypes:
+customer_id         str
+age               int64
+gender              str
+loyalty_member    int64
+join_date           str
+dtype: object
+
+2026-05-04 11:09:05,583 - INFO - [customers.csv] sample data:
+  customer_id  age  gender  loyalty_member   join_date
+0     C000001   40    Male               1  2025-05-21
+1     C000002   47    Male               0  2021-12-26
+2     C000003   58  Female               1  2022-09-13
+
+2026-05-04 11:09:05,584 - INFO - customers: Schema validation passed.
+2026-05-04 11:09:05,992 - INFO - [cleaned_customers.csv] shape: (50000, 10)
+2026-05-04 11:09:06,010 - INFO - [cleaned_customers.csv] missing values:
+customer_key        0
+customer_id         0
+age                 0
+gender              0
+loyalty_member      0
+join_date           0
+tenure_days         0
+tenure_months       0
+tenure_years        0
+customer_segment    0
+dtype: int64
+
+2026-05-04 11:09:06,012 - INFO - [cleaned_customers.csv] dtypes:
+customer_key                 int64
+customer_id                    str
+age                          int64
+gender                         str
+loyalty_member               int64
+join_date           datetime64[us]
+tenure_days                  int64
+tenure_months                  str
+tenure_years                   str
+customer_segment          category
+dtype: object
+
+2026-05-04 11:09:06,036 - INFO - [cleaned_customers.csv] sample data:
+   customer_key customer_id  age  gender  loyalty_member  join_date  tenure_days tenure_months tenure_years customer_segment
+0             1     C000001   40    Male               1 2025-05-21          348     12 months    1.0 years           Active
+1             2     C000002   47    Male               0 2021-12-26         1590     53 months    4.4 years              VIP
+2             3     C000003   58  Female               1 2022-09-13         1329     44 months    3.6 years              VIP
+
+2026-05-04 11:09:06,476 - INFO - Saved cleaned file: data\clean\cleaned_customers.csv
+2026-05-04 11:09:06,477 - INFO - Processing: products.csv
+2026-05-04 11:09:06,477 - INFO - [products.csv] shape: (200, 6)
+2026-05-04 11:09:06,480 - INFO - [products.csv] missing values:
+product_id       0
+product_name     0
+brand            0
+category         0
+cocoa_percent    0
+weight_g         0
+dtype: int64
+
+2026-05-04 11:09:06,482 - INFO - [products.csv] dtypes:
+product_id         str
+product_name       str
+brand              str
+category           str
+cocoa_percent    int64
+weight_g         int64
+dtype: object
+
+2026-05-04 11:09:06,497 - INFO - [products.csv] sample data:
+  product_id           product_name    brand category  cocoa_percent  weight_g
+0      P0001    White Chocolate 80%     Mars  Truffle             80       120
+1      P0002     Dark Chocolate 70%  Cadbury  Praline             70       100
+2      P0003  Truffle Chocolate 70%  Hershey  Praline             70       120
+
+2026-05-04 11:09:06,498 - INFO - products: Schema validation passed.
+2026-05-04 11:09:06,516 - INFO - [cleaned_products.csv] shape: (202, 8)
+2026-05-04 11:09:06,518 - INFO - [cleaned_products.csv] missing values:
+product_key      0
+product_id       0
+product_name     0
+brand            0
+category         0
+cocoa_percent    2
+weight_g         2
+brand_tier       0
+dtype: int64
+
+2026-05-04 11:09:06,520 - INFO - [cleaned_products.csv] dtypes:
+product_key        int64
+product_id           str
+product_name         str
+brand                str
+category             str
+cocoa_percent    float64
+weight_g         float64
+brand_tier           str
+dtype: object
+
+2026-05-04 11:09:06,540 - INFO - [cleaned_products.csv] sample data:
+   product_key product_id          product_name    brand category  cocoa_percent  weight_g      brand_tier
+0            1      P0000  Unknown Product 0000  Unknown  Unknown            NaN       NaN  Standard Brand
+1            2      P0001   White Chocolate 80%     Mars  Truffle           80.0     120.0  Standard Brand
+2            3      P0002    Dark Chocolate 70%  Cadbury  Praline           70.0     100.0  Standard Brand
+
+2026-05-04 11:09:06,546 - INFO - Saved cleaned file: data\clean\cleaned_products.csv
+2026-05-04 11:09:06,547 - INFO - Processing: sales.csv
+2026-05-04 11:09:06,547 - INFO - [sales.csv] shape: (1000000, 11)
+2026-05-04 11:09:06,986 - INFO - [sales.csv] missing values:
+order_id       0
+order_date     0
+product_id     0
+store_id       0
+customer_id    0
+quantity       0
+unit_price     0
+discount       0
+revenue        0
+cost           0
+profit         0
+dtype: int64
+
+2026-05-04 11:09:06,989 - INFO - [sales.csv] dtypes:
+order_id           str
+order_date         str
+product_id         str
+store_id           str
+customer_id        str
+quantity         int64
+unit_price     float64
+discount       float64
+revenue        float64
+cost           float64
+profit         float64
+dtype: object
+
+2026-05-04 11:09:07,015 - INFO - [sales.csv] sample data:
+      order_id  order_date product_id store_id customer_id  quantity  unit_price  discount  revenue   cost  profit
+0  0RD00000001  2023-01-07      P0080     S093     C040749         5       14.43      0.15    61.33  42.77   18.56
+1  0RD00000002  2023-10-22      P0173     S065     C020161         3       12.01      0.00    36.03  19.06   16.97
+2  0RD00000003  2023-05-07      P0115     S078     C048069         2       10.02      0.00    20.04  10.29    9.75
+
+2026-05-04 11:09:07,016 - INFO - sales: Schema validation passed.
+2026-05-04 11:09:11,660 - INFO - [cleaned_sales.csv] shape: (1000000, 16)
+2026-05-04 11:09:12,222 - INFO - [cleaned_sales.csv] missing values:
+order_id          0
+order_date        0
+product_id        0
+store_id          0
+customer_id       0
+quantity          0
+unit_price        0
+discount          0
+revenue           0
+cost              0
+profit            0
+revenue_bucket    0
+profit_margin     0
+margin_bucket     0
+outlier_flag      0
+time_of_day       0
+dtype: int64
+
+2026-05-04 11:09:12,224 - INFO - [cleaned_sales.csv] dtypes:
+order_id                     str
+order_date        datetime64[us]
+product_id                   str
+store_id                     str
+customer_id                  str
+quantity                   int64
+unit_price               float64
+discount                 float64
+revenue                  float64
+cost                     float64
+profit                   float64
+revenue_bucket          category
+profit_margin            float64
+margin_bucket           category
+outlier_flag                 str
+time_of_day                  str
+dtype: object
+
+2026-05-04 11:09:12,262 - INFO - [cleaned_sales.csv] sample data:
+      order_id order_date product_id store_id customer_id  ...  revenue_bucket  profit_margin  margin_bucket  outlier_flag  time_of_day
+0  0RD00000001 2023-01-07      P0080     S093     C040749  ...    High Revenue       0.302625    High Margin        Normal        Night
+1  0RD00000002 2023-10-22      P0173     S065     C020161  ...  Medium Revenue       0.470996    High Margin        Normal        Night
+2  0RD00000003 2023-05-07      P0115     S078     C048069  ...  Medium Revenue       0.486527    High Margin        Normal        Night
+
+[3 rows x 16 columns]
+
+2026-05-04 11:09:33,550 - INFO - Saved cleaned file: data\clean\cleaned_sales.csv
+2026-05-04 11:09:33,551 - INFO - Processing: stores.csv
+2026-05-04 11:09:33,551 - INFO - [stores.csv] shape: (100, 5)
+2026-05-04 11:09:33,553 - INFO - [stores.csv] missing values:
+store_id      0
+store_name    0
+city          0
+country       0
+store_type    0
+dtype: int64
+
+2026-05-04 11:09:33,554 - INFO - [stores.csv] dtypes:
+store_id      str
+store_name    str
+city          str
+country       str
+store_type    str
+dtype: object
+
+2026-05-04 11:09:33,568 - INFO - [stores.csv] sample data:
+  store_id         store_name       city country store_type
+0     S001  Chocolate Store 1   New York  Canada     Retail
+1     S002  Chocolate Store 2  Melbourne  Canada       Mall
+2     S003  Chocolate Store 3     Berlin  France       Mall
+
+2026-05-04 11:09:33,569 - INFO - stores: Schema validation passed.
+2026-05-04 11:09:33,590 - INFO - [cleaned_stores.csv] shape: (100, 8)
+2026-05-04 11:09:33,593 - INFO - [cleaned_stores.csv] missing values:
+store_key      0
+store_id       0
+store_name     0
+city           0
+country        0
+store_type     0
+region         0
+region_tier    0
+dtype: int64
+
+2026-05-04 11:09:33,595 - INFO - [cleaned_stores.csv] dtypes:
+store_key      int64
+store_id         str
+store_name       str
+city             str
+country          str
+store_type       str
+region           str
+region_tier      str
+dtype: object
+
+2026-05-04 11:09:33,616 - INFO - [cleaned_stores.csv] sample data:
+   store_key store_id         store_name       city country store_type         region        region_tier
+0          1     S001  Chocolate Store 1   New York  Canada     Retail  North America  High-Value Region
+1          2     S002  Chocolate Store 2  Melbourne  Canada       Mall  North America  High-Value Region
+2          3     S003  Chocolate Store 3     Berlin  France       Mall         Europe  High-Value Region
+
+2026-05-04 11:09:33,621 - INFO - Saved cleaned file: data\clean\cleaned_stores.csv
+2026-05-04 11:09:33,767 - INFO - Cleaning process completed successfully.
+2026-05-04 11:09:33,768 - INFO - Cleaning process completed successfully.
+2026-05-04 11:09:33,973 - INFO - ✔️  RUNNING CLEAN PIPELINE completed successfully
+
+2026-05-04 11:09:33,975 - INFO - 
+======================================================================
+2026-05-04 11:09:33,975 - INFO - 🔷 RUNNING TRANSFORM PIPELINE
+2026-05-04 11:09:33,976 - INFO - ======================================================================
+
+2026-05-04 11:09:35,908 - INFO - Running Pipeline: Transform Dataset
+2026-05-04 11:09:35,909 - INFO - Starting transform stage...
+2026-05-04 11:09:43,907 - INFO - Merging surrogate keys into sales fact table...
+2026-05-04 11:09:46,146 - INFO - Validating foreign key relationships...
+2026-05-04 11:09:46,203 - INFO - sales→customers: Foreign key validation passed.
+2026-05-04 11:09:46,240 - INFO - sales→products: Foreign key validation passed.
+2026-05-04 11:09:46,272 - INFO - sales→stores: Foreign key validation passed.
+2026-05-04 11:09:46,305 - INFO - sales→calendar: Foreign key validation passed.
+2026-05-04 11:09:46,305 - INFO - Preparing dimension tables...
+2026-05-04 11:09:46,311 - INFO - Building fact_sales table...
+2026-05-04 11:10:11,981 - INFO - Saved fact_sales.csv
+2026-05-04 11:10:12,936 - INFO - Transformation stage completed.
+2026-05-04 11:10:13,209 - INFO - ✔️  RUNNING TRANSFORM PIPELINE completed successfully
+
+2026-05-04 11:10:13,209 - INFO - 
+======================================================================
+2026-05-04 11:10:13,210 - INFO - 🔷 LOADING RAW SCHEMA
+2026-05-04 11:10:13,211 - INFO - ======================================================================
+
+2026-05-04 11:10:16,750 - INFO - Starting ETL pipeline...
+2026-05-04 11:10:16,783 - INFO - Environment variables loaded.
+2026-05-04 11:10:16,784 - INFO - Database URL retrieved.
+2026-05-04 11:10:24,621 - INFO - Loaded calendar into PostgreSQL -- raw rows: 731, columns: 6
+
+2026-05-04 11:10:28,509 - INFO - Loaded customers into PostgreSQL -- raw rows: 50000, columns: 5
+
+2026-05-04 11:10:28,544 - INFO - Loaded products into PostgreSQL -- raw rows: 200, columns: 6
+
+2026-05-04 11:13:13,220 - INFO - Loaded sales into PostgreSQL -- raw rows: 1000000, columns: 11
+
+2026-05-04 11:13:13,273 - INFO - Loaded stores into PostgreSQL -- raw rows: 100, columns: 5
+
+2026-05-04 11:13:13,274 - INFO - ETL pipeline completed successfully!
+2026-05-04 11:13:14,107 - INFO - ✔️  LOADING RAW SCHEMA completed successfully
+
+2026-05-04 11:13:14,108 - INFO - 
+======================================================================
+2026-05-04 11:13:14,109 - INFO - 🔷 RUNNING OPERATIONALS SCHEMA LOADER
+2026-05-04 11:13:14,110 - INFO - ======================================================================
+
+2026-05-04 11:13:18,913 - INFO - Starting ETL pipeline...
+2026-05-04 11:13:18,918 - INFO - Environment variables loaded.
+2026-05-04 11:13:18,920 - INFO - Database URL retrieved.
+2026-05-04 11:13:40,508 - INFO - Loaded cleaned_calendar into PostgreSQL -- cleaned rows: 731, columns: 11
+
+2026-05-04 11:13:46,776 - INFO - Loaded cleaned_customers into PostgreSQL -- cleaned rows: 50000, columns: 10
+
+2026-05-04 11:13:46,820 - INFO - Loaded cleaned_products into PostgreSQL -- cleaned rows: 202, columns: 8
+
+2026-05-04 11:17:52,468 - INFO - Loaded cleaned_sales into PostgreSQL -- cleaned rows: 1000000, columns: 16
+
+2026-05-04 11:17:52,657 - INFO - Loaded cleaned_stores into PostgreSQL -- cleaned rows: 100, columns: 8
+
+2026-05-04 11:17:52,658 - INFO - ETL pipeline completed successfully!
+2026-05-04 11:17:54,419 - INFO - ✔️  RUNNING OPERATIONALS SCHEMA LOADER completed successfully
+
+2026-05-04 11:17:54,432 - INFO - 
+======================================================================
+2026-05-04 11:17:54,433 - INFO - 🔷 RUNNING ANALYTICS SCHEMA LOADER
+2026-05-04 11:17:54,434 - INFO - ======================================================================
+
+2026-05-04 11:18:00,987 - INFO - Starting ETL pipeline...
+2026-05-04 11:18:00,990 - INFO - Environment variables loaded.
+2026-05-04 11:18:00,992 - INFO - Database URL retrieved.
+2026-05-04 11:18:02,185 - INFO - Dropped fact_sales table to avoid FK conflicts.
+2026-05-04 11:18:02,326 - INFO - Analytics schema recreated (including fact_sales).
+2026-05-04 11:18:02,898 - INFO - Loaded dim_calendar into PostgreSQL — rows: 731, cols: 5
+2026-05-04 11:18:12,248 - INFO - Loaded dim_customers into PostgreSQL — rows: 50000, cols: 9
+2026-05-04 11:18:12,318 - INFO - Loaded dim_products into PostgreSQL — rows: 202, cols: 6
+2026-05-04 11:18:12,384 - INFO - Loaded dim_stores into PostgreSQL — rows: 100, cols: 8
+2026-05-04 11:26:44,115 - INFO - Loaded fact_sales into PostgreSQL — rows: 1000000, cols: 17
+2026-05-04 11:26:44,116 - INFO - Analytics pipeline completed successfully.
+2026-05-04 11:26:46,273 - INFO - ✔️  RUNNING ANALYTICS SCHEMA LOADER completed successfully
+
+2026-05-04 11:26:46,347 - INFO - 🎉 FULL PIPELINE COMPLETED SUCCESSFULLY!
+
+2026-05-04 11:27:52,806 - INFO - 
+🚀 Starting Full Pipeline Run
+
+2026-05-04 11:27:52,807 - INFO - 
+======================================================================
+2026-05-04 11:27:52,808 - INFO - 🔷 WIPING DATA
+2026-05-04 11:27:52,808 - INFO - ======================================================================
+
+2026-05-04 11:27:55,716 - INFO - 🗑️ Deleted folder: C:\Users\dell\Desktop\choco_delight_data_platform\data\clean
+2026-05-04 11:27:55,750 - INFO - 🗑️ Deleted folder: C:\Users\dell\Desktop\choco_delight_data_platform\data\raw
+2026-05-04 11:27:55,765 - INFO - 🗑️ Deleted folder: C:\Users\dell\Desktop\choco_delight_data_platform\data\transform
+2026-05-04 11:27:56,065 - INFO - Dropping raw data schema...
+2026-05-04 11:27:57,973 - INFO - 🧹 Raw data schema reset successfully.
+2026-05-04 11:27:57,975 - INFO - Dropping operationals schema...
+2026-05-04 11:27:58,145 - INFO - 🧹 Operationals schema reset successfully.
+2026-05-04 11:27:58,148 - INFO - Dropping analytics schema...
+2026-05-04 11:27:58,699 - INFO - 🧹 Analytics schema reset successfully.
+2026-05-04 11:27:58,700 - INFO - ✨ Wipe completed for mode: all
+2026-05-04 11:28:01,373 - INFO - ✔️  WIPING DATA completed successfully
+
+2026-05-04 11:28:01,375 - INFO - 
+======================================================================
+2026-05-04 11:28:01,375 - INFO - 🔷 LOADING RAW DATA
+2026-05-04 11:28:01,376 - INFO - ======================================================================
+
+2026-05-04 11:28:18,063 - INFO - Running Pipeline: Download, Extract, and Explore Dataset
+2026-05-04 11:28:18,065 - INFO - Data directory created.
+2026-05-04 11:28:18,065 - INFO - Starting dataset download...
+2026-05-04 11:28:31,867 - INFO - Downloaded to: data\raw
+2026-05-04 11:28:31,867 - INFO - Extracting dataset...
+2026-05-04 11:28:32,476 - INFO - Extraction completed.
+2026-05-04 11:28:32,477 - INFO - Exploring extracted files...
+2026-05-04 11:28:32,600 - INFO - Loaded customers.csv
+2026-05-04 11:28:32,603 - INFO - Loaded products.csv
+2026-05-04 11:28:36,491 - INFO - Loaded sales.csv
+2026-05-04 11:28:36,495 - INFO - Loaded stores.csv
+2026-05-04 11:28:36,499 - INFO - Loaded calendar.csv
+2026-05-04 11:28:36,500 - INFO - 
+--- Exploring Customers ---
+2026-05-04 11:28:36,500 - INFO - Customers shape: (50000, 5)
+2026-05-04 11:28:36,531 - INFO - Customers head:
+  customer_id  age  gender  loyalty_member   join_date
+0     C000001   40    Male               1  2025-05-21
+1     C000002   47    Male               0  2021-12-26
+2     C000003   58  Female               1  2022-09-13
+3     C000004   25  Female               0  2025-02-27
+4     C000005   43    Male               0  2023-08-31
+
+2026-05-04 11:28:36,533 - INFO - Customers datatypes:
+customer_id         str
+age               int64
+gender              str
+loyalty_member    int64
+join_date           str
+dtype: object
+
+2026-05-04 11:28:36,550 - INFO - Missing values in customers:
+customer_id       0
+age               0
+gender            0
+loyalty_member    0
+join_date         0
+dtype: int64
+
+2026-05-04 11:28:36,550 - INFO - 
+--- Exploring Products ---
+2026-05-04 11:28:36,551 - INFO - Products shape: (200, 6)
+2026-05-04 11:28:36,570 - INFO - Products head:
+  product_id           product_name    brand category  cocoa_percent  weight_g
+0      P0001    White Chocolate 80%     Mars  Truffle             80       120
+1      P0002     Dark Chocolate 70%  Cadbury  Praline             70       100
+2      P0003  Truffle Chocolate 70%  Hershey  Praline             70       120
+3      P0004     Milk Chocolate 50%     Mars  Praline             50        80
+4      P0005    White Chocolate 70%  Ferrero    White             70        50
+
+2026-05-04 11:28:36,572 - INFO - Products datatypes:
+product_id         str
+product_name       str
+brand              str
+category           str
+cocoa_percent    int64
+weight_g         int64
+dtype: object
+
+2026-05-04 11:28:36,576 - INFO - Missing values in products:
+product_id       0
+product_name     0
+brand            0
+category         0
+cocoa_percent    0
+weight_g         0
+dtype: int64
+
+2026-05-04 11:28:36,576 - INFO - 
+--- Exploring Sales ---
+2026-05-04 11:28:36,577 - INFO - Sales shape: (1000000, 11)
+2026-05-04 11:28:36,620 - INFO - Sales head:
+      order_id  order_date product_id store_id customer_id  quantity  unit_price  discount  revenue   cost  profit
+0  0RD00000001  2023-01-07      P0080     S093     C040749         5       14.43      0.15    61.33  42.77   18.56
+1  0RD00000002  2023-10-22      P0173     S065     C020161         3       12.01      0.00    36.03  19.06   16.97
+2  0RD00000003  2023-05-07      P0115     S078     C048069         2       10.02      0.00    20.04  10.29    9.75
+3  0RD00000004  2024-06-23      P0186     S088     C047901         2       14.66      0.10    26.39  16.35   10.04
+4  0RD00000005  2024-09-24      P0197     S054     C033950         1       12.34      0.00    12.34   7.94    4.40
+
+2026-05-04 11:28:36,622 - INFO - Sales datatypes:
+order_id           str
+order_date         str
+product_id         str
+store_id           str
+customer_id        str
+quantity         int64
+unit_price     float64
+discount       float64
+revenue        float64
+cost           float64
+profit         float64
+dtype: object
+
+2026-05-04 11:28:37,091 - INFO - Missing values in sales:
+order_id       0
+order_date     0
+product_id     0
+store_id       0
+customer_id    0
+quantity       0
+unit_price     0
+discount       0
+revenue        0
+cost           0
+profit         0
+dtype: int64
+
+2026-05-04 11:28:37,094 - INFO - 
+--- Exploring Stores ---
+2026-05-04 11:28:37,098 - INFO - Stores shape: (100, 5)
+2026-05-04 11:28:37,125 - INFO - Stores head:
+  store_id         store_name       city country store_type
+0     S001  Chocolate Store 1   New York  Canada     Retail
+1     S002  Chocolate Store 2  Melbourne  Canada       Mall
+2     S003  Chocolate Store 3     Berlin  France       Mall
+3     S004  Chocolate Store 4      Paris      UK    Airport
+4     S005  Chocolate Store 5     Sydney     USA     Online
+
+2026-05-04 11:28:37,127 - INFO - Stores datatypes:
+store_id      str
+store_name    str
+city          str
+country       str
+store_type    str
+dtype: object
+
+2026-05-04 11:28:37,129 - INFO - Missing values in stores:
+store_id      0
+store_name    0
+city          0
+country       0
+store_type    0
+dtype: int64
+
+2026-05-04 11:28:37,129 - INFO - 
+--- Exploring Calendar ---
+2026-05-04 11:28:37,129 - INFO - Calendar shape: (731, 6)
+2026-05-04 11:28:37,145 - INFO - Calendar head:
+         date  year  month  day  week  day_of_week
+0  2023-01-01  2023      1    1    52            6
+1  2023-01-02  2023      1    2     1            0
+2  2023-01-03  2023      1    3     1            1
+3  2023-01-04  2023      1    4     1            2
+4  2023-01-05  2023      1    5     1            3
+
+2026-05-04 11:28:37,146 - INFO - Calendar datatypes:
+date             str
+year           int64
+month          int64
+day            int64
+week           int64
+day_of_week    int64
+dtype: object
+
+2026-05-04 11:28:37,148 - INFO - Missing values in calendar:
+date           0
+year           0
+month          0
+day            0
+week           0
+day_of_week    0
+dtype: int64
+
+2026-05-04 11:28:37,275 - INFO - Download, Extraction, and Exploration Completed Successfully
+2026-05-04 11:28:37,559 - INFO - ✔️  LOADING RAW DATA completed successfully
+
+2026-05-04 11:28:37,560 - INFO - 
+======================================================================
+2026-05-04 11:28:37,561 - INFO - 🔷 RUNNING CLEAN PIPELINE
+2026-05-04 11:28:37,562 - INFO - ======================================================================
+
+2026-05-04 11:28:39,138 - INFO - Clean data directory ready.
+2026-05-04 11:28:39,140 - INFO - Starting cleaning process...
+2026-05-04 11:28:39,141 - INFO - CSV files found: ['calendar.csv', 'customers.csv', 'products.csv', 'sales.csv', 'stores.csv']
+2026-05-04 11:28:43,289 - INFO - Processing: calendar.csv
+2026-05-04 11:28:43,290 - INFO - [calendar.csv] shape: (731, 6)
+2026-05-04 11:28:43,294 - INFO - [calendar.csv] missing values:
+date           0
+year           0
+month          0
+day            0
+week           0
+day_of_week    0
+dtype: int64
+
+2026-05-04 11:28:43,298 - INFO - [calendar.csv] dtypes:
+date             str
+year           int64
+month          int64
+day            int64
+week           int64
+day_of_week    int64
+dtype: object
+
+2026-05-04 11:28:43,320 - INFO - [calendar.csv] sample data:
+         date  year  month  day  week  day_of_week
+0  2023-01-01  2023      1    1    52            6
+1  2023-01-02  2023      1    2     1            0
+2  2023-01-03  2023      1    3     1            1
+
+2026-05-04 11:28:43,320 - INFO - calendar: Schema validation passed.
+2026-05-04 11:28:43,442 - INFO - [cleaned_calendar.csv] shape: (731, 11)
+2026-05-04 11:28:43,448 - INFO - [cleaned_calendar.csv] missing values:
+calendar_key               0
+calendar_date              0
+year                       0
+month                      0
+day                        0
+week                       0
+day_of_week                0
+quarter                    0
+season                     0
+day_type                   0
+calendar_date_formatted    0
+dtype: int64
+
+2026-05-04 11:28:43,452 - INFO - [cleaned_calendar.csv] dtypes:
+calendar_key                        int64
+calendar_date              datetime64[us]
+year                                int64
+month                               int64
+day                                 int64
+week                                int64
+day_of_week                         int64
+quarter                               str
+season                                str
+day_type                              str
+calendar_date_formatted               str
+dtype: object
+
+2026-05-04 11:28:43,496 - INFO - [cleaned_calendar.csv] sample data:
+   calendar_key calendar_date  year  month  day  week  day_of_week quarter  season day_type calendar_date_formatted
+0             1    2023-01-01  2023      1    1    52            6      Q1  Winter  Weekend             01 Jan 2023
+1             2    2023-01-02  2023      1    2     1            0      Q1  Winter  Weekday             02 Jan 2023
+2             3    2023-01-03  2023      1    3     1            1      Q1  Winter  Weekday             03 Jan 2023
+
+2026-05-04 11:28:43,521 - INFO - Saved cleaned file: data\clean\cleaned_calendar.csv
+2026-05-04 11:28:43,521 - INFO - Processing: customers.csv
+2026-05-04 11:28:43,522 - INFO - [customers.csv] shape: (50000, 5)
+2026-05-04 11:28:43,553 - INFO - [customers.csv] missing values:
+customer_id       0
+age               0
+gender            0
+loyalty_member    0
+join_date         0
+dtype: int64
+
+2026-05-04 11:28:43,556 - INFO - [customers.csv] dtypes:
+customer_id         str
+age               int64
+gender              str
+loyalty_member    int64
+join_date           str
+dtype: object
+
+2026-05-04 11:28:43,587 - INFO - [customers.csv] sample data:
+  customer_id  age  gender  loyalty_member   join_date
+0     C000001   40    Male               1  2025-05-21
+1     C000002   47    Male               0  2021-12-26
+2     C000003   58  Female               1  2022-09-13
+
+2026-05-04 11:28:43,588 - INFO - customers: Schema validation passed.
+2026-05-04 11:28:44,451 - INFO - [cleaned_customers.csv] shape: (50000, 10)
+2026-05-04 11:28:44,490 - INFO - [cleaned_customers.csv] missing values:
+customer_key        0
+customer_id         0
+age                 0
+gender              0
+loyalty_member      0
+join_date           0
+tenure_days         0
+tenure_months       0
+tenure_years        0
+customer_segment    0
+dtype: int64
+
+2026-05-04 11:28:44,494 - INFO - [cleaned_customers.csv] dtypes:
+customer_key                 int64
+customer_id                    str
+age                          int64
+gender                         str
+loyalty_member               int64
+join_date           datetime64[us]
+tenure_days                  int64
+tenure_months                  str
+tenure_years                   str
+customer_segment          category
+dtype: object
+
+2026-05-04 11:28:44,551 - INFO - [cleaned_customers.csv] sample data:
+   customer_key customer_id  age  gender  loyalty_member  join_date  tenure_days tenure_months tenure_years customer_segment
+0             1     C000001   40    Male               1 2025-05-21          348     12 months    1.0 years           Active
+1             2     C000002   47    Male               0 2021-12-26         1590     53 months    4.4 years              VIP
+2             3     C000003   58  Female               1 2022-09-13         1329     44 months    3.6 years              VIP
+
+2026-05-04 11:28:45,023 - INFO - Saved cleaned file: data\clean\cleaned_customers.csv
+2026-05-04 11:28:45,023 - INFO - Processing: products.csv
+2026-05-04 11:28:45,024 - INFO - [products.csv] shape: (200, 6)
+2026-05-04 11:28:45,027 - INFO - [products.csv] missing values:
+product_id       0
+product_name     0
+brand            0
+category         0
+cocoa_percent    0
+weight_g         0
+dtype: int64
+
+2026-05-04 11:28:45,028 - INFO - [products.csv] dtypes:
+product_id         str
+product_name       str
+brand              str
+category           str
+cocoa_percent    int64
+weight_g         int64
+dtype: object
+
+2026-05-04 11:28:45,048 - INFO - [products.csv] sample data:
+  product_id           product_name    brand category  cocoa_percent  weight_g
+0      P0001    White Chocolate 80%     Mars  Truffle             80       120
+1      P0002     Dark Chocolate 70%  Cadbury  Praline             70       100
+2      P0003  Truffle Chocolate 70%  Hershey  Praline             70       120
+
+2026-05-04 11:28:45,049 - INFO - products: Schema validation passed.
+2026-05-04 11:28:45,235 - INFO - [cleaned_products.csv] shape: (202, 8)
+2026-05-04 11:28:45,257 - INFO - [cleaned_products.csv] missing values:
+product_key      0
+product_id       0
+product_name     0
+brand            0
+category         0
+cocoa_percent    2
+weight_g         2
+brand_tier       0
+dtype: int64
+
+2026-05-04 11:28:45,266 - INFO - [cleaned_products.csv] dtypes:
+product_key        int64
+product_id           str
+product_name         str
+brand                str
+category             str
+cocoa_percent    float64
+weight_g         float64
+brand_tier           str
+dtype: object
+
+2026-05-04 11:28:45,328 - INFO - [cleaned_products.csv] sample data:
+   product_key product_id          product_name    brand category  cocoa_percent  weight_g      brand_tier
+0            1      P0000  Unknown Product 0000  Unknown  Unknown            NaN       NaN  Standard Brand
+1            2      P0001   White Chocolate 80%     Mars  Truffle           80.0     120.0  Standard Brand
+2            3      P0002    Dark Chocolate 70%  Cadbury  Praline           70.0     100.0  Standard Brand
+
+2026-05-04 11:28:45,361 - INFO - Saved cleaned file: data\clean\cleaned_products.csv
+2026-05-04 11:28:45,364 - INFO - Processing: sales.csv
+2026-05-04 11:28:45,369 - INFO - [sales.csv] shape: (1000000, 11)
+2026-05-04 11:28:45,913 - INFO - [sales.csv] missing values:
+order_id       0
+order_date     0
+product_id     0
+store_id       0
+customer_id    0
+quantity       0
+unit_price     0
+discount       0
+revenue        0
+cost           0
+profit         0
+dtype: int64
+
+2026-05-04 11:28:45,917 - INFO - [sales.csv] dtypes:
+order_id           str
+order_date         str
+product_id         str
+store_id           str
+customer_id        str
+quantity         int64
+unit_price     float64
+discount       float64
+revenue        float64
+cost           float64
+profit         float64
+dtype: object
+
+2026-05-04 11:28:45,968 - INFO - [sales.csv] sample data:
+      order_id  order_date product_id store_id customer_id  quantity  unit_price  discount  revenue   cost  profit
+0  0RD00000001  2023-01-07      P0080     S093     C040749         5       14.43      0.15    61.33  42.77   18.56
+1  0RD00000002  2023-10-22      P0173     S065     C020161         3       12.01      0.00    36.03  19.06   16.97
+2  0RD00000003  2023-05-07      P0115     S078     C048069         2       10.02      0.00    20.04  10.29    9.75
+
+2026-05-04 11:28:45,969 - INFO - sales: Schema validation passed.
+2026-05-04 11:28:50,577 - INFO - [cleaned_sales.csv] shape: (1000000, 16)
+2026-05-04 11:28:51,235 - INFO - [cleaned_sales.csv] missing values:
+order_id          0
+order_date        0
+product_id        0
+store_id          0
+customer_id       0
+quantity          0
+unit_price        0
+discount          0
+revenue           0
+cost              0
+profit            0
+revenue_bucket    0
+profit_margin     0
+margin_bucket     0
+outlier_flag      0
+time_of_day       0
+dtype: int64
+
+2026-05-04 11:28:51,239 - INFO - [cleaned_sales.csv] dtypes:
+order_id                     str
+order_date        datetime64[us]
+product_id                   str
+store_id                     str
+customer_id                  str
+quantity                   int64
+unit_price               float64
+discount                 float64
+revenue                  float64
+cost                     float64
+profit                   float64
+revenue_bucket          category
+profit_margin            float64
+margin_bucket           category
+outlier_flag                 str
+time_of_day                  str
+dtype: object
+
+2026-05-04 11:28:51,306 - INFO - [cleaned_sales.csv] sample data:
+      order_id order_date product_id store_id customer_id  ...  revenue_bucket  profit_margin  margin_bucket  outlier_flag  time_of_day
+0  0RD00000001 2023-01-07      P0080     S093     C040749  ...    High Revenue       0.302625    High Margin        Normal        Night
+1  0RD00000002 2023-10-22      P0173     S065     C020161  ...  Medium Revenue       0.470996    High Margin        Normal        Night
+2  0RD00000003 2023-05-07      P0115     S078     C048069  ...  Medium Revenue       0.486527    High Margin        Normal        Night
+
+[3 rows x 16 columns]
+
+2026-05-04 11:29:08,499 - INFO - Saved cleaned file: data\clean\cleaned_sales.csv
+2026-05-04 11:29:08,499 - INFO - Processing: stores.csv
+2026-05-04 11:29:08,500 - INFO - [stores.csv] shape: (100, 5)
+2026-05-04 11:29:08,503 - INFO - [stores.csv] missing values:
+store_id      0
+store_name    0
+city          0
+country       0
+store_type    0
+dtype: int64
+
+2026-05-04 11:29:08,506 - INFO - [stores.csv] dtypes:
+store_id      str
+store_name    str
+city          str
+country       str
+store_type    str
+dtype: object
+
+2026-05-04 11:29:08,529 - INFO - [stores.csv] sample data:
+  store_id         store_name       city country store_type
+0     S001  Chocolate Store 1   New York  Canada     Retail
+1     S002  Chocolate Store 2  Melbourne  Canada       Mall
+2     S003  Chocolate Store 3     Berlin  France       Mall
+
+2026-05-04 11:29:08,531 - INFO - stores: Schema validation passed.
+2026-05-04 11:29:08,565 - INFO - [cleaned_stores.csv] shape: (100, 8)
+2026-05-04 11:29:08,568 - INFO - [cleaned_stores.csv] missing values:
+store_key      0
+store_id       0
+store_name     0
+city           0
+country        0
+store_type     0
+region         0
+region_tier    0
+dtype: int64
+
+2026-05-04 11:29:08,570 - INFO - [cleaned_stores.csv] dtypes:
+store_key      int64
+store_id         str
+store_name       str
+city             str
+country          str
+store_type       str
+region           str
+region_tier      str
+dtype: object
+
+2026-05-04 11:29:08,591 - INFO - [cleaned_stores.csv] sample data:
+   store_key store_id         store_name       city country store_type         region        region_tier
+0          1     S001  Chocolate Store 1   New York  Canada     Retail  North America  High-Value Region
+1          2     S002  Chocolate Store 2  Melbourne  Canada       Mall  North America  High-Value Region
+2          3     S003  Chocolate Store 3     Berlin  France       Mall         Europe  High-Value Region
+
+2026-05-04 11:29:08,595 - INFO - Saved cleaned file: data\clean\cleaned_stores.csv
+2026-05-04 11:29:08,714 - INFO - Cleaning process completed successfully.
+2026-05-04 11:29:08,714 - INFO - Cleaning process completed successfully.
+2026-05-04 11:29:08,949 - INFO - ✔️  RUNNING CLEAN PIPELINE completed successfully
+
+2026-05-04 11:29:08,949 - INFO - 
+======================================================================
+2026-05-04 11:29:08,951 - INFO - 🔷 RUNNING TRANSFORM PIPELINE
+2026-05-04 11:29:08,952 - INFO - ======================================================================
+
+2026-05-04 11:29:10,794 - INFO - Running Pipeline: Transform Dataset
+2026-05-04 11:29:10,804 - INFO - Starting transform stage...
+2026-05-04 11:29:18,357 - INFO - Merging surrogate keys into sales fact table...
+2026-05-04 11:29:20,121 - INFO - Validating foreign key relationships...
+2026-05-04 11:29:20,154 - INFO - sales→customers: Foreign key validation passed.
+2026-05-04 11:29:20,191 - INFO - sales→products: Foreign key validation passed.
+2026-05-04 11:29:20,234 - INFO - sales→stores: Foreign key validation passed.
+2026-05-04 11:29:20,262 - INFO - sales→calendar: Foreign key validation passed.
+2026-05-04 11:29:20,264 - INFO - Preparing dimension tables...
+2026-05-04 11:29:20,273 - INFO - Building fact_sales table...
+2026-05-04 11:29:39,912 - INFO - Saved fact_sales.csv
+2026-05-04 11:29:40,338 - INFO - Transformation stage completed.
+2026-05-04 11:29:40,539 - INFO - ✔️  RUNNING TRANSFORM PIPELINE completed successfully
+
+2026-05-04 11:29:40,539 - INFO - 
+======================================================================
+2026-05-04 11:29:40,540 - INFO - 🔷 LOADING RAW SCHEMA
+2026-05-04 11:29:40,540 - INFO - ======================================================================
+
+2026-05-04 11:29:43,139 - INFO - Starting ETL pipeline...
+2026-05-04 11:29:43,141 - INFO - Environment variables loaded.
+2026-05-04 11:29:43,142 - INFO - Database URL retrieved.
+2026-05-04 11:29:47,335 - INFO - Loaded calendar into PostgreSQL -- raw rows: 731, columns: 6
+
+2026-05-04 11:29:50,097 - INFO - Loaded customers into PostgreSQL -- raw rows: 50000, columns: 5
+
+2026-05-04 11:29:50,136 - INFO - Loaded products into PostgreSQL -- raw rows: 200, columns: 6
+
+2026-05-04 11:32:11,655 - INFO - Loaded sales into PostgreSQL -- raw rows: 1000000, columns: 11
+
+2026-05-04 11:32:11,685 - INFO - Loaded stores into PostgreSQL -- raw rows: 100, columns: 5
+
+2026-05-04 11:32:11,686 - INFO - ETL pipeline completed successfully!
+2026-05-04 11:32:12,851 - INFO - ✔️  LOADING RAW SCHEMA completed successfully
+
+2026-05-04 11:32:12,857 - INFO - 
+======================================================================
+2026-05-04 11:32:12,860 - INFO - 🔷 RUNNING OPERATIONALS SCHEMA LOADER
+2026-05-04 11:32:12,865 - INFO - ======================================================================
+
+2026-05-04 11:32:17,452 - INFO - Starting ETL pipeline...
+2026-05-04 11:32:17,456 - INFO - Environment variables loaded.
+2026-05-04 11:32:17,456 - INFO - Database URL retrieved.
+2026-05-04 11:32:26,463 - INFO - Loaded cleaned_calendar into PostgreSQL -- cleaned rows: 731, columns: 11
+
+2026-05-04 11:32:33,829 - INFO - Loaded cleaned_customers into PostgreSQL -- cleaned rows: 50000, columns: 10
+
+2026-05-04 11:32:33,902 - INFO - Loaded cleaned_products into PostgreSQL -- cleaned rows: 202, columns: 8
+
+2026-05-04 11:36:38,308 - INFO - Loaded cleaned_sales into PostgreSQL -- cleaned rows: 1000000, columns: 16
+
+2026-05-04 11:36:38,350 - INFO - Loaded cleaned_stores into PostgreSQL -- cleaned rows: 100, columns: 8
+
+2026-05-04 11:36:38,351 - INFO - ETL pipeline completed successfully!
+2026-05-04 11:36:39,147 - INFO - ✔️  RUNNING OPERATIONALS SCHEMA LOADER completed successfully
+
+2026-05-04 11:36:39,149 - INFO - 
+======================================================================
+2026-05-04 11:36:39,149 - INFO - 🔷 RUNNING ANALYTICS SCHEMA LOADER
+2026-05-04 11:36:39,151 - INFO - ======================================================================
+
+2026-05-04 11:36:45,935 - INFO - Starting ETL pipeline...
+2026-05-04 11:36:45,937 - INFO - Environment variables loaded.
+2026-05-04 11:36:45,938 - INFO - Database URL retrieved.
+2026-05-04 11:36:48,752 - INFO - Dropped fact_sales table to avoid FK conflicts.
+2026-05-04 11:36:49,053 - INFO - Analytics schema recreated (including fact_sales).
+2026-05-04 11:36:49,682 - INFO - Loaded dim_calendar into PostgreSQL — rows: 731, cols: 5
+2026-05-04 11:36:57,865 - INFO - Loaded dim_customers into PostgreSQL — rows: 50000, cols: 9
+2026-05-04 11:36:57,904 - INFO - Loaded dim_products into PostgreSQL — rows: 202, cols: 6
+2026-05-04 11:36:57,933 - INFO - Loaded dim_stores into PostgreSQL — rows: 100, cols: 8
+2026-05-04 11:44:18,880 - INFO - Loaded fact_sales into PostgreSQL — rows: 1000000, cols: 17
+2026-05-04 11:44:18,881 - INFO - Analytics pipeline completed successfully.
+2026-05-04 11:44:19,707 - INFO - ✔️  RUNNING ANALYTICS SCHEMA LOADER completed successfully
+
+2026-05-04 11:44:19,712 - INFO - 🎉 FULL PIPELINE COMPLETED SUCCESSFULLY!
+
+2026-05-04 11:44:19,715 - INFO - ⏱️ Step completed in 986.91s
+

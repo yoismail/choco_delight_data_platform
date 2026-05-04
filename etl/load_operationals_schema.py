@@ -32,7 +32,7 @@ def get_db_url():
 
 
 def load_to_postgres(df, table_name, engine):
-
+    logging.info(f"Loading {table_name} into PostgreSQL...")
     df.to_sql(table_name, engine, schema="operationals",
               if_exists="replace", index=False)
 

@@ -3,7 +3,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from utils.logging import setup_logging
+from utils.logging import setup_logging, timed
 setup_logging()
 
 PYTHON = sys.executable
@@ -23,6 +23,7 @@ def run_step(title: str, command: str):
     logging.info(f"✔️  {title} completed successfully\n")
 
 
+@timed
 def main():
     logging.info("\n🚀 Starting Full Pipeline Run\n")
 
