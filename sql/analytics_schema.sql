@@ -1,17 +1,18 @@
 CREATE SCHEMA IF NOT EXISTS analytics;
 
-
+-- Drop in correct order (facts first, then dimensions)
 DROP TABLE IF EXISTS analytics.fact_sales;
 DROP TABLE IF EXISTS analytics.dim_calendar;
 DROP TABLE IF EXISTS analytics.dim_customers; 
 DROP TABLE IF EXISTS analytics.dim_products;
 DROP TABLE IF EXISTS analytics.dim_stores;
+DROP TABLE IF EXISTS analytics.dim_regions; -- ✅ New table
 
 -- DIMENSION TABLES
 
 CREATE TABLE IF NOT EXISTS analytics.dim_calendar (
     calendar_key BIGINT PRIMARY KEY,
-    calendar_date VARCHAR(20) NOT NULL UNIQUE,
+    calendar_date VARCHAR(10) NOT NULL UNIQUE, 
     quarter VARCHAR(10) NOT NULL,
     season VARCHAR(20) NOT NULL,
     day_type VARCHAR(20) NOT NULL
@@ -22,9 +23,9 @@ CREATE TABLE IF NOT EXISTS analytics.dim_customers (
     customer_id VARCHAR(50) NOT NULL UNIQUE,
     age INT CHECK (age >= 0),
     gender VARCHAR(10),
-    join_date VARCHAR(20),
-    tenure_days INT CHECK (tenure_days >= 0),
+    join_date VARCHAR(10),
     tenure_months VARCHAR(20),
+    tenure_days INT,
     tenure_years VARCHAR(20),
     customer_segment VARCHAR(20)
 );
@@ -38,6 +39,13 @@ CREATE TABLE IF NOT EXISTS analytics.dim_products (
     brand_tier VARCHAR(20)
 );
 
+CREATE TABLE IF NOT EXISTS analytics.dim_regions ( -- ✅ NEW TABLE
+    region_key BIGINT PRIMARY KEY,
+    region VARCHAR(50) NOT NULL,
+    region_tier VARCHAR(20) NOT NULL,
+    country VARCHAR(100) NOT NULL UNIQUE
+);
+
 CREATE TABLE IF NOT EXISTS analytics.dim_stores (
     store_key BIGINT PRIMARY KEY,
     store_id VARCHAR(50) NOT NULL UNIQUE,
@@ -46,7 +54,9 @@ CREATE TABLE IF NOT EXISTS analytics.dim_stores (
     city VARCHAR(100),
     store_type VARCHAR(50),
     region VARCHAR(50),
-    region_tier VARCHAR(20)
+    region_tier VARCHAR(20),
+    region_key BIGINT, -- ✅ Added to link directly to regions
+    FOREIGN KEY (region_key) REFERENCES analytics.dim_regions(region_key) ON DELETE RESTRICT
 );
 
 -- FACT TABLE
@@ -58,6 +68,7 @@ CREATE TABLE IF NOT EXISTS analytics.fact_sales (
     product_key BIGINT NOT NULL,
     store_key BIGINT NOT NULL,
     customer_key BIGINT NOT NULL,
+    region_key BIGINT NOT NULL, -- ✅ Added direct relationship to regions
 
     order_date DATE NOT NULL CHECK (order_date <= CURRENT_DATE),
 
@@ -73,14 +84,16 @@ CREATE TABLE IF NOT EXISTS analytics.fact_sales (
     outlier_flag VARCHAR(20),
     time_of_day VARCHAR(20),
 
+    -- Foreign keys
     FOREIGN KEY (calendar_key) REFERENCES analytics.dim_calendar(calendar_key) ON DELETE RESTRICT,
     FOREIGN KEY (product_key) REFERENCES analytics.dim_products(product_key) ON DELETE RESTRICT,
     FOREIGN KEY (store_key) REFERENCES analytics.dim_stores(store_key) ON DELETE RESTRICT,
-    FOREIGN KEY (customer_key) REFERENCES analytics.dim_customers(customer_key) ON DELETE RESTRICT
+    FOREIGN KEY (customer_key) REFERENCES analytics.dim_customers(customer_key) ON DELETE RESTRICT,
+    FOREIGN KEY (region_key) REFERENCES analytics.dim_regions(region_key) ON DELETE RESTRICT -- ✅ Direct link
 );
 
 -- INDEXES FOR DIMENSIONS
--- Natural key lookups (used during ETL surrogate key assignment)
+
 CREATE INDEX IF NOT EXISTS idx_dim_calendar_calendar_date
     ON analytics.dim_calendar (calendar_date);
 
@@ -93,9 +106,11 @@ CREATE INDEX IF NOT EXISTS idx_dim_products_product_id
 CREATE INDEX IF NOT EXISTS idx_dim_stores_store_id
     ON analytics.dim_stores (store_id);
 
+CREATE INDEX IF NOT EXISTS idx_dim_regions_country -- ✅ New index
+    ON analytics.dim_regions (country);
+
 -- INDEXES FOR FACT TABLE
 
--- Foreign key indexes (critical for joins)
 CREATE INDEX IF NOT EXISTS idx_fact_sales_calendar_key
     ON analytics.fact_sales (calendar_key);
 
@@ -108,7 +123,9 @@ CREATE INDEX IF NOT EXISTS idx_fact_sales_store_key
 CREATE INDEX IF NOT EXISTS idx_fact_sales_customer_key
     ON analytics.fact_sales (customer_key);
 
--- Analytical filter columns
+CREATE INDEX IF NOT EXISTS idx_fact_sales_region_key -- ✅ New index
+    ON analytics.fact_sales (region_key);
+
 CREATE INDEX IF NOT EXISTS idx_fact_sales_revenue_bucket
     ON analytics.fact_sales (revenue_bucket);
 
@@ -117,5 +134,3 @@ CREATE INDEX IF NOT EXISTS idx_fact_sales_margin_bucket
 
 CREATE INDEX IF NOT EXISTS idx_fact_sales_time_of_day
     ON analytics.fact_sales (time_of_day);
-
-COMMIT;

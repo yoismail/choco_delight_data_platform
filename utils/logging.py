@@ -125,11 +125,20 @@ def section(title: str):
     logging.info("=" * 31 + "\n")
 
 
+# logger.py — fix timed to return result
 def timed(func):
     def wrapper(*args, **kwargs):
         start = time.time()
         result = func(*args, **kwargs)
         elapsed = time.time() - start
-        logging.info(f"⏱️ Step completed in {elapsed:.2f}s\n")
+
+        mins = int(elapsed // 60)
+        secs = int(elapsed % 60)
+
+        if mins > 0:
+            logging.info(f"⏱️ Step completed in {mins}m {secs}s\n")
+        else:
+            logging.info(f"⏱️ Step completed in {secs}s\n")
+
         return result
     return wrapper

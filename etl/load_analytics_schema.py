@@ -1,4 +1,4 @@
-from utils.logging import setup_logging
+from utils.logging import section, setup_logging, timed
 import pandas as pd
 from pathlib import Path
 import logging
@@ -47,6 +47,7 @@ def load_to_postgres(df, table_name, engine):
 # Main ETL function
 
 
+@timed
 def run_pipeline():
     try:
         logging.info("Starting ETL pipeline...")
@@ -55,12 +56,12 @@ def run_pipeline():
         db_url = get_db_url()
         engine = create_engine(db_url)
 
-        # 1. Drop fact table FIRST
+        # Drop fact table FIRST
         with engine.connect() as conn:
             conn.execute(text("DROP TABLE IF EXISTS analytics.fact_sales;"))
             logging.info("Dropped fact_sales table to avoid FK conflicts.")
 
-        # 2. Recreate schema BEFORE loading any data
+        # Recreate schema BEFORE loading any data
         schema_path = Path("sql/analytics_schema.sql")
         with open(schema_path, "r") as f:
             schema_sql = f.read()
@@ -69,22 +70,48 @@ def run_pipeline():
             conn.execute(text(schema_sql))
             logging.info("Analytics schema recreated (including fact_sales).")
 
-        # 3. Load transformed dimension data AFTER schema creation
-        calendar = pd.read_csv(TRANSFORM_DIR / "dim_calendar.csv")
-        customers = pd.read_csv(TRANSFORM_DIR / "dim_customers.csv")
-        products = pd.read_csv(TRANSFORM_DIR / "dim_products.csv")
-        stores = pd.read_csv(TRANSFORM_DIR / "dim_stores.csv")
+        # 1. Load REGIONS FIRST — because stores reference it!
+        section(
+            "Loading Region Dimension Table (analytics.dim_regions) into PostgreSQL")
+        logging.info("📥 Loading dim_regions...")
+        df_regions = pd.read_csv(TRANSFORM_DIR / "dim_regions.csv")
+        load_to_postgres(df_regions, "dim_regions", engine)
 
-        load_to_postgres(calendar, "dim_calendar", engine)
-        load_to_postgres(customers, "dim_customers", engine)
-        load_to_postgres(products, "dim_products", engine)
-        load_to_postgres(stores, "dim_stores", engine)
+        # 2. Calendar (independent)
+        section(
+            "Loading Calendar Dimension Table (analytics.dim_calendar) into PostgreSQL")
+        logging.info("📥 Loading dim_calendar...")
+        df_calendar = pd.read_csv(TRANSFORM_DIR / "dim_calendar.csv")
+        load_to_postgres(df_calendar, "dim_calendar", engine)
 
-        # 4. Load fact data LAST
-        sales = pd.read_csv(TRANSFORM_DIR / "fact_sales.csv")
-        load_to_postgres(sales, "fact_sales", engine)
+        # 3. Customers (independent)
+        section(
+            "Loading Customer Dimension Table (analytics.dim_customers) into PostgreSQL")
+        logging.info("📥 Loading dim_customers...")
+        df_customers = pd.read_csv(TRANSFORM_DIR / "dim_customers.csv")
+        load_to_postgres(df_customers, "dim_customers", engine)
 
-        logging.info("Analytics pipeline completed successfully.")
+        # 4. Products (independent)
+        section(
+            "Loading Product Dimension Table (analytics.dim_products) into PostgreSQL")
+        logging.info("📥 Loading dim_products...")
+        df_products = pd.read_csv(TRANSFORM_DIR / "dim_products.csv")
+        load_to_postgres(df_products, "dim_products", engine)
+
+        # 5. Stores — NOW SAFE, because dim_regions already exists
+        section("Loading Store Dimension Table (analytics.dim_stores) into PostgreSQL")
+        logging.info("📥 Loading dim_stores...")
+        df_stores = pd.read_csv(TRANSFORM_DIR / "dim_stores.csv")
+        load_to_postgres(df_stores, "dim_stores", engine)
+
+        # 6. Fact Sales — last, depends on all dimensions
+        section("Loading Fact Sales Table (analytics.fact_sales) into PostgreSQL")
+        logging.info("📥 Loading fact_sales...")
+        df_fact = pd.read_csv(TRANSFORM_DIR / "fact_sales.csv")
+        load_to_postgres(df_fact, "fact_sales", engine)
+
+        logging.info(
+            "🎉✅ ETL pipeline completed successfully — ALL TABLES LOADED!")
 
     except Exception as e:
         logging.error(f"ETL pipeline failed: {e}")

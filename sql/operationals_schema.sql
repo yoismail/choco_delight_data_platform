@@ -1,10 +1,11 @@
 CREATE SCHEMA IF NOT EXISTS operationals;
 
-DROP TABLE IF EXISTS cleaned_calendar;
-DROP TABLE IF EXISTS cleaned_customers; 
-DROP TABLE IF EXISTS cleaned_products;
-DROP TABLE IF EXISTS cleaned_sales; 
-DROP TABLE IF EXISTS cleaned_stores;
+DROP TABLE IF EXISTS operationals.cleaned_calendar;
+DROP TABLE IF EXISTS operationals.cleaned_customers; 
+DROP TABLE IF EXISTS operationals.cleaned_products;
+DROP TABLE IF EXISTS operationals.cleaned_sales; 
+DROP TABLE IF EXISTS operationals.cleaned_stores;
+DROP TABLE IF EXISTS operationals.cleaned_regions;
 
 -- This table will contain cleaned calendar data with proper data types and formatting
 CREATE TABLE IF NOT EXISTS operationals.cleaned_calendar (
@@ -81,4 +82,12 @@ CREATE TABLE IF NOT EXISTS operationals.cleaned_stores (
     region_tier VARCHAR(20)
 );
 
-COMMIT;
+
+-- This table will contain regions table created from stores data
+CREATE TABLE IF NOT EXISTS operationals.cleaned_regions (
+    region_key INT,
+    region VARCHAR(20),
+    region_readable VARCHAR(50),
+    region_tier VARCHAR(20),
+    country VARCHAR(100)
+);

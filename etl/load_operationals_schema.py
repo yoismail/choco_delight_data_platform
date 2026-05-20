@@ -1,5 +1,5 @@
 
-from utils.logging import setup_logging
+from utils.logging import section, setup_logging, timed
 import pandas as pd
 from pathlib import Path
 import logging
@@ -41,11 +41,13 @@ def load_to_postgres(df, table_name, engine):
 
 
 # Main ETL function
+@timed
 def run_pipeline():
 
     try:
         logging.info("Starting ETL pipeline...")
 
+        section("Loading Cleaned Data into PostgreSQL")
         load_env()
         db_url = get_db_url()
         engine = create_engine(db_url)
@@ -56,6 +58,7 @@ def run_pipeline():
         products = pd.read_csv(CLEAN_DATA_DIR / "cleaned_products.csv")
         sales = pd.read_csv(CLEAN_DATA_DIR / "cleaned_sales.csv")
         stores = pd.read_csv(CLEAN_DATA_DIR / "cleaned_stores.csv")
+        regions = pd.read_csv(CLEAN_DATA_DIR / "cleaned_regions.csv")
 
         # Load into PostgreSQL
         load_to_postgres(calendar, "cleaned_calendar", engine)
@@ -63,8 +66,9 @@ def run_pipeline():
         load_to_postgres(products, "cleaned_products", engine)
         load_to_postgres(sales, "cleaned_sales", engine)
         load_to_postgres(stores, "cleaned_stores", engine)
+        load_to_postgres(regions, "cleaned_regions", engine)
 
-        logging.info("ETL pipeline completed successfully!")
+        logging.info("🎉 ETL pipeline completed successfully!")
 
     except Exception as e:
         logging.error(f"ETL pipeline failed: {e}")
