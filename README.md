@@ -329,7 +329,6 @@ AND margin_bucket = 'Very High Margin';
 
 A few honest "tightening" notes for future iterations:
 
-- **Phantom `region_readable` column** in `operationals_schema.sql` that isn't produced by `clean.py`. Either drop it from the DDL or add it as a real feature.
 - **Type mismatch** between `fact_sales.order_date` (DATE) and `dim_calendar.calendar_date` (VARCHAR(10)). The current pipeline joins via `calendar_key` so this doesn't matter in practice, but the inconsistency could bite a future developer.
 - **Raw and operational schema DDLs are not executed.** They're documentation. To make them the source of truth, the loaders would need to execute the DDL files and switch from `if_exists="replace"` to `if_exists="append"`. Doable, but adds maintenance burden.
 - **Airflow or Prefect orchestration** for scheduled runs with retry, alerting, and proper run history. The current `run_all.py` is fine for development but isn't a production scheduler.
