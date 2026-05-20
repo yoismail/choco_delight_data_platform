@@ -8563,3 +8563,196 @@ dtype: object
 
 2026-05-20 18:22:39,723 - INFO - ⏱️ Step completed in 5m 36s
 
+2026-05-20 18:45:58,773 - INFO - Running Pipeline: Download and Extract Dataset
+2026-05-20 18:45:58,775 - INFO - Data directory already exists.
+2026-05-20 18:45:58,776 - INFO - 
+==================================================
+2026-05-20 18:45:58,776 - INFO - 🔷 Downloading Dataset
+2026-05-20 18:45:58,777 - INFO - ===============================
+
+2026-05-20 18:45:58,777 - INFO - Starting dataset download...
+2026-05-20 18:46:05,735 - INFO - Downloaded to: data\raw
+2026-05-20 18:46:05,735 - INFO - 
+==================================================
+2026-05-20 18:46:05,736 - INFO - 🔷 Extracting Dataset
+2026-05-20 18:46:05,736 - INFO - ===============================
+
+2026-05-20 18:46:05,736 - INFO - Extracting dataset...
+2026-05-20 18:46:06,177 - INFO - Extraction completed.
+2026-05-20 18:46:06,178 - INFO - Download and Extraction Completed Successfully
+2026-05-20 18:46:06,178 - INFO - ⏱️ Step completed in 7s
+
+2026-05-20 18:47:21,336 - INFO - 
+==================================================
+2026-05-20 18:47:21,337 - INFO - 🔷 Exploring Extracted Data
+2026-05-20 18:47:21,337 - INFO - ===============================
+
+2026-05-20 18:47:21,451 - INFO - Loaded customers.csv
+2026-05-20 18:47:21,455 - INFO - Loaded products.csv
+2026-05-20 18:47:24,502 - INFO - Loaded sales.csv
+2026-05-20 18:47:24,508 - INFO - Loaded stores.csv
+2026-05-20 18:47:24,514 - INFO - Loaded calendar.csv
+2026-05-20 18:47:24,515 - INFO - 
+--- Exploring Customers ---
+2026-05-20 18:47:24,515 - INFO - Customers shape: (50000, 5)
+2026-05-20 18:47:24,573 - INFO - Customers head:
+  customer_id  age  gender  loyalty_member   join_date
+0     C000001   40    Male               1  2025-05-21
+1     C000002   47    Male               0  2021-12-26
+2     C000003   58  Female               1  2022-09-13
+3     C000004   25  Female               0  2025-02-27
+4     C000005   43    Male               0  2023-08-31
+
+2026-05-20 18:47:24,575 - INFO - Customers datatypes:
+customer_id         str
+age               int64
+gender              str
+loyalty_member    int64
+join_date           str
+dtype: object
+
+2026-05-20 18:47:24,597 - INFO - Missing values in customers:
+customer_id       0
+age               0
+gender            0
+loyalty_member    0
+join_date         0
+dtype: int64
+
+2026-05-20 18:47:24,664 - INFO - Duplicate rows in customers: 0
+
+2026-05-20 18:47:24,665 - INFO - 
+--- Exploring Products ---
+2026-05-20 18:47:24,665 - INFO - Products shape: (200, 6)
+2026-05-20 18:47:24,682 - INFO - Products head:
+  product_id           product_name    brand category  cocoa_percent  weight_g
+0      P0001    White Chocolate 80%     Mars  Truffle             80       120
+1      P0002     Dark Chocolate 70%  Cadbury  Praline             70       100
+2      P0003  Truffle Chocolate 70%  Hershey  Praline             70       120
+3      P0004     Milk Chocolate 50%     Mars  Praline             50        80
+4      P0005    White Chocolate 70%  Ferrero    White             70        50
+
+2026-05-20 18:47:24,684 - INFO - Products datatypes:
+product_id         str
+product_name       str
+brand              str
+category           str
+cocoa_percent    int64
+weight_g         int64
+dtype: object
+
+2026-05-20 18:47:24,698 - INFO - Missing values in products:
+product_id       0
+product_name     0
+brand            0
+category         0
+cocoa_percent    0
+weight_g         0
+dtype: int64
+
+2026-05-20 18:47:24,701 - INFO - Duplicate rows in products: 0
+
+2026-05-20 18:47:24,706 - INFO - 
+--- Exploring Sales ---
+2026-05-20 18:47:24,707 - INFO - Sales shape: (1000000, 11)
+2026-05-20 18:47:24,796 - INFO - Sales head:
+      order_id  order_date product_id store_id customer_id  quantity  unit_price  discount  revenue   cost  profit
+0  0RD00000001  2023-01-07      P0080     S093     C040749         5       14.43      0.15    61.33  42.77   18.56
+1  0RD00000002  2023-10-22      P0173     S065     C020161         3       12.01      0.00    36.03  19.06   16.97
+2  0RD00000003  2023-05-07      P0115     S078     C048069         2       10.02      0.00    20.04  10.29    9.75
+3  0RD00000004  2024-06-23      P0186     S088     C047901         2       14.66      0.10    26.39  16.35   10.04
+4  0RD00000005  2024-09-24      P0197     S054     C033950         1       12.34      0.00    12.34   7.94    4.40
+
+2026-05-20 18:47:24,798 - INFO - Sales datatypes:
+order_id           str
+order_date         str
+product_id         str
+store_id           str
+customer_id        str
+quantity         int64
+unit_price     float64
+discount       float64
+revenue        float64
+cost           float64
+profit         float64
+dtype: object
+
+2026-05-20 18:47:25,153 - INFO - Missing values in sales:
+order_id       0
+order_date     0
+product_id     0
+store_id       0
+customer_id    0
+quantity       0
+unit_price     0
+discount       0
+revenue        0
+cost           0
+profit         0
+dtype: int64
+
+2026-05-20 18:47:27,286 - INFO - Duplicate rows in sales: 0
+
+2026-05-20 18:47:27,286 - INFO - 
+--- Exploring Stores ---
+2026-05-20 18:47:27,287 - INFO - Stores shape: (100, 5)
+2026-05-20 18:47:27,324 - INFO - Stores head:
+  store_id         store_name       city country store_type
+0     S001  Chocolate Store 1   New York  Canada     Retail
+1     S002  Chocolate Store 2  Melbourne  Canada       Mall
+2     S003  Chocolate Store 3     Berlin  France       Mall
+3     S004  Chocolate Store 4      Paris      UK    Airport
+4     S005  Chocolate Store 5     Sydney     USA     Online
+
+2026-05-20 18:47:27,329 - INFO - Stores datatypes:
+store_id      str
+store_name    str
+city          str
+country       str
+store_type    str
+dtype: object
+
+2026-05-20 18:47:27,335 - INFO - Missing values in stores:
+store_id      0
+store_name    0
+city          0
+country       0
+store_type    0
+dtype: int64
+
+2026-05-20 18:47:27,339 - INFO - Duplicate rows in stores: 0
+
+2026-05-20 18:47:27,339 - INFO - 
+--- Exploring Calendar ---
+2026-05-20 18:47:27,341 - INFO - Calendar shape: (731, 6)
+2026-05-20 18:47:27,414 - INFO - Calendar head:
+         date  year  month  day  week  day_of_week
+0  2023-01-01  2023      1    1    52            6
+1  2023-01-02  2023      1    2     1            0
+2  2023-01-03  2023      1    3     1            1
+3  2023-01-04  2023      1    4     1            2
+4  2023-01-05  2023      1    5     1            3
+
+2026-05-20 18:47:27,460 - INFO - Calendar datatypes:
+date             str
+year           int64
+month          int64
+day            int64
+week           int64
+day_of_week    int64
+dtype: object
+
+2026-05-20 18:47:27,478 - INFO - Missing values in calendar:
+date           0
+year           0
+month          0
+day            0
+week           0
+day_of_week    0
+dtype: int64
+
+2026-05-20 18:47:27,508 - INFO - Duplicate rows in calendar: 0
+
+2026-05-20 18:47:27,667 - INFO - 🎉 Data Exploration Completed Successfully
+2026-05-20 18:47:27,667 - INFO - ⏱️ Step completed in 6s
+
