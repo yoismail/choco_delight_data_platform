@@ -7860,3 +7860,706 @@ dtype: object
 
 2026-05-20 15:23:06,199 - INFO - ⏱️ Step completed in 6m 56s
 
+2026-05-20 18:17:03,134 - INFO - 
+🚀 Starting Full Pipeline Run
+
+2026-05-20 18:17:03,135 - INFO - 
+======================================================================
+2026-05-20 18:17:03,136 - INFO - 🔷 WIPING DATA
+2026-05-20 18:17:03,136 - INFO - ======================================================================
+
+2026-05-20 18:17:05,533 - INFO - 🗑️ Deleted folder: C:\Users\dell\Desktop\choco_delight_data_platform\data\clean
+2026-05-20 18:17:05,544 - INFO - 🗑️ Deleted folder: C:\Users\dell\Desktop\choco_delight_data_platform\data\raw
+2026-05-20 18:17:05,557 - INFO - 🗑️ Deleted folder: C:\Users\dell\Desktop\choco_delight_data_platform\data\transform
+2026-05-20 18:17:05,936 - INFO - Dropping raw data schema...
+2026-05-20 18:17:06,127 - INFO - 🧹 Raw data schema reset successfully.
+2026-05-20 18:17:06,129 - INFO - Dropping operationals schema...
+2026-05-20 18:17:06,189 - INFO - 🧹 Operationals schema reset successfully.
+2026-05-20 18:17:06,190 - INFO - Dropping analytics schema...
+2026-05-20 18:17:06,274 - INFO - 🧹 Analytics schema reset successfully.
+2026-05-20 18:17:06,274 - INFO - ✨ Wipe completed for mode: all
+2026-05-20 18:17:06,846 - INFO - ✔️  WIPING DATA completed successfully
+
+2026-05-20 18:17:06,846 - INFO - 
+======================================================================
+2026-05-20 18:17:06,846 - INFO - 🔷 LOADING RAW DATA
+2026-05-20 18:17:06,847 - INFO - ======================================================================
+
+2026-05-20 18:17:17,916 - INFO - Running Pipeline: Download and Extract Dataset
+2026-05-20 18:17:17,917 - INFO - Data directory created.
+2026-05-20 18:17:17,917 - INFO - 
+==================================================
+2026-05-20 18:17:17,917 - INFO - 🔷 Downloading Dataset
+2026-05-20 18:17:17,918 - INFO - ===============================
+
+2026-05-20 18:17:17,918 - INFO - Starting dataset download...
+2026-05-20 18:17:32,000 - INFO - Downloaded to: data\raw
+2026-05-20 18:17:32,000 - INFO - 
+==================================================
+2026-05-20 18:17:32,000 - INFO - 🔷 Extracting Dataset
+2026-05-20 18:17:32,001 - INFO - ===============================
+
+2026-05-20 18:17:32,001 - INFO - Extracting dataset...
+2026-05-20 18:17:32,693 - INFO - Extraction completed.
+2026-05-20 18:17:32,694 - INFO - Download and Extraction Completed Successfully
+2026-05-20 18:17:32,694 - INFO - ⏱️ Step completed in 14s
+
+2026-05-20 18:17:32,851 - INFO - ✔️  LOADING RAW DATA completed successfully
+
+2026-05-20 18:17:32,851 - INFO - 
+======================================================================
+2026-05-20 18:17:32,851 - INFO - 🔷 RUNNING CLEAN PIPELINE
+2026-05-20 18:17:32,852 - INFO - ======================================================================
+
+2026-05-20 18:17:34,143 - INFO - Clean data directory ready.
+2026-05-20 18:17:34,147 - INFO - 
+==================================================
+2026-05-20 18:17:34,151 - INFO - 🔷 Cleaning Dataset and Saving
+2026-05-20 18:17:34,153 - INFO - ===============================
+
+2026-05-20 18:17:34,153 - INFO - 
+==================================================
+2026-05-20 18:17:34,154 - INFO - 🔷 Cleaning Calendar Data
+2026-05-20 18:17:34,155 - INFO - ===============================
+
+2026-05-20 18:17:34,168 - INFO - Loaded calendar.csv with shape (731, 6)
+2026-05-20 18:17:34,173 - INFO - calendar: Schema validation passed.
+2026-05-20 18:17:34,204 - INFO - Calendar cleaning completed with new features: quarter, season, day_type, and formatted date.
+2026-05-20 18:17:34,205 - INFO - Cleaned calendar.csv with shape (731, 11)
+2026-05-20 18:17:34,206 - INFO - 
+==================================================
+2026-05-20 18:17:34,206 - INFO - 🔷 Cleaning Customers Data
+2026-05-20 18:17:34,207 - INFO - ===============================
+
+2026-05-20 18:17:34,264 - INFO - Loaded customers.csv with shape (50000, 5)
+2026-05-20 18:17:34,291 - INFO - customers: Schema validation passed.
+2026-05-20 18:17:34,721 - INFO - Customer cleaning completed with new features: tenure_years_exact, tenure_months_exact, tenure_years, tenure_months, tenure_days, and customer_segment.
+2026-05-20 18:17:34,721 - INFO - Cleaned customers.csv with shape (50000, 12)
+2026-05-20 18:17:34,722 - INFO - 
+==================================================
+2026-05-20 18:17:34,722 - INFO - 🔷 Cleaning Products Data
+2026-05-20 18:17:34,723 - INFO - ===============================
+
+2026-05-20 18:17:34,724 - INFO - Loaded products.csv with shape (200, 6)
+2026-05-20 18:17:34,726 - INFO - products: Schema validation passed.
+2026-05-20 18:17:34,731 - INFO - Product cleaning completed with new features: brand_tier.
+2026-05-20 18:17:34,731 - INFO - Cleaned products.csv with shape (202, 8)
+2026-05-20 18:17:34,732 - INFO - 
+==================================================
+2026-05-20 18:17:34,732 - INFO - 🔷 Cleaning Stores Data
+2026-05-20 18:17:34,733 - INFO - ===============================
+
+2026-05-20 18:17:34,735 - INFO - Loaded stores.csv with shape (100, 5)
+2026-05-20 18:17:34,737 - INFO - stores: Schema validation passed.
+2026-05-20 18:17:34,742 - INFO - Store cleaning completed with new features: region, region_tier.
+2026-05-20 18:17:34,743 - INFO - Cleaned stores.csv with shape (100, 8)
+2026-05-20 18:17:34,744 - INFO - 
+==================================================
+2026-05-20 18:17:34,744 - INFO - 🔷 Cleaning Sales Data
+2026-05-20 18:17:34,744 - INFO - ===============================
+
+2026-05-20 18:17:36,450 - INFO - Loaded sales.csv with shape (1000000, 11)
+2026-05-20 18:17:37,896 - INFO - sales: Schema validation passed.
+2026-05-20 18:17:38,912 - INFO - Sales cleaning completed with new features: profit_margin, revenue_bucket, margin_bucket, outlier_flag, and time_of_day.
+2026-05-20 18:17:38,913 - INFO - Cleaned sales.csv with shape (1000000, 16)
+2026-05-20 18:17:38,914 - INFO - 
+==================================================
+2026-05-20 18:17:38,914 - INFO - 🔷 Cleaning Regions Data
+2026-05-20 18:17:38,914 - INFO - ===============================
+
+2026-05-20 18:17:38,916 - INFO - regions: Schema validation passed.
+2026-05-20 18:17:38,918 - INFO - Regions cleaning completed with new features: region_tier, region_readable, and region_key.
+2026-05-20 18:17:38,918 - INFO - Cleaned regions.csv with shape (6, 4)
+2026-05-20 18:17:46,998 - INFO - 
+==================================================
+2026-05-20 18:17:46,998 - INFO - 🔷 Sanity Check: cleaned_calendar
+2026-05-20 18:17:46,998 - INFO - ===============================
+
+2026-05-20 18:17:47,001 - INFO - [cleaned_calendar] shape: (731, 10) | duplicates: 0
+2026-05-20 18:17:47,003 - INFO - [cleaned_calendar] missing values:
+calendar_key               0
+calendar_date              0
+year                       0
+month                      0
+week                       0
+day_of_week                0
+quarter                    0
+season                     0
+day_type                   0
+calendar_date_formatted    0
+dtype: int64
+
+2026-05-20 18:17:47,004 - INFO - [cleaned_calendar] dtypes:
+calendar_key                        int64
+calendar_date              datetime64[us]
+year                                int64
+month                               int64
+week                                int64
+day_of_week                         int64
+quarter                               str
+season                                str
+day_type                              str
+calendar_date_formatted               str
+dtype: object
+
+2026-05-20 18:17:47,005 - INFO - 
+==================================================
+2026-05-20 18:17:47,005 - INFO - 🔷 Sanity Check: cleaned_customers
+2026-05-20 18:17:47,005 - INFO - ===============================
+
+2026-05-20 18:17:47,083 - INFO - [cleaned_customers] shape: (50000, 10) | duplicates: 0
+2026-05-20 18:17:47,096 - INFO - [cleaned_customers] missing values:
+customer_key        0
+customer_id         0
+age                 0
+gender              0
+loyalty_member      0
+join_date           0
+tenure_days         0
+tenure_months       0
+tenure_years        0
+customer_segment    0
+dtype: int64
+
+2026-05-20 18:17:47,105 - INFO - [cleaned_customers] dtypes:
+customer_key                 int64
+customer_id                    str
+age                          int64
+gender                         str
+loyalty_member               int64
+join_date           datetime64[us]
+tenure_days                  int64
+tenure_months                  str
+tenure_years                   str
+customer_segment          category
+dtype: object
+
+2026-05-20 18:17:47,106 - INFO - 
+==================================================
+2026-05-20 18:17:47,106 - INFO - 🔷 Sanity Check: cleaned_products
+2026-05-20 18:17:47,107 - INFO - ===============================
+
+2026-05-20 18:17:47,109 - INFO - [cleaned_products] shape: (202, 8) | duplicates: 0
+2026-05-20 18:17:47,110 - INFO - [cleaned_products] missing values:
+product_key      0
+product_id       0
+product_name     0
+brand            0
+category         0
+cocoa_percent    0
+weight_g         0
+brand_tier       0
+dtype: int64
+
+2026-05-20 18:17:47,111 - INFO - [cleaned_products] dtypes:
+product_key        int64
+product_id           str
+product_name         str
+brand                str
+category             str
+cocoa_percent    float64
+weight_g         float64
+brand_tier           str
+dtype: object
+
+2026-05-20 18:17:47,112 - INFO - 
+==================================================
+2026-05-20 18:17:47,112 - INFO - 🔷 Sanity Check: cleaned_stores
+2026-05-20 18:17:47,112 - INFO - ===============================
+
+2026-05-20 18:17:47,113 - INFO - [cleaned_stores] shape: (100, 8) | duplicates: 0
+2026-05-20 18:17:47,115 - INFO - [cleaned_stores] missing values:
+store_key      0
+store_id       0
+store_name     0
+country        0
+city           0
+store_type     0
+region         0
+region_tier    0
+dtype: int64
+
+2026-05-20 18:17:47,116 - INFO - [cleaned_stores] dtypes:
+store_key      int64
+store_id         str
+store_name       str
+country          str
+city             str
+store_type       str
+region           str
+region_tier      str
+dtype: object
+
+2026-05-20 18:17:47,116 - INFO - 
+==================================================
+2026-05-20 18:17:47,116 - INFO - 🔷 Sanity Check: cleaned_sales
+2026-05-20 18:17:47,116 - INFO - ===============================
+
+2026-05-20 18:17:48,388 - INFO - [cleaned_sales] shape: (1000000, 16) | duplicates: 0
+2026-05-20 18:17:48,732 - INFO - [cleaned_sales] missing values:
+order_id          0
+order_date        0
+product_id        0
+store_id          0
+customer_id       0
+quantity          0
+unit_price        0
+discount          0
+revenue           0
+cost              0
+profit            0
+revenue_bucket    0
+profit_margin     0
+margin_bucket     0
+outlier_flag      0
+time_of_day       0
+dtype: int64
+
+2026-05-20 18:17:48,734 - INFO - [cleaned_sales] dtypes:
+order_id                     str
+order_date        datetime64[us]
+product_id                   str
+store_id                     str
+customer_id                  str
+quantity                   int64
+unit_price               float64
+discount                 float64
+revenue                  float64
+cost                     float64
+profit                   float64
+revenue_bucket          category
+profit_margin            float64
+margin_bucket           category
+outlier_flag                 str
+time_of_day                  str
+dtype: object
+
+2026-05-20 18:17:48,734 - INFO - 
+==================================================
+2026-05-20 18:17:48,734 - INFO - 🔷 Sanity Check: cleaned_regions
+2026-05-20 18:17:48,734 - INFO - ===============================
+
+2026-05-20 18:17:48,735 - INFO - [cleaned_regions] shape: (6, 4) | duplicates: 0
+2026-05-20 18:17:48,736 - INFO - [cleaned_regions] missing values:
+region_key     0
+region         0
+region_tier    0
+country        0
+dtype: int64
+
+2026-05-20 18:17:48,737 - INFO - [cleaned_regions] dtypes:
+region_key     int64
+region           str
+region_tier      str
+country          str
+dtype: object
+
+2026-05-20 18:17:48,802 - INFO - ⏱️ Step completed in 14s
+
+2026-05-20 18:17:48,803 - INFO - ✅ Cleaning process completed successfully - Cleaned datasets saved to 'data/clean' directory.
+2026-05-20 18:17:48,945 - INFO - ✔️  RUNNING CLEAN PIPELINE completed successfully
+
+2026-05-20 18:17:48,946 - INFO - 
+======================================================================
+2026-05-20 18:17:48,946 - INFO - 🔷 RUNNING TRANSFORM PIPELINE
+2026-05-20 18:17:48,946 - INFO - ======================================================================
+
+2026-05-20 18:17:49,843 - INFO - 
+==================================================
+2026-05-20 18:17:49,844 - INFO - 🔷 Starting Transformation Pipeline
+2026-05-20 18:17:49,844 - INFO - ===============================
+
+2026-05-20 18:17:49,844 - INFO - 
+==================================================
+2026-05-20 18:17:49,844 - INFO - 🔷 Loading Cleaned Data for Transformation
+2026-05-20 18:17:49,845 - INFO - ===============================
+
+2026-05-20 18:17:49,845 - INFO - ✅ Loading cleaned data from data\clean...
+2026-05-20 18:17:49,937 - INFO - 📊 Dataset: cleaned_customers
+2026-05-20 18:17:49,937 - INFO -    • Rows     : 50,000
+2026-05-20 18:17:49,937 - INFO -    • Columns  : 10
+2026-05-20 18:17:49,937 - INFO -    • Data Types:
+2026-05-20 18:17:49,938 - INFO -       - customer_key              → int64
+2026-05-20 18:17:49,938 - INFO -       - customer_id               → str
+2026-05-20 18:17:49,939 - INFO -       - age                       → int64
+2026-05-20 18:17:49,939 - INFO -       - gender                    → str
+2026-05-20 18:17:49,939 - INFO -       - loyalty_member            → int64
+2026-05-20 18:17:49,939 - INFO -       - join_date                 → str
+2026-05-20 18:17:49,939 - INFO -       - tenure_days               → int64
+2026-05-20 18:17:49,940 - INFO -       - tenure_months             → str
+2026-05-20 18:17:49,940 - INFO -       - tenure_years              → str
+2026-05-20 18:17:49,940 - INFO -       - customer_segment          → str
+2026-05-20 18:17:49,940 - INFO - ------------------------------------------------------------
+2026-05-20 18:17:49,942 - INFO - 📊 Dataset: cleaned_products
+2026-05-20 18:17:49,942 - INFO -    • Rows     : 202
+2026-05-20 18:17:49,943 - INFO -    • Columns  : 8
+2026-05-20 18:17:49,943 - INFO -    • Data Types:
+2026-05-20 18:17:49,943 - INFO -       - product_key               → int64
+2026-05-20 18:17:49,944 - INFO -       - product_id                → str
+2026-05-20 18:17:49,944 - INFO -       - product_name              → str
+2026-05-20 18:17:49,944 - INFO -       - brand                     → str
+2026-05-20 18:17:49,944 - INFO -       - category                  → str
+2026-05-20 18:17:49,944 - INFO -       - cocoa_percent             → float64
+2026-05-20 18:17:49,945 - INFO -       - weight_g                  → float64
+2026-05-20 18:17:49,945 - INFO -       - brand_tier                → str
+2026-05-20 18:17:49,945 - INFO - ------------------------------------------------------------
+2026-05-20 18:17:49,946 - INFO - 📊 Dataset: cleaned_stores
+2026-05-20 18:17:49,947 - INFO -    • Rows     : 100
+2026-05-20 18:17:49,947 - INFO -    • Columns  : 8
+2026-05-20 18:17:49,947 - INFO -    • Data Types:
+2026-05-20 18:17:49,947 - INFO -       - store_key                 → int64
+2026-05-20 18:17:49,947 - INFO -       - store_id                  → str
+2026-05-20 18:17:49,947 - INFO -       - store_name                → str
+2026-05-20 18:17:49,948 - INFO -       - country                   → str
+2026-05-20 18:17:49,948 - INFO -       - city                      → str
+2026-05-20 18:17:49,948 - INFO -       - store_type                → str
+2026-05-20 18:17:49,948 - INFO -       - region                    → str
+2026-05-20 18:17:49,948 - INFO -       - region_tier               → str
+2026-05-20 18:17:49,948 - INFO - ------------------------------------------------------------
+2026-05-20 18:17:49,951 - INFO - 📊 Dataset: cleaned_calendar
+2026-05-20 18:17:49,951 - INFO -    • Rows     : 731
+2026-05-20 18:17:49,951 - INFO -    • Columns  : 10
+2026-05-20 18:17:49,952 - INFO -    • Data Types:
+2026-05-20 18:17:49,952 - INFO -       - calendar_key              → int64
+2026-05-20 18:17:49,952 - INFO -       - calendar_date             → str
+2026-05-20 18:17:49,952 - INFO -       - year                      → int64
+2026-05-20 18:17:49,952 - INFO -       - month                     → int64
+2026-05-20 18:17:49,952 - INFO -       - week                      → int64
+2026-05-20 18:17:49,952 - INFO -       - day_of_week               → int64
+2026-05-20 18:17:49,953 - INFO -       - quarter                   → str
+2026-05-20 18:17:49,953 - INFO -       - season                    → str
+2026-05-20 18:17:49,953 - INFO -       - day_type                  → str
+2026-05-20 18:17:49,953 - INFO -       - calendar_date_formatted   → str
+2026-05-20 18:17:49,953 - INFO - ------------------------------------------------------------
+2026-05-20 18:17:52,273 - INFO - 📊 Dataset: cleaned_sales
+2026-05-20 18:17:52,273 - INFO -    • Rows     : 1,000,000
+2026-05-20 18:17:52,274 - INFO -    • Columns  : 16
+2026-05-20 18:17:52,274 - INFO -    • Data Types:
+2026-05-20 18:17:52,274 - INFO -       - order_id                  → str
+2026-05-20 18:17:52,275 - INFO -       - order_date                → str
+2026-05-20 18:17:52,275 - INFO -       - product_id                → str
+2026-05-20 18:17:52,275 - INFO -       - store_id                  → str
+2026-05-20 18:17:52,275 - INFO -       - customer_id               → str
+2026-05-20 18:17:52,276 - INFO -       - quantity                  → int64
+2026-05-20 18:17:52,276 - INFO -       - unit_price                → float64
+2026-05-20 18:17:52,276 - INFO -       - discount                  → float64
+2026-05-20 18:17:52,276 - INFO -       - revenue                   → float64
+2026-05-20 18:17:52,276 - INFO -       - cost                      → float64
+2026-05-20 18:17:52,277 - INFO -       - profit                    → float64
+2026-05-20 18:17:52,277 - INFO -       - revenue_bucket            → str
+2026-05-20 18:17:52,277 - INFO -       - profit_margin             → float64
+2026-05-20 18:17:52,277 - INFO -       - margin_bucket             → str
+2026-05-20 18:17:52,277 - INFO -       - outlier_flag              → str
+2026-05-20 18:17:52,278 - INFO -       - time_of_day               → str
+2026-05-20 18:17:52,278 - INFO - ------------------------------------------------------------
+2026-05-20 18:17:52,279 - INFO - 📊 Dataset: cleaned_regions
+2026-05-20 18:17:52,279 - INFO -    • Rows     : 6
+2026-05-20 18:17:52,279 - INFO -    • Columns  : 4
+2026-05-20 18:17:52,279 - INFO -    • Data Types:
+2026-05-20 18:17:52,279 - INFO -       - region_key                → int64
+2026-05-20 18:17:52,280 - INFO -       - region                    → str
+2026-05-20 18:17:52,280 - INFO -       - region_tier               → str
+2026-05-20 18:17:52,280 - INFO -       - country                   → str
+2026-05-20 18:17:52,280 - INFO - ------------------------------------------------------------
+2026-05-20 18:17:52,280 - INFO - ✅ Cleaned data loaded successfully.
+2026-05-20 18:17:52,280 - INFO - 
+==================================================
+2026-05-20 18:17:52,280 - INFO - 🔷 Cleaning Date Columns
+2026-05-20 18:17:52,280 - INFO - ===============================
+
+2026-05-20 18:17:52,280 - INFO - ✅ Cleaning date columns in calendar and sales...
+2026-05-20 18:17:54,055 - INFO - ✅ Date columns cleaned and converted to datetime.date.
+2026-05-20 18:17:54,055 - INFO - 
+==================================================
+2026-05-20 18:17:54,055 - INFO - 🔷 Linking Stores to Regions
+2026-05-20 18:17:54,056 - INFO - ===============================
+
+2026-05-20 18:17:54,056 - INFO - ✅ Linking stores to regions...
+2026-05-20 18:17:54,190 - INFO - ✅ region_key added to stores.
+2026-05-20 18:17:54,191 - INFO - 
+==================================================
+2026-05-20 18:17:54,191 - INFO - 🔷 Merging Surrogate Keys into Sales Fact Table
+2026-05-20 18:17:54,191 - INFO - ===============================
+
+2026-05-20 18:17:54,192 - INFO - ✅ Merging surrogate keys into sales fact table...
+2026-05-20 18:17:55,251 - INFO - ✅ Surrogate keys merged into sales fact table.
+2026-05-20 18:17:55,252 - INFO - 
+==================================================
+2026-05-20 18:17:55,252 - INFO - 🔷 Validating Foreign Key Relationships
+2026-05-20 18:17:55,253 - INFO - ===============================
+
+2026-05-20 18:17:55,253 - INFO - ✅ Validating foreign key relationships...
+2026-05-20 18:17:55,262 - INFO - sales→customers: Foreign key validation passed.
+2026-05-20 18:17:55,270 - INFO - sales→products: Foreign key validation passed.
+2026-05-20 18:17:55,278 - INFO - sales→stores: Foreign key validation passed.
+2026-05-20 18:17:55,285 - INFO - sales→regions: Foreign key validation passed.
+2026-05-20 18:17:55,293 - INFO - sales→calendar: Foreign key validation passed.
+2026-05-20 18:17:55,294 - INFO - ✅ All foreign key relationships validated successfully.
+2026-05-20 18:17:55,294 - INFO - 
+==================================================
+2026-05-20 18:17:55,294 - INFO - 🔷 Preparing Dimension Tables
+2026-05-20 18:17:55,294 - INFO - ===============================
+
+2026-05-20 18:17:55,294 - INFO - ✅ Preparing dimension tables...
+2026-05-20 18:17:55,297 - INFO - ✅ Dimension tables prepared successfully.
+2026-05-20 18:17:55,297 - INFO - 
+==================================================
+2026-05-20 18:17:55,297 - INFO - 🔷 Building Fact Table
+2026-05-20 18:17:55,297 - INFO - ===============================
+
+2026-05-20 18:17:55,297 - INFO - ✅ Building fact_sales table...
+2026-05-20 18:17:55,299 - INFO - ✅ fact_sales table built successfully.
+2026-05-20 18:17:55,299 - INFO - 
+==================================================
+2026-05-20 18:17:55,299 - INFO - 🔷 Saving Fact Table
+2026-05-20 18:17:55,299 - INFO - ===============================
+
+2026-05-20 18:18:03,777 - INFO - ✅ Saved fact_sales.csv
+2026-05-20 18:18:03,777 - INFO - 
+==================================================
+2026-05-20 18:18:03,778 - INFO - 🔷 Saving Dimension Tables
+2026-05-20 18:18:03,778 - INFO - ===============================
+
+2026-05-20 18:18:03,951 - INFO - ✅ Dimension tables saved successfully.
+2026-05-20 18:18:04,017 - INFO - 📊 Dataset: FINAL: fact_sales
+2026-05-20 18:18:04,020 - INFO -    • Rows     : 1,000,000
+2026-05-20 18:18:04,020 - INFO -    • Columns  : 18
+2026-05-20 18:18:04,021 - INFO -    • Data Types:
+2026-05-20 18:18:04,022 - INFO -       - customer_key              → int64
+2026-05-20 18:18:04,023 - INFO -       - product_key               → int64
+2026-05-20 18:18:04,024 - INFO -       - store_key                 → int64
+2026-05-20 18:18:04,024 - INFO -       - calendar_key              → int64
+2026-05-20 18:18:04,024 - INFO -       - region_key                → int64
+2026-05-20 18:18:04,025 - INFO -       - order_date                → object
+2026-05-20 18:18:04,025 - INFO -       - order_id                  → str
+2026-05-20 18:18:04,026 - INFO -       - quantity                  → int64
+2026-05-20 18:18:04,026 - INFO -       - unit_price                → float64
+2026-05-20 18:18:04,026 - INFO -       - discount                  → float64
+2026-05-20 18:18:04,026 - INFO -       - revenue                   → float64
+2026-05-20 18:18:04,027 - INFO -       - cost                      → float64
+2026-05-20 18:18:04,027 - INFO -       - profit                    → float64
+2026-05-20 18:18:04,027 - INFO -       - revenue_bucket            → str
+2026-05-20 18:18:04,027 - INFO -       - profit_margin             → float64
+2026-05-20 18:18:04,027 - INFO -       - margin_bucket             → str
+2026-05-20 18:18:04,028 - INFO -       - outlier_flag              → str
+2026-05-20 18:18:04,028 - INFO -       - time_of_day               → str
+2026-05-20 18:18:04,028 - INFO - ------------------------------------------------------------
+2026-05-20 18:18:04,028 - INFO - 📊 Dataset: FINAL: dim_customers
+2026-05-20 18:18:04,028 - INFO -    • Rows     : 50,000
+2026-05-20 18:18:04,029 - INFO -    • Columns  : 9
+2026-05-20 18:18:04,029 - INFO -    • Data Types:
+2026-05-20 18:18:04,029 - INFO -       - customer_id               → str
+2026-05-20 18:18:04,030 - INFO -       - customer_key              → int64
+2026-05-20 18:18:04,030 - INFO -       - age                       → int64
+2026-05-20 18:18:04,030 - INFO -       - gender                    → str
+2026-05-20 18:18:04,030 - INFO -       - join_date                 → object
+2026-05-20 18:18:04,030 - INFO -       - tenure_days               → int64
+2026-05-20 18:18:04,031 - INFO -       - tenure_months             → str
+2026-05-20 18:18:04,031 - INFO -       - tenure_years              → str
+2026-05-20 18:18:04,031 - INFO -       - customer_segment          → str
+2026-05-20 18:18:04,031 - INFO - ------------------------------------------------------------
+2026-05-20 18:18:04,031 - INFO - 📊 Dataset: FINAL: dim_products
+2026-05-20 18:18:04,031 - INFO -    • Rows     : 202
+2026-05-20 18:18:04,031 - INFO -    • Columns  : 6
+2026-05-20 18:18:04,032 - INFO -    • Data Types:
+2026-05-20 18:18:04,032 - INFO -       - product_id                → str
+2026-05-20 18:18:04,032 - INFO -       - product_key               → int64
+2026-05-20 18:18:04,032 - INFO -       - product_name              → str
+2026-05-20 18:18:04,032 - INFO -       - brand                     → str
+2026-05-20 18:18:04,033 - INFO -       - category                  → str
+2026-05-20 18:18:04,033 - INFO -       - brand_tier                → str
+2026-05-20 18:18:04,033 - INFO - ------------------------------------------------------------
+2026-05-20 18:18:04,033 - INFO - 📊 Dataset: FINAL: dim_stores
+2026-05-20 18:18:04,033 - INFO -    • Rows     : 100
+2026-05-20 18:18:04,033 - INFO -    • Columns  : 9
+2026-05-20 18:18:04,033 - INFO -    • Data Types:
+2026-05-20 18:18:04,034 - INFO -       - store_id                  → str
+2026-05-20 18:18:04,034 - INFO -       - store_key                 → int64
+2026-05-20 18:18:04,034 - INFO -       - store_name                → str
+2026-05-20 18:18:04,034 - INFO -       - country                   → str
+2026-05-20 18:18:04,034 - INFO -       - city                      → str
+2026-05-20 18:18:04,035 - INFO -       - store_type                → str
+2026-05-20 18:18:04,035 - INFO -       - region                    → str
+2026-05-20 18:18:04,036 - INFO -       - region_tier               → str
+2026-05-20 18:18:04,036 - INFO -       - region_key                → int64
+2026-05-20 18:18:04,036 - INFO - ------------------------------------------------------------
+2026-05-20 18:18:04,036 - INFO - 📊 Dataset: FINAL: dim_calendar
+2026-05-20 18:18:04,037 - INFO -    • Rows     : 731
+2026-05-20 18:18:04,037 - INFO -    • Columns  : 5
+2026-05-20 18:18:04,037 - INFO -    • Data Types:
+2026-05-20 18:18:04,037 - INFO -       - calendar_key              → int64
+2026-05-20 18:18:04,038 - INFO -       - calendar_date             → object
+2026-05-20 18:18:04,038 - INFO -       - quarter                   → str
+2026-05-20 18:18:04,038 - INFO -       - season                    → str
+2026-05-20 18:18:04,038 - INFO -       - day_type                  → str
+2026-05-20 18:18:04,038 - INFO - ------------------------------------------------------------
+2026-05-20 18:18:04,038 - INFO - 📊 Dataset: FINAL: dim_regions
+2026-05-20 18:18:04,039 - INFO -    • Rows     : 6
+2026-05-20 18:18:04,039 - INFO -    • Columns  : 4
+2026-05-20 18:18:04,042 - INFO -    • Data Types:
+2026-05-20 18:18:04,043 - INFO -       - region_key                → int64
+2026-05-20 18:18:04,044 - INFO -       - region                    → str
+2026-05-20 18:18:04,044 - INFO -       - region_tier               → str
+2026-05-20 18:18:04,044 - INFO -       - country                   → str
+2026-05-20 18:18:04,045 - INFO - ------------------------------------------------------------
+2026-05-20 18:18:04,148 - INFO - 🎉 Transformation stage completed.
+2026-05-20 18:18:04,148 - INFO - ⏱️ Step completed in 14s
+
+2026-05-20 18:18:04,487 - INFO - ✔️  RUNNING TRANSFORM PIPELINE completed successfully
+
+2026-05-20 18:18:04,487 - INFO - 
+======================================================================
+2026-05-20 18:18:04,488 - INFO - 🔷 LOADING RAW SCHEMA
+2026-05-20 18:18:04,488 - INFO - ======================================================================
+
+2026-05-20 18:18:05,919 - INFO - 
+==================================================
+2026-05-20 18:18:05,921 - INFO - 🔷 Starting Raw ETL Pipeline
+2026-05-20 18:18:05,921 - INFO - ===============================
+
+2026-05-20 18:18:05,922 - INFO - Initializing Environment and Database Connection...
+2026-05-20 18:18:05,923 - INFO - Environment variables loaded.
+2026-05-20 18:18:05,924 - INFO - Database URL retrieved.
+2026-05-20 18:18:06,049 - INFO - 
+==================================================
+2026-05-20 18:18:06,050 - INFO - 🔷 Loading Raw Data from CSV
+2026-05-20 18:18:06,050 - INFO - ===============================
+
+2026-05-20 18:18:07,989 - INFO - 
+==================================================
+2026-05-20 18:18:07,989 - INFO - 🔷 Loading Raw Data into PostgreSQL
+2026-05-20 18:18:07,990 - INFO - ===============================
+
+2026-05-20 18:18:08,237 - INFO - Loaded calendar into PostgreSQL -- raw rows: 731, columns: 6
+
+2026-05-20 18:18:09,398 - INFO - Loaded customers into PostgreSQL -- raw rows: 50000, columns: 5
+
+2026-05-20 18:18:09,420 - INFO - Loaded products into PostgreSQL -- raw rows: 200, columns: 6
+
+2026-05-20 18:19:36,465 - INFO - Loaded sales into PostgreSQL -- raw rows: 1000000, columns: 11
+
+2026-05-20 18:19:36,544 - INFO - Loaded stores into PostgreSQL -- raw rows: 100, columns: 5
+
+2026-05-20 18:19:36,545 - INFO - ETL pipeline completed successfully!
+2026-05-20 18:19:36,627 - INFO - ⏱️ Step completed in 1m 30s
+
+2026-05-20 18:19:36,935 - INFO - ✔️  LOADING RAW SCHEMA completed successfully
+
+2026-05-20 18:19:36,936 - INFO - 
+======================================================================
+2026-05-20 18:19:36,936 - INFO - 🔷 RUNNING OPERATIONALS SCHEMA LOADER
+2026-05-20 18:19:36,936 - INFO - ======================================================================
+
+2026-05-20 18:19:39,208 - INFO - 
+==================================================
+2026-05-20 18:19:39,209 - INFO - 🔷 Starting Operational ETL Pipeline
+2026-05-20 18:19:39,209 - INFO - ===============================
+
+2026-05-20 18:19:39,209 - INFO - Initializing Environment and Database Connection...
+2026-05-20 18:19:39,210 - INFO - Environment variables loaded.
+2026-05-20 18:19:39,210 - INFO - Database URL retrieved.
+2026-05-20 18:19:39,421 - INFO - 
+==================================================
+2026-05-20 18:19:39,422 - INFO - 🔷 Loading Cleaned Data from CSV
+2026-05-20 18:19:39,422 - INFO - ===============================
+
+2026-05-20 18:19:42,909 - INFO - 
+==================================================
+2026-05-20 18:19:42,910 - INFO - 🔷 Loading Cleaned Data into PostgreSQL
+2026-05-20 18:19:42,911 - INFO - ===============================
+
+2026-05-20 18:19:42,911 - INFO - Loading cleaned_calendar into PostgreSQL...
+2026-05-20 18:19:43,121 - INFO - Loaded cleaned_calendar into PostgreSQL -- cleaned rows: 731, columns: 10
+
+2026-05-20 18:19:43,121 - INFO - Loading cleaned_customers into PostgreSQL...
+2026-05-20 18:19:46,460 - INFO - Loaded cleaned_customers into PostgreSQL -- cleaned rows: 50000, columns: 10
+
+2026-05-20 18:19:46,461 - INFO - Loading cleaned_products into PostgreSQL...
+2026-05-20 18:19:46,510 - INFO - Loaded cleaned_products into PostgreSQL -- cleaned rows: 202, columns: 8
+
+2026-05-20 18:19:46,511 - INFO - Loading cleaned_sales into PostgreSQL...
+2026-05-20 18:20:59,672 - INFO - Loaded cleaned_sales into PostgreSQL -- cleaned rows: 1000000, columns: 16
+
+2026-05-20 18:20:59,672 - INFO - Loading cleaned_stores into PostgreSQL...
+2026-05-20 18:20:59,706 - INFO - Loaded cleaned_stores into PostgreSQL -- cleaned rows: 100, columns: 8
+
+2026-05-20 18:20:59,707 - INFO - Loading cleaned_regions into PostgreSQL...
+2026-05-20 18:20:59,718 - INFO - Loaded cleaned_regions into PostgreSQL -- cleaned rows: 6, columns: 4
+
+2026-05-20 18:20:59,718 - INFO - 🎉 ETL pipeline completed successfully!
+2026-05-20 18:20:59,787 - INFO - ⏱️ Step completed in 1m 20s
+
+2026-05-20 18:21:00,030 - INFO - ✔️  RUNNING OPERATIONALS SCHEMA LOADER completed successfully
+
+2026-05-20 18:21:00,030 - INFO - 
+======================================================================
+2026-05-20 18:21:00,030 - INFO - 🔷 RUNNING ANALYTICS SCHEMA LOADER
+2026-05-20 18:21:00,031 - INFO - ======================================================================
+
+2026-05-20 18:21:02,077 - INFO - 
+==================================================
+2026-05-20 18:21:02,077 - INFO - 🔷 Starting Analytics ETL Pipeline
+2026-05-20 18:21:02,078 - INFO - ===============================
+
+2026-05-20 18:21:02,078 - INFO - Initializing Environment and Database Connection...
+2026-05-20 18:21:02,078 - INFO - Environment variables loaded.
+2026-05-20 18:21:02,079 - INFO - Database URL retrieved.
+2026-05-20 18:21:02,367 - INFO - Dropped fact_sales table to avoid FK conflicts.
+2026-05-20 18:21:02,466 - INFO - Analytics schema recreated (including fact_sales).
+2026-05-20 18:21:02,478 - INFO - 
+==================================================
+2026-05-20 18:21:02,479 - INFO - 🔷 Loading Region Dimension Table (analytics.dim_regions) into PostgreSQL
+2026-05-20 18:21:02,480 - INFO - ===============================
+
+2026-05-20 18:21:02,480 - INFO - 📥 Loading dim_regions...
+2026-05-20 18:21:02,485 - INFO - Loading dim_regions into PostgreSQL...
+2026-05-20 18:21:02,564 - INFO - Loaded dim_regions into PostgreSQL — rows: 6, cols: 4
+2026-05-20 18:21:02,564 - INFO - 
+==================================================
+2026-05-20 18:21:02,564 - INFO - 🔷 Loading Calendar Dimension Table (analytics.dim_calendar) into PostgreSQL
+2026-05-20 18:21:02,565 - INFO - ===============================
+
+2026-05-20 18:21:02,565 - INFO - 📥 Loading dim_calendar...
+2026-05-20 18:21:02,571 - INFO - Loading dim_calendar into PostgreSQL...
+2026-05-20 18:21:02,642 - INFO - Loaded dim_calendar into PostgreSQL — rows: 731, cols: 5
+2026-05-20 18:21:02,643 - INFO - 
+==================================================
+2026-05-20 18:21:02,644 - INFO - 🔷 Loading Customer Dimension Table (analytics.dim_customers) into PostgreSQL
+2026-05-20 18:21:02,645 - INFO - ===============================
+
+2026-05-20 18:21:02,645 - INFO - 📥 Loading dim_customers...
+2026-05-20 18:21:02,751 - INFO - Loading dim_customers into PostgreSQL...
+2026-05-20 18:21:04,733 - INFO - Loaded dim_customers into PostgreSQL — rows: 50000, cols: 9
+2026-05-20 18:21:04,733 - INFO - 
+==================================================
+2026-05-20 18:21:04,733 - INFO - 🔷 Loading Product Dimension Table (analytics.dim_products) into PostgreSQL
+2026-05-20 18:21:04,734 - INFO - ===============================
+
+2026-05-20 18:21:04,734 - INFO - 📥 Loading dim_products...
+2026-05-20 18:21:04,737 - INFO - Loading dim_products into PostgreSQL...
+2026-05-20 18:21:04,757 - INFO - Loaded dim_products into PostgreSQL — rows: 202, cols: 6
+2026-05-20 18:21:04,757 - INFO - 
+==================================================
+2026-05-20 18:21:04,757 - INFO - 🔷 Loading Store Dimension Table (analytics.dim_stores) into PostgreSQL
+2026-05-20 18:21:04,757 - INFO - ===============================
+
+2026-05-20 18:21:04,758 - INFO - 📥 Loading dim_stores...
+2026-05-20 18:21:04,760 - INFO - Loading dim_stores into PostgreSQL...
+2026-05-20 18:21:04,774 - INFO - Loaded dim_stores into PostgreSQL — rows: 100, cols: 9
+2026-05-20 18:21:04,774 - INFO - 
+==================================================
+2026-05-20 18:21:04,774 - INFO - 🔷 Loading Fact Sales Table (analytics.fact_sales) into PostgreSQL
+2026-05-20 18:21:04,775 - INFO - ===============================
+
+2026-05-20 18:21:04,775 - INFO - 📥 Loading fact_sales...
+2026-05-20 18:21:07,322 - INFO - Loading fact_sales into PostgreSQL...
+2026-05-20 18:22:39,429 - INFO - Loaded fact_sales into PostgreSQL — rows: 1000000, cols: 18
+2026-05-20 18:22:39,429 - INFO - 🎉✅ ETL pipeline completed successfully — ALL TABLES LOADED!
+2026-05-20 18:22:39,489 - INFO - ⏱️ Step completed in 1m 37s
+
+2026-05-20 18:22:39,723 - INFO - ✔️  RUNNING ANALYTICS SCHEMA LOADER completed successfully
+
+2026-05-20 18:22:39,723 - INFO - 🎉 FULL PIPELINE COMPLETED SUCCESSFULLY!
+
+2026-05-20 18:22:39,723 - INFO - ⏱️ Step completed in 5m 36s
+

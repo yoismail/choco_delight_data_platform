@@ -87,7 +87,6 @@ CREATE TABLE IF NOT EXISTS operationals.cleaned_stores (
 CREATE TABLE IF NOT EXISTS operationals.cleaned_regions (
     region_key INT,
     region VARCHAR(20),
-    region_readable VARCHAR(50),
     region_tier VARCHAR(20),
     country VARCHAR(100)
 );

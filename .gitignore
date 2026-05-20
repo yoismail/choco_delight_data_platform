@@ -1,6 +1,4 @@
 venv/
 .env
-data/raw/
-*.zip
-*.csv
+data/
 __pycache__/

@@ -1,3 +1,5 @@
+import sys
+
 from utils.logging import section, setup_logging, timed
 import pandas as pd
 from pathlib import Path
@@ -50,8 +52,8 @@ def load_to_postgres(df, table_name, engine):
 @timed
 def run_pipeline():
     try:
-        logging.info("Starting ETL pipeline...")
-
+        section("Starting Analytics ETL Pipeline")
+        logging.info("Initializing Environment and Database Connection...")
         load_env()
         db_url = get_db_url()
         engine = create_engine(db_url)
@@ -116,6 +118,7 @@ def run_pipeline():
     except Exception as e:
         logging.error(f"ETL pipeline failed: {e}")
         logging.error(traceback.format_exc())
+        sys.exit(1)
 
 
 if __name__ == "__main__":
