@@ -3,7 +3,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from utils.logging import setup_logging, timed
+from utils.logging import section, setup_logging, timed
 setup_logging()
 
 PYTHON = sys.executable
@@ -25,19 +25,23 @@ def run_step(title: str, command: str):
 
 @timed
 def main():
-    logging.info("\n🚀 Starting Full Pipeline Run\n")
+    section("\n🚀 Starting Full Pipeline Run\n")
+    try:
+        run_step("WIPING DATA", f"{PYTHON} -m etl.wipe_all all")
+        run_step("LOADING RAW DATA", f"{PYTHON} -m etl.extract")
+        run_step("RUNNING CLEAN PIPELINE", f"{PYTHON} -m etl.clean")
+        run_step("RUNNING TRANSFORM PIPELINE", f"{PYTHON} -m etl.transform")
+        run_step("LOADING RAW SCHEMA", f"{PYTHON} -m etl.load_raw_schema")
+        run_step("RUNNING OPERATIONALS SCHEMA LOADER",
+                f"{PYTHON} -m etl.load_operationals_schema")
+        run_step("RUNNING ANALYTICS SCHEMA LOADER",
+                f"{PYTHON} -m etl.load_analytics_schema")
 
-    run_step("WIPING DATA", f"{PYTHON} -m etl.wipe_all all")
-    run_step("LOADING RAW DATA", f"{PYTHON} -m etl.extract")
-    run_step("RUNNING CLEAN PIPELINE", f"{PYTHON} -m etl.clean")
-    run_step("RUNNING TRANSFORM PIPELINE", f"{PYTHON} -m etl.transform")
-    run_step("LOADING RAW SCHEMA", f"{PYTHON} -m etl.load_raw_schema")
-    run_step("RUNNING OPERATIONALS SCHEMA LOADER",
-             f"{PYTHON} -m etl.load_operationals_schema")
-    run_step("RUNNING ANALYTICS SCHEMA LOADER",
-             f"{PYTHON} -m etl.load_analytics_schema")
+        logging.info("🎉 FULL PIPELINE COMPLETED SUCCESSFULLY!\n")
 
-    logging.info("🎉 FULL PIPELINE COMPLETED SUCCESSFULLY!\n")
+    except Exception as e:
+        logging.error(f"❌ FULL PIPELINE FAILED: {e}")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
