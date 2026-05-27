@@ -60,7 +60,5 @@ CREATE TABLE IF NOT EXISTS raw_data.stores (
 );
 
 
-COMMIT;
-
 
 
