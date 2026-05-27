@@ -4,9 +4,7 @@ sales = pd.read_csv("data/clean/cleaned_sales.csv")
 products = pd.read_csv("data/clean/cleaned_products.csv")
 
 
-# ======================================
 # Debugging product_id issues in sales
-# ======================================
 def normalize_id(s):
     return (
         s.astype(str)
