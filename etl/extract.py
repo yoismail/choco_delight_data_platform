@@ -11,7 +11,6 @@ setup_logging()
 
 
 # Define the URL of the dataset and the local path to save it
-
 ZIP_FILE_URL = "https://www.kaggle.com/api/v1/datasets/download/ssssws/chocolate-sales-dataset-2023-2024"
 RAW_DATA_DIR = Path("data/raw")
 ZIP_FILE_PATH = RAW_DATA_DIR / "chocolate-sales-dataset-2023-2024.zip"
