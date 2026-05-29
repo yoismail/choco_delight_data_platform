@@ -1,7 +1,6 @@
 import subprocess
 from pathlib import Path
 import zipfile
-import pandas as pd
 import logging
 import sys
 
@@ -57,7 +56,7 @@ def extract_dataset():
         with zipfile.ZipFile(ZIP_FILE_PATH, 'r') as zip_ref:
             zip_ref.extractall(RAW_DATA_DIR)
 
-        logging.info("Extraction completed.")
+        logging.info(f"Extraction completed and saved to: {RAW_DATA_DIR}")
 
     except zipfile.BadZipFile:
         logging.error("Invalid zip file.")
@@ -75,7 +74,7 @@ def main():
     extract_dataset()
 
     logging.info(
-        "Download and Extraction Completed Successfully")
+        "=============== EXTRACTION STAGE COMPLETED SUCCESSFULLY ================")
 
 
 # Main execution
