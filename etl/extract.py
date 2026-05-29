@@ -46,7 +46,7 @@ def download_dataset():
 
 def extract_dataset():
     section("Extracting Dataset")
-    logging.info("Extracting dataset...")
+    logging.info("Starting dataset extraction...")
 
     if not ZIP_FILE_PATH.exists():
         logging.error("Zip file not found. Extraction aborted.")
