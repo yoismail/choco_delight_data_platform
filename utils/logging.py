@@ -58,12 +58,13 @@ def strip_emoji(text: str) -> str:
 # Color Formatter (Console Only)
 class ColorFormatter(logging.Formatter):
     COLORS = {
-        "INFO": "\033[94m",
-        "WARNING": "\033[93m",
-        "ERROR": "\033[91m",
-        "SUCCESS": "\033[92m",
-        "DEBUG": "\033[90m",
-        "RESET": "\033[0m",
+        "INFO": "\033[94m",  # Blue
+        "WARNING": "\033[93m",  # Yellow
+        "ERROR": "\033[91m",  # Red
+        "SUCCESS": "\033[92m",  # Green
+        "DEBUG": "\033[90m",  # Grey
+        "RESET": "\033[0m",  # Reset
+
     }
 
     def format(self, record):
