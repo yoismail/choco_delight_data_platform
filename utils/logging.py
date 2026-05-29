@@ -125,7 +125,7 @@ def section(title: str):
     logging.info("=" * 31 + "\n")
 
 
-# logger.py — fix timed to return result
+# Timing decorator
 def timed(func):
     def wrapper(*args, **kwargs):
         start = time.time()
