@@ -118,7 +118,7 @@ def setup_logging():
     logging.getLogger("sqlalchemy.engine").setLevel(logging.WARNING)
 
 
-# Helper utilities
+# Section header for better log readability
 def section(title: str):
     logging.info("\n" + "=" * 50)
     logging.info(f"🔷 {title}")   # emojis kept when safe
