@@ -2,7 +2,7 @@ import pandas as pd
 import logging
 import sys
 from pathlib import Path
-from typing import List, Dict
+from typing import List
 
 # Logging & Utils
 from utils.logging import setup_logging, section, timed
@@ -391,6 +391,7 @@ def clean_regions(stores_df: pd.DataFrame) -> pd.DataFrame:
 
     # Reuse centralized logic
     regions["region_tier"] = regions["region"].map(REGION_TIER_MAP)
+    
 
     # Surrogate key
     regions["region_key"] = regions.index + 1
