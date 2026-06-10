@@ -1,26 +1,17 @@
 import pandas as pd
 
-sales = pd.read_csv("data/clean/cleaned_sales.csv")
-products = pd.read_csv("data/clean/cleaned_products.csv")
+# Load cleaned datasets
+sales = pd.read_csv("data/raw/sales.csv")
+products = pd.read_csv("data/raw/products.csv")
 
 
-# Debugging product_id issues in sales
-def normalize_id(s):
-    return (
-        s.astype(str)
-        .str.strip()
-        .str.upper()
-        .str.replace(" ", "")
-        .str.replace("-", "")
-    )
+# Identify invalid/unmatched product IDs
+unmatched = sales[~sales["product_id"].isin(
+    products["product_id"])]
+unmatched_summary = unmatched["product_id"].value_counts()
 
+# Output results
+print("=== Unmatched Product IDs (count) ===")
+print(unmatched_summary.head())
 
-sales["product_id"] = normalize_id(sales["product_id"])
-products["product_id"] = normalize_id(products["product_id"])
-
-# find product_ids in sales not in products
-# invalid = sales[~sales["product_id"].isin(products["product_id"])]
-# invalid_ids = invalid["product_id"].value_counts()
-# print(invalid_ids.head(20))
-
-# print("Total invalid product IDs:", len(invalid))
+print(f"\nTotal rows with unmatched IDs: {len(unmatched)}")
