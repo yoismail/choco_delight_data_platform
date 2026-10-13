@@ -1,6 +1,5 @@
 
 import sys
-
 from utils.logging import section, setup_logging, timed
 import pandas as pd
 from pathlib import Path
@@ -12,9 +11,6 @@ import traceback
 
 # Directories
 RAW_DATA_DIR = Path("data/raw")
-
-# Set up logging
-setup_logging()
 
 
 # Environment variable + database connection
@@ -30,9 +26,8 @@ def get_db_url():
     logging.info("Database URL retrieved.")
     return db_url
 
+
 # Load to PostgreSQL
-
-
 def load_to_postgres(df, table_name, engine):
 
     df.to_sql(table_name, engine, schema="raw_data",
@@ -77,4 +72,5 @@ def run_pipeline():
 
 # Entry Point
 if __name__ == "__main__":
+    setup_logging()
     run_pipeline()
