@@ -2,18 +2,15 @@ import pandas as pd
 import logging
 from pathlib import Path
 import sys
-
-
 # Configure logging
 from utils.logging import section, setup_logging, timed
-setup_logging()
+
 
 # Path to the raw data directory and expected files
 RAW_DATA_DIR = Path("data/raw")
 
+
 # Function to explore the extracted data
-
-
 def explore_data():
     section("Exploring Extracted Data")
 
@@ -62,8 +59,9 @@ def explore_data():
 
 @timed
 def main():
+    setup_logging()
     explore_data()
-    logging.info("🎉 Data Exploration Completed Successfully")
+    logging.info("Data Exploration Completed Successfully")
 
 
 if __name__ == "__main__":
