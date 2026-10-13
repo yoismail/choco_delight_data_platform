@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS analytics.dim_calendar;
 DROP TABLE IF EXISTS analytics.dim_customers; 
 DROP TABLE IF EXISTS analytics.dim_products;
 DROP TABLE IF EXISTS analytics.dim_stores;
-DROP TABLE IF EXISTS analytics.dim_regions; -- ✅ New table
+DROP TABLE IF EXISTS analytics.dim_regions; 
 
 -- DIMENSION TABLES
 
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS analytics.dim_products (
     brand_tier VARCHAR(20)
 );
 
-CREATE TABLE IF NOT EXISTS analytics.dim_regions ( -- ✅ NEW TABLE
+CREATE TABLE IF NOT EXISTS analytics.dim_regions ( 
     region_key BIGINT PRIMARY KEY,
     region VARCHAR(50) NOT NULL,
     region_tier VARCHAR(20) NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS analytics.dim_stores (
     store_type VARCHAR(50),
     region VARCHAR(50),
     region_tier VARCHAR(20),
-    region_key BIGINT, -- ✅ Added to link directly to regions
+    region_key BIGINT, 
     FOREIGN KEY (region_key) REFERENCES analytics.dim_regions(region_key) ON DELETE RESTRICT
 );
 
@@ -106,7 +106,7 @@ CREATE INDEX IF NOT EXISTS idx_dim_products_product_id
 CREATE INDEX IF NOT EXISTS idx_dim_stores_store_id
     ON analytics.dim_stores (store_id);
 
-CREATE INDEX IF NOT EXISTS idx_dim_regions_country -- ✅ New index
+CREATE INDEX IF NOT EXISTS idx_dim_regions_country 
     ON analytics.dim_regions (country);
 
 -- INDEXES FOR FACT TABLE
@@ -123,7 +123,7 @@ CREATE INDEX IF NOT EXISTS idx_fact_sales_store_key
 CREATE INDEX IF NOT EXISTS idx_fact_sales_customer_key
     ON analytics.fact_sales (customer_key);
 
-CREATE INDEX IF NOT EXISTS idx_fact_sales_region_key -- ✅ New index
+CREATE INDEX IF NOT EXISTS idx_fact_sales_region_key
     ON analytics.fact_sales (region_key);
 
 CREATE INDEX IF NOT EXISTS idx_fact_sales_revenue_bucket
