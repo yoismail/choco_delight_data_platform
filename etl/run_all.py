@@ -1,8 +1,6 @@
 import logging
 import subprocess
 import sys
-from pathlib import Path
-
 from utils.logging import section, setup_logging, timed
 setup_logging()
 
@@ -17,15 +15,15 @@ def run_step(title: str, command: str):
     result = subprocess.run(command, shell=True)
 
     if result.returncode != 0:
-        logging.error(f"❌ {title} FAILED")
+        logging.error(f"{title} FAILED")
         sys.exit(result.returncode)
 
-    logging.info(f"✔️  {title} completed successfully\n")
+    logging.info(f"{title} completed successfully\n")
 
 
 @timed
 def main():
-    section("\n🚀 Starting Full Pipeline Run\n")
+    section("\nStarting Full Pipeline Run\n")
     try:
         run_step("WIPING DATA", f"{PYTHON} -m etl.wipe_all all")
         run_step("LOADING RAW DATA", f"{PYTHON} -m etl.extract")
@@ -33,14 +31,14 @@ def main():
         run_step("RUNNING TRANSFORM PIPELINE", f"{PYTHON} -m etl.transform")
         run_step("LOADING RAW SCHEMA", f"{PYTHON} -m etl.load_raw_schema")
         run_step("RUNNING OPERATIONALS SCHEMA LOADER",
-                f"{PYTHON} -m etl.load_operationals_schema")
+                 f"{PYTHON} -m etl.load_operationals_schema")
         run_step("RUNNING ANALYTICS SCHEMA LOADER",
-                f"{PYTHON} -m etl.load_analytics_schema")
+                 f"{PYTHON} -m etl.load_analytics_schema")
 
-        logging.info("🎉 FULL PIPELINE COMPLETED SUCCESSFULLY!\n")
+        logging.info("FULL PIPELINE COMPLETED SUCCESSFULLY!\n")
 
     except Exception as e:
-        logging.error(f"❌ FULL PIPELINE FAILED: {e}")
+        logging.error(f"FULL PIPELINE FAILED: {e}")
         sys.exit(1)
 
 
