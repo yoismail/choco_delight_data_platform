@@ -3,10 +3,8 @@ from pathlib import Path
 import zipfile
 import logging
 import sys
-
 # Configure logging
 from utils.logging import section, setup_logging, timed
-setup_logging()
 
 
 # Define the URL of the dataset and the local path to save it
@@ -67,8 +65,9 @@ def extract_dataset():
 
 @timed
 def main():
-    logging.info("Running Pipeline: Download and Extract Dataset")
+    setup_logging()
 
+    logging.info("Running Pipeline: Download and Extract Dataset")
     create_data_dir()
     download_dataset()
     extract_dataset()
