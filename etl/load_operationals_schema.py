@@ -13,9 +13,6 @@ import traceback
 # Directories
 CLEAN_DATA_DIR = Path("data/clean")
 
-# Set up logging
-setup_logging()
-
 
 # Environment variable + database connection
 def load_env():
@@ -82,4 +79,5 @@ def run_pipeline():
 
 # Entry Point
 if __name__ == "__main__":
+    setup_logging()
     run_pipeline()
