@@ -6,7 +6,7 @@ from typing import List
 
 # Logging & Utils
 from utils.logging import setup_logging, section, timed
-setup_logging()
+
 
 # Directories
 RAW_DATA_DIR = Path("data/raw")
@@ -84,9 +84,8 @@ def validate_schema(df: pd.DataFrame, required_cols: List[str], name: str) -> No
         sys.exit(1)
     logging.info(f"{name}: Schema validation passed.")
 
+
 # Cleaning functions for each dataset
-
-
 def clean_calendar() -> pd.DataFrame:
     section("Cleaning Calendar Data")
     df = load_raw_data("calendar.csv").copy(
@@ -113,6 +112,7 @@ def clean_calendar() -> pd.DataFrame:
             df[col], errors="coerce").fillna(-1).astype(int)
 
     # Feature Engineering
+    # Ensure chronological order(earliest to latest), then reset the index
     df = df.sort_values("calendar_date").reset_index(drop=True)
 
     # Surrogate key
@@ -391,7 +391,6 @@ def clean_regions(stores_df: pd.DataFrame) -> pd.DataFrame:
 
     # Reuse centralized logic
     regions["region_tier"] = regions["region"].map(REGION_TIER_MAP)
-    
 
     # Surrogate key
     regions["region_key"] = regions.index + 1
@@ -437,6 +436,7 @@ def save_dataset() -> None:
 
 @timed
 def run_pipeline() -> None:
+    setup_logging()
     create_clean_data_dir()
     save_dataset()
 
@@ -444,4 +444,4 @@ def run_pipeline() -> None:
 if __name__ == "__main__":
     run_pipeline()
     logging.info(
-        "✅ Cleaning process completed successfully - Cleaned datasets saved to 'data/clean' directory.")
+        "Cleaning process completed successfully - Cleaned datasets saved to 'data/clean' directory.")
